@@ -1,0 +1,228 @@
+package io.BunnyRanger;
+
+import static io.BunnyRanger.MainMenu.fontShader;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.utils.ScreenUtils;
+
+public class InnShopScreen extends MainApplication implements Screen, ScreenType {
+
+    Texture backgroundTexture;
+    Sprite vallyBackground;
+
+    //tmp
+
+    boolean reset = true;
+
+    boolean alreadyShown = false;
+
+    boolean drawSign;
+
+    Floor floor1;
+    Floor floor2;
+    Floor floor3;
+    Floor wall1;
+    Floor wall2;
+
+    public static String levelName = "Level 0 - Inn";
+    public static int levelDisplayCounter = 0;
+
+    public static boolean firstBarrier = false;
+
+    public void show() {
+
+        if (reset) {
+            System.out.println("showed second screen while reset");
+        }
+
+        if (alreadyShown) {
+            return;
+        }
+
+
+        super.create();
+
+        //Unique
+        //make world
+
+        backgroundTexture = new Texture(Gdx.files.internal("innShop.png"));
+        vallyBackground = new Sprite(backgroundTexture, 0, 0, 1280, 720);
+        vallyBackground.setCenterX(32);
+        vallyBackground.setCenterY(16);
+        vallyBackground.setScale(.05f);
+
+        this.myContactListener = new MyContactListener();
+
+        world1.getWorld().setContactListener(myContactListener);
+
+        //Box Box1 = new Box(world1.getWorld(),32,16);
+
+    }
+
+    public void render(float delta) {
+
+        super.render();
+
+        //Unique
+
+        world1.getWorld().step(1 / 60f, 6, 2);
+
+        world1.destroyBodies();
+
+        System.out.println(Gdx.graphics.getFramesPerSecond());
+
+        if (reset && enemies != null && enemies.enemyList.isEmpty()) {
+
+            makeEnemies();
+
+            reset = false;
+
+        }
+
+        ScreenUtils.clear(0, 0, 0, 0);
+
+        camera.update();
+
+        try {
+            //debugRenderer.render(world1.getWorld(), camera.combined);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("ASDASDASDASDSADASDASDASDASDASDSADASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASD");
+        }
+
+        batch.setProjectionMatrix(camera.combined);
+
+        batch.begin();
+
+        vallyBackground.draw(batch);
+
+        // Drawing goes here!
+
+        for (Floor floor : floorList) {
+            floor.getSprite().draw(batch);
+        }
+
+        party.updateParty(batch);
+
+        try {
+            enemies.update(batch);
+        } catch (Exception e) {
+
+        }
+
+        if (drawSign && !MainApplication.signList.isEmpty()) {
+            MainApplication.signList.get(0).updateEnemySprite();
+            MainApplication.signList.get(0).getEnemySprite().draw(batch);
+
+        }
+
+        if (firstBarrier && MainApplication.signList.size() >= 2) {
+
+            //FIRST BARRIER DRAW
+
+            MainApplication.signList.get(1).changeBits();
+
+            MainApplication.signList.get(1).updateEnemySprite();
+            MainApplication.signList.get(1).getEnemySprite().draw(batch);
+
+        }
+
+        // projectile stuffy
+
+        projectileList.removeIf(projectile -> projectile.spriteDestroyDelay <= 0);
+
+        for (Projectile projectile : projectileList) {
+
+            if (projectile != null && projectile.getProjectileSprite() != null) {
+                projectile.getProjectileSprite().draw(batch);
+            }
+
+        }
+
+        //levelname
+
+        if (levelDisplayCounter < 400) {
+
+            camera.setToOrtho(false, 1280f,720f);
+            camera.update();
+            batch.setProjectionMatrix(camera.combined);
+
+            BitmapFont font = MainMenu.getFont();
+
+            font.getData().setScale(4f);
+            batch.setShader(fontShader);
+            MainApplication.getParty().getGoldFont().draw(batch,"LEVEL 0 --- INN & SHOP",350,650);
+            batch.setShader(null);
+
+            levelDisplayCounter += 1;
+
+            camera.setToOrtho(false, 64, 32);
+            camera.update();
+            batch.setProjectionMatrix(camera.combined);
+
+        }
+
+        batch.end();
+
+        if (Gdx.input.isKeyPressed(43)) {
+            MainMenu.currentScreen = MainMenu.instance.getScreen();
+            alreadyShown = true;
+            MainMenu.instance.setScreen(MainMenu.inventoryScreen);
+        }
+
+        if (Gdx.input.isKeyPressed(44)) {
+            MainMenu.currentScreen = MainMenu.instance.getScreen();
+            alreadyShown = true;
+            MainMenu.instance.setScreen(MainMenu.shopScreen);
+        }
+
+        if (!drawSign && enemies.checkAllIfDead()) {
+
+            alreadyShown = true;
+            drawSign = true;
+            System.out.println("changed Sign");
+            MainApplication.signList.get(0).changeBits();
+
+        }
+
+        //MainApplication.getParty().removeMouseJoints();
+        Gdx.input.setInputProcessor(party.getInputProcessor());
+
+    }
+
+    public void makeEnemies() {
+
+        floor1 = new Floor(world1, 32, 1, 32, 1, "grass.png");
+        floor3 = new Floor(world1, 32, 33, 32, 1, "dirt.png");
+        wall1 = new Floor(world1, 65, 16, 1, 16, "dirt.png");
+        wall2 = new Floor(world1, -1, 16, 1, 16, "dirt.png");
+
+        floorList.add(floor1);
+        floorList.add(floor3);
+        floorList.add(wall1);
+        floorList.add(wall2);
+
+        MainMenu.makeSign(MainMenu.levelScreen1);
+
+        MainMenu.makeSign(MainMenu.levelScreen2,50,20); // WHERE FIRST WARP SIGN SHOULD GO
+
+        drawSign = false;
+
+    }
+
+    public void dispose() {
+        super.dispose();
+    }
+
+    public void hide() {
+
+    }
+
+    public void setReset(boolean reset) {
+        this.reset = reset;
+    }
+}

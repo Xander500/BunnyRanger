@@ -1,0 +1,18 @@
+package io.BunnyRanger;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
+public class CardInventorySpotActor extends InventorySpotActor {
+
+    int number;
+
+    CardInventorySpotActor(Stage parentStage, Table parentTable, int number) {
+
+        super(parentStage, parentTable);
+
+        this.number = number;
+
+    }
+
+}
