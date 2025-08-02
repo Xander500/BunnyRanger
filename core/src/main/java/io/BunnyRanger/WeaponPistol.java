@@ -12,9 +12,9 @@ public class WeaponPistol extends WeaponBow {
     public void drawWeapon() {
         super.drawWeapon();
         if (friendly) {
-            this.bowSprite.setRotation(270);
+            this.bowSprite.flip(false,false);
         } else {
-            this.bowSprite.setRotation(90);
+            this.bowSprite.flip(true,true);
         }
     }
 
@@ -41,9 +41,9 @@ public class WeaponPistol extends WeaponBow {
             Random random = new Random();
             this.damageCurrentArrow = (float) (Math.random() * (damageMaxArrow - damageMinArrow)) + damageMinArrow;
 
-            MusketBallProjectile projectile;
+            ProjectileBulletMusket projectile;
 
-            projectile = new MusketBallProjectile(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight);
+            projectile = new ProjectileBulletMusket(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight);
 
             this.projectileList.add(projectile);
 
@@ -57,12 +57,12 @@ public class WeaponPistol extends WeaponBow {
         this.disBetweenShotsY = 15;
 
         this.bowTexture = new Texture(Gdx.files.internal("gun1.png"));
-        this.bowSprite = new Sprite(bowTexture, 0, 0, 16, 32);
+        this.bowSprite = new Sprite(bowTexture, 0, 0, 16, 16);
         this.bowSprite.flip(false, false);
-        this.bowSprite.setRotation(90);
-        this.bowSprite.setScale(.08f);
+        this.bowSprite.setRotation(0);
+        this.bowSprite.setScale(1f);
 
-        this.inventoryTexture = new Texture(Gdx.files.internal("GunInventorySprite.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("gun1.png"));
 
         this.buyPrice = 30;
         this.sellPrice = 15;

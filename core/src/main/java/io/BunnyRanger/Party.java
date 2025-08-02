@@ -125,6 +125,13 @@ public class Party extends InputAdapter {
 
     }
 
+    public void damageAll(float damage) {
+        for (int i = 0; i < 4; i++) {
+            System.out.println("Damaged all due to dead player for " + damage);
+            this.playerList[i].takeDamageAll(damage);
+        }
+    }
+
     public void resetParty() {
 
 
@@ -161,6 +168,14 @@ public class Party extends InputAdapter {
 
             if (playerList[i].checkIfDead()) {
 
+                // WAITS UNTIL EVERYONE DIES
+                if (playerList[0].checkIfDead() && playerList[1].checkIfDead() && playerList[2].checkIfDead() && playerList[3].checkIfDead()) {
+                    System.out.println("DEAD LOL");
+                    break;
+                }
+
+                // KILLS PLAYERS /////////////
+                /*
                 for (Fixture fixture : playerList[i].body.getFixtureList()) {
 
                     // Get the current filter data
@@ -174,6 +189,8 @@ public class Party extends InputAdapter {
 
                     playerAliveStatusList[i] = false;
                 }
+                */
+
 
             } else {
 
@@ -254,6 +271,11 @@ public class Party extends InputAdapter {
 
             jointDef.bodyB = playerList[i].getBody();
             jointDef.target.set(tmp.x,tmp.y);
+
+            jointDef.maxForce = 5000; // max force it apply on trying to drag an object
+            jointDef.frequencyHz = 10; // how snappy and responsive it is
+            jointDef.dampingRatio = 1; // how fast to goes without overshooting 0 - 1 where 1 is no overshooting
+
 
             joint = (MouseJoint) world.getWorld().createJoint(jointDef);
 

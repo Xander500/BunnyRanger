@@ -10,8 +10,8 @@ public class EnemySnake extends EnemyMoving {
         super(world, x, y);
         health = 30;
         enemyTexture = new Texture(Gdx.files.internal("snek.png"));
-        enemySprite = new Sprite(enemyTexture,0,0,28,26);
-        enemySprite.setScale(.1f);
+        enemySprite = new Sprite(enemyTexture,0,0,16,16);
+        enemySprite.setScale(1);
     }
 
     public void move(boolean facingRight) {

@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
-public class ArrowProjectile extends Projectile {
+public class ProjectileArrow extends Projectile {
 
     float x;
     float y;
@@ -20,11 +20,11 @@ public class ArrowProjectile extends Projectile {
 
     boolean facingRight;
 
-    public ArrowProjectile(WorldInstance world, float x, float y, float xSize, float ySize, float angle, Vector2 magnitude, float damage, float density, boolean friendly, boolean facingRight) {
+    public ProjectileArrow(WorldInstance world, float x, float y, float xSize, float ySize, float angle, Vector2 magnitude, float damage, float density, boolean friendly, boolean facingRight) {
 
         texture = new Texture(Gdx.files.internal("ArrowProjectile.png"));
         projectileSprite = new Sprite(texture,0,0,32,8);
-        projectileSprite.setScale(.05f);
+        projectileSprite.setScale(1f);
 
         this.damage = damage;
         this.world = world;
@@ -50,6 +50,8 @@ public class ArrowProjectile extends Projectile {
 
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
+        bodyDef.linearDamping = 0.0f;
+
         bodyDef.position.set(x, y);
 
         this.body = world.getWorld().createBody(bodyDef);
@@ -62,7 +64,7 @@ public class ArrowProjectile extends Projectile {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = groundBox;
         fixtureDef.density = density;
-        fixtureDef.friction = 0.4f;
+        fixtureDef.friction = 0f;
         fixtureDef.restitution = 0.0f; // Make it bounce a little bit
 
         if (friendly) {
@@ -77,7 +79,9 @@ public class ArrowProjectile extends Projectile {
         this.fixture = body.createFixture(fixtureDef);
         fixture.setUserData(this);
 
-        this.body.applyLinearImpulse(magnitude,new Vector2(x,y),false);
+        //this.body.applyLinearImpulse(magnitude,new Vector2(x,y),false);
+        this.body.setLinearVelocity(magnitude);
+
         this.body.setGravityScale(1);
         this.body.setUserData(this);
 
@@ -94,7 +98,7 @@ public class ArrowProjectile extends Projectile {
 
         if (!remove) {
 
-            body.setTransform(body.getPosition().x,body.getPosition().y,Math.max(body.getAngle()-.007f, (float) -(Math.PI/2)) );
+            body.setTransform(body.getPosition().x,body.getPosition().y,Math.max(body.getAngle()-.007f, (float) -(Math.PI/2)));
 
             this.projectileSprite.setPosition(this.body.getPosition().x - this.projectileSprite.getWidth() / 2, this.body.getPosition().y - this.projectileSprite.getHeight() / 2);
 

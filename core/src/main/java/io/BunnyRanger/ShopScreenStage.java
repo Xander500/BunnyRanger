@@ -415,7 +415,7 @@ public class ShopScreenStage extends Stage {
 
     public void hydrate() {
 
-        for (int i = 0; i < 55; i++) {
+        for (int i = 0; i < 36; i++) {
 
             Item item = ((InventorySpotActor) MainMenu.inventoryScreen.inventoryScreenStage.table.getChild(i)).getSpot();
 
@@ -427,7 +427,7 @@ public class ShopScreenStage extends Stage {
 
     public void addToOpenSlot(Item item) {
 
-        for (int i = 0; i < 55;i++) {
+        for (int i = 0; i < 36;i++) {
 
             if (this.table.getChild(i) instanceof WeaponInventorySpotActor) {
                 return;
@@ -443,7 +443,7 @@ public class ShopScreenStage extends Stage {
         }
 
     }
-
+//maybe change
     public void addToOpenSlotShop(Item item) {
 
         for (int i = 55; i < 92;i++) {

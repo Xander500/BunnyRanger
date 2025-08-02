@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
-public class SlashProjectile extends ArrowProjectile {
+public class ProjectileSlash extends ProjectileArrow {
 
-    public SlashProjectile(WorldInstance world, float x, float y, float xSize, float ySize, float angle, Vector2 magnitude, float damage, float density, boolean friendly, boolean facingRight) {
+    public ProjectileSlash(WorldInstance world, float x, float y, float xSize, float ySize, float angle, Vector2 magnitude, float damage, float density, boolean friendly, boolean facingRight) {
 
         super(world, x, y, xSize / 2, ySize, angle, magnitude, damage, density, friendly, facingRight);
 

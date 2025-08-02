@@ -18,7 +18,7 @@ public class InventoryScreenStage extends Stage {
 
     ArrayList<InventorySpotActor> actorArrayList = new ArrayList<InventorySpotActor>();
 
-    Image image = new Image(new Texture(Gdx.files.internal("inventory.png")));
+    Image image = new Image(new Texture(Gdx.files.internal("inventorymach2.png")));
 
     Actor selected = null;
 
@@ -34,6 +34,8 @@ public class InventoryScreenStage extends Stage {
     CardInventorySpotActor cardSlot3;
     CardInventorySpotActor cardSlot4;
 
+    TextureRegionDrawable selectedIcon = new TextureRegionDrawable(new Texture((Gdx.files.internal("selected.png"))));
+
     InventoryScreenStage(InventoryScreen parentScreen) {
 
         this.parentScreen = parentScreen;
@@ -43,20 +45,21 @@ public class InventoryScreenStage extends Stage {
         this.table = new Table();
 
         inventoryStage.setDebugAll(true);
+        inventoryStage.setDebugAll(false);
 
         inventoryStage.addActor(table);
 
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 3; i++) {
 
-            for(int j = 0; j < 11; j++) {
+            for(int j = 0; j < 12; j++) {
 
                 InventorySpotActor inventorySpotActorTemp = new InventorySpotActor(this,null);
 
                 actorArrayList.add(inventorySpotActorTemp);
 
-                inventorySpotActorTemp.setImageSize(98f,60f);
+                inventorySpotActorTemp.setImageSize(15f*4,15f*4);
 
-                inventorySpotActorTemp.setImagePostion(50 + (j*98f) + (j*10.2f), 25 + (i*60f) + (i*8));
+                inventorySpotActorTemp.setImagePostion(68 + (j*64f), 80 + (i*64f));
 
                 table.addActor(inventorySpotActorTemp);
 
@@ -109,15 +112,15 @@ public class InventoryScreenStage extends Stage {
         actorArrayList.add(this.weaponSlot3);
         actorArrayList.add(this.weaponSlot4);
 
-        this.weaponSlot1.setImageSize(98f,60f);
-        this.weaponSlot2.setImageSize(98f,60f);
-        this.weaponSlot3.setImageSize(98f,60f);
-        this.weaponSlot4.setImageSize(98f,60f);
+        this.weaponSlot1.setImageSize(64,64f);
+        this.weaponSlot2.setImageSize(64f,64f);
+        this.weaponSlot3.setImageSize(64f,64f);
+        this.weaponSlot4.setImageSize(64f,64f);
 
-        this.weaponSlot1.setImagePostion(50 + (0*98f) + (0*10.2f), 25 + (9*60f) + (9*8) + 4);
-        this.weaponSlot2.setImagePostion(50 + (2*98f) + (2*10.2f), 25 + (9*60f) + (9*8) + 4);
-        this.weaponSlot3.setImagePostion(50 + (4*98f) + (4*10.2f), 25 + (9*60f) + (9*8) + 4);
-        this.weaponSlot4.setImagePostion(50 + (6*98f) + (6*10.2f), 25 + (9*60f) + (9*8) + 4);
+        this.weaponSlot1.setImagePostion(68 + (0*64f), 80 + (8*64f));
+        this.weaponSlot2.setImagePostion(68 + (2*64f), 80 + (8*64f));
+        this.weaponSlot3.setImagePostion(68 + (4*64f), 80 + (8*64f));
+        this.weaponSlot4.setImagePostion(68 + (6*64f), 80 + (8*64f));
 
         this.weaponSlot1.addSpot(bow1);
         this.weaponSlot2.addSpot(bow2);
@@ -147,15 +150,15 @@ public class InventoryScreenStage extends Stage {
         actorArrayList.add(this.cardSlot3);
         actorArrayList.add(this.cardSlot4);
 
-        this.cardSlot1.setImageSize(98f,60f);
-        this.cardSlot2.setImageSize(98f,60f);
-        this.cardSlot3.setImageSize(98f,60f);
-        this.cardSlot4.setImageSize(98f,60f);
+        this.cardSlot1.setImageSize(64f,64f);
+        this.cardSlot2.setImageSize(64f,64f);
+        this.cardSlot3.setImageSize(64f,64f);
+        this.cardSlot4.setImageSize(64f,64f);
 
-        this.cardSlot1.setImagePostion(50 + (0*98f) + (0*10.2f), 25 + (8*60f) + (8*8) + 4);
-        this.cardSlot2.setImagePostion(50 + (2*98f) + (2*10.2f), 25 + (8*60f) + (8*8) + 4);
-        this.cardSlot3.setImagePostion(50 + (4*98f) + (4*10.2f), 25 + (8*60f) + (8*8) + 4);
-        this.cardSlot4.setImagePostion(50 + (6*98f) + (6*10.2f), 25 + (8*60f) + (8*8) + 4);
+        this.cardSlot1.setImagePostion(68 + (0*64f), 80 + (7*64f));
+        this.cardSlot2.setImagePostion(68 + (2*64f), 80 + (7*64f));
+        this.cardSlot3.setImagePostion(68 + (4*64f), 80 + (7*64f));
+        this.cardSlot4.setImagePostion(68 + (6*64f), 80 + (7*64f));
 
         this.cardSlot1.addSpot(card1);
         this.cardSlot2.addSpot(card2);
@@ -182,6 +185,7 @@ public class InventoryScreenStage extends Stage {
 
     public void parseHit(Actor hit,int button) {
 
+        // right click unhovers
         if (button == 1) {
 
             if (selected != null) {
@@ -190,30 +194,42 @@ public class InventoryScreenStage extends Stage {
             }
 
             return;
-        }
 
+        }
+        // hit was a fluke
         if(hit == null) {
             return;
         }
-
+        // nothing is selected
         if (selected == null) {
 
-            ((InventorySpotActor) hit).setDrawable(new TextureRegionDrawable(new Texture((Gdx.files.internal("sleected.png")))));
-
+            ((InventorySpotActor) hit).setDrawable(selectedIcon);
             selected = (InventorySpotActor) hit;
+            return;
 
-        } else if (((InventorySpotActor) selected).getSpot() == null) {
+        }
+        // what was selected was empty
+        if (((InventorySpotActor) selected).getSpot() == null) {
 
             System.out.println("adsads");
 
             ((InventorySpotActor) selected).setDrawable(null);
             selected = null;
 
-            ((InventorySpotActor) hit).setDrawable(new TextureRegionDrawable(new Texture((Gdx.files.internal("sleected.png")))));
+            ((InventorySpotActor) hit).setDrawable(selectedIcon);
             selected = (InventorySpotActor) hit;
 
-        } else if (((InventorySpotActor) selected).getSpot() instanceof Weapon && hit instanceof CardInventorySpotActor)  {
+            return;
 
+        }
+
+        // if the instance of item is the same as the instance of what is already there,
+
+        else if (((InventorySpotActor) selected).getSpot() instanceof Weapon && hit instanceof CardInventorySpotActor)  {
+
+            return;
+
+        } else if (((InventorySpotActor) selected).getSpot() instanceof Weapon && ((InventorySpotActor) hit).getSpot() instanceof Card)  {
             return;
 
         } else if (((InventorySpotActor) selected).getSpot() instanceof Card && hit instanceof WeaponInventorySpotActor)  {
@@ -240,6 +256,7 @@ public class InventoryScreenStage extends Stage {
 
     public void populatePartyWeapons() {
 
+        //maybe change
         if (this.weaponSlot1.getSpot() != null) {
             MainApplication.getParty().getPlayer(0).addWeapon((Weapon) this.weaponSlot1.getSpot());
         } else {
@@ -290,7 +307,7 @@ public class InventoryScreenStage extends Stage {
 
     public void addToOpenSlot(Item item) {
 
-        for (int i = 0; i < 60;i++) {
+        for (int i = 0; i < 36;i++) {
 
             if (this.table.getChild(i) instanceof WeaponInventorySpotActor) {
                 return;
@@ -309,7 +326,7 @@ public class InventoryScreenStage extends Stage {
 
     public void hydrate() {
 
-        for (int i = 0; i < 55; i++) {
+        for (int i = 0; i < 36; i++) {
 
             Item item = ((InventorySpotActor) MainMenu.shopScreen.shopScreenStage.table.getChild(i)).getSpot();
 

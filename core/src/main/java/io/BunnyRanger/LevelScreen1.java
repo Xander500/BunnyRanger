@@ -6,8 +6,8 @@ public class LevelScreen1 extends LevelScreen {
 
     public void makeEnemies() {
 
-        EnemyBunny enemy1 = new EnemyBunny(world1, 35, 5);
-        EnemyBunny enemy2 = new EnemyBunny(world1, 40, 5);
+        EnemyFox enemy1 = new EnemyFox(world1, 30, 5);
+        EnemyFox enemy2 = new EnemyFox(world1, 35, 5);
 
         enemies.addEnemy(enemy1);
         enemies.addEnemy(enemy2);
@@ -18,15 +18,22 @@ public class LevelScreen1 extends LevelScreen {
         enemy1.addWeapon(bow1);
         enemy2.addWeapon(bow2);
 
-        Floor floor1 = new Floor(world1, 32, 1, 32, 1, "grass.png");
-        Floor floor2 = new Floor(world1, 32, 31, 32, 1, "dirt.png");
-        Floor wall1 = new Floor(world1, 63, 16, 1, 16, "dirt.png");
-        Floor wall2 = new Floor(world1, 1, 16, 1, 16, "dirt.png");
+        Floor floor1 = new Floor(world1, 0, 0f, 40, 1, "grass.png");
+        Floor floor2 = new Floor(world1, 0, 21.5f, 40, 1, "dirt.png");
+        //Floor floor3 = new Floor(world1, 64, 31, 5, 1, "dirt.png");
+        Floor wall1 = new Floor(world1, 0, 0, 1, 21.5f, "dirt.png");
+        Floor wall3 = new Floor(world1, 39, 0, 1, 21.5f, "dirt.png");
+        //Floor wall2 = new Floor(world1, 1, 16, 1, 16, "dirt.png");
 
         floorList.add(floor1);
         floorList.add(floor2);
+        //floorList.add(floor3);
         floorList.add(wall1);
-        floorList.add(wall2);
+        //floorList.add(wall2);
+        floorList.add(wall3);
+
+        floorList.add(floor1);
+
 
         MainMenu.makeSign(MainMenu.levelScreen2);
 
@@ -43,6 +50,7 @@ public class LevelScreen1 extends LevelScreen {
             this.displayTitle("LEVEL 1 --- BEGINNING",350,650);
             batch.end();
         }
+
 
         debugRenderer.render(world1.getWorld(), camera.combined);
         camera.update();

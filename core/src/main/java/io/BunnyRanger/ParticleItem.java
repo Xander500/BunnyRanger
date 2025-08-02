@@ -1,5 +1,8 @@
 package io.BunnyRanger;
 
+import static io.BunnyRanger.MainApplication.battleSizeHeight;
+import static io.BunnyRanger.MainApplication.battleSizeWidth;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -9,14 +12,14 @@ import com.badlogic.gdx.physics.box2d.Shape;
 
 import java.util.HashMap;
 
-public class ItemParticle extends DamageParticle{
+public class ParticleItem extends ParticleDamage{
 
     //HashMap<Integer,Item> droppableItems;
     Item selectedItem = null;
 
     float yTimer = 0.001f;
 
-    ItemParticle(Body body, HashMap<Integer,Item> items, BitmapFont font, Color color) {
+    ParticleItem(Body body, HashMap<Integer,Item> items, BitmapFont font, Color color) {
 
         super(body, 0, font, color);
 
@@ -77,7 +80,7 @@ public class ItemParticle extends DamageParticle{
             return false;
         }
 
-        font.draw(batch, selectedItem.getName(), ((xPos * 20f) + offsetCounter) + offsetX, ((yPos * 22.5f) + offsetCounterY) + offsetY);
+        font.draw(batch, selectedItem.getName(), ((xPos*MainApplication.SCREENWIDTH/battleSizeWidth) + offsetCounter) + offsetX, ((yPos*MainApplication.SCREENHEIGHT/battleSizeHeight) + offsetCounterY) + offsetY);
 
         font.getData().setScale(tmpX, tmpY);
         font.setColor(Color.WHITE);

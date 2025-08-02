@@ -63,20 +63,20 @@ public class Player implements Entity, Damageable {
 
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
-        bodyDef.position.set(x, y);
+        bodyDef.position.set(x*16, y*16);
 
         this.body = world.getWorld().createBody(bodyDef);
 
         this.body.setLinearDamping(2f);
 
         CircleShape circle = new CircleShape();
-        circle.setRadius(1f);
+        circle.setRadius(10f);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
-        fixtureDef.density = 10.0f;
-        fixtureDef.friction = 0.4f;
-        fixtureDef.restitution = 0.1f; // Make it bounce a little bit
+        fixtureDef.density = 0.01f;
+        fixtureDef.friction = 0.0f;
+        fixtureDef.restitution = 0.0f; // Make it bounce a little bit
 
         fixtureDef.filter.categoryBits = 0x0002;
         fixtureDef.filter.maskBits = 0x0004 | 0x0001 | 0x0020;
@@ -108,7 +108,7 @@ public class Player implements Entity, Damageable {
         playerTexture = new Texture(Gdx.files.internal("bun.png"));
         playerSprite = new Sprite(playerTexture,0,0,32,32);
 
-        playerSprite.setScale(.1f);
+        playerSprite.setScale(1f);
 
         this.body.setUserData("Player body");
         this.bodyB.setUserData("Player healthBar");
@@ -137,6 +137,8 @@ public class Player implements Entity, Damageable {
 
         if (secondEntity.getNameID().equals("Floor")) {
             this.grounded = true;
+            this.body.setLinearVelocity(this.body.getLinearVelocity().x/10f,this.body.getLinearVelocity().y/10f);
+            this.body.setAngularVelocity(this.body.getAngularVelocity()/10f);
             System.out.println("Grounded");
         }
 
@@ -170,6 +172,11 @@ public class Player implements Entity, Damageable {
 
     public float takeDamage(float damage) {
 
+        if (this.checkIfDead()) {
+            MainApplication.getParty().damageAll(damage);
+            return damage;
+        }
+
         Array<Fixture> fixtureList = new Array<Fixture>(1);
         fixtureList = this.bodyB.getFixtureList();
 
@@ -180,7 +187,35 @@ public class Player implements Entity, Damageable {
 
         //healthBarSprite.setScale(.1f);
 
-        MainApplication.damageParticleList.add(new DamageParticle(this.body,damage,MainApplication.getParty().font, new Color(Color.RED)));
+        MainApplication.damageParticleList.add(new ParticleDamage(this.body,damage,MainApplication.getParty().font, new Color(Color.RED)));
+
+        health -= damage;
+
+        newScale = (health/100f)*.1f;
+
+        if (newScale < 0) {
+            newScale = 0;
+        }
+
+        healthBarSprite.setScale(newScale/2,.05f);
+
+        return damage;
+
+    }
+
+    public float takeDamageAll(float damage) {
+
+        Array<Fixture> fixtureList = new Array<Fixture>(1);
+        fixtureList = this.bodyB.getFixtureList();
+
+        fixtureList.get(0).getShape();
+
+        texture = new Texture(Gdx.files.internal("GreenHealthBar.png"));
+        healthBarSprite = new Sprite(texture,0,0,32,8);
+
+        //healthBarSprite.setScale(.1f);
+
+        MainApplication.damageParticleList.add(new ParticleDamage(this.body,damage,MainApplication.getParty().font, new Color(Color.RED)));
 
         health -= damage;
 
@@ -230,6 +265,9 @@ public class Player implements Entity, Damageable {
             System.out.println("you got a null that will crash");
             return;
         }
+
+        System.out.println("coolllll " + this.bodyB.getPosition().x);
+
 
         //this.body.applyLinearImpulse(new Vector2(0f,20f), this.body.getPosition(),false);
         this.bodyB.setLinearVelocity(0,20);

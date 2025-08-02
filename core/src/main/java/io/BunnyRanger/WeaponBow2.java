@@ -14,9 +14,9 @@ public class WeaponBow2 extends WeaponBow {
         this.angleArrow = (float) 0;
         this.disBetweenShotsX = 10;
 
-        this.bowTexture = new Texture(Gdx.files.internal("woodBow2.png"));
-        this.bowSprite = new Sprite(bowTexture, 0, 0, 16, 32);
-        this.bowSprite.setScale(.05f);
+        this.bowTexture = new Texture(Gdx.files.internal("bow1.png"));
+        this.bowSprite = new Sprite(bowTexture, 0, 0, 16, 16);
+        this.bowSprite.setScale(1f);
 
         this.weaponDelay = 100;
 
@@ -28,12 +28,12 @@ public class WeaponBow2 extends WeaponBow {
 
         name = "WoodBow+";
 
-        this.inventoryTexture = new Texture(Gdx.files.internal("inventoryBowSprite2.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("bow1.png"));
 
     }
 
     public Vector2 getArrowMagnitude(float EnemyPositionX, float EnemyPositionY) {
-        return super.getArrowMagnitude(EnemyPositionX,EnemyPositionY);
+        return super.getArrowMagnitude(EnemyPositionX,EnemyPositionY,bowX,bowY,enemyPositionXVel,enemyPositionYVel);
     }
 
 }

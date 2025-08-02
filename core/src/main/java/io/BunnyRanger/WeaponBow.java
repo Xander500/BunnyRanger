@@ -14,7 +14,7 @@ import java.util.Random;
 public class WeaponBow implements Weapon, Item {
 
     //Bow stuff
-    ArrowProjectile type;
+    ProjectileArrow type;
     float bowX;
     float bowY;
     float bowAngle;
@@ -78,9 +78,9 @@ public class WeaponBow implements Weapon, Item {
 
         name = "WoodBow";
 
-        this.bowTexture = new Texture(Gdx.files.internal("woodBow.png"));
-        this.bowSprite = new Sprite(bowTexture,0,0,16,32);
-        this.bowSprite.setScale(.08f);
+        this.bowTexture = new Texture(Gdx.files.internal("bow1.png"));
+        this.bowSprite = new Sprite(bowTexture,0,0,16,16);
+        this.bowSprite.setScale(1f);
         this.bowAngle = 0;
 
         this.xSizeArrow = .5f;
@@ -121,7 +121,7 @@ public class WeaponBow implements Weapon, Item {
 
         // shop
 
-        this.inventoryTexture = new Texture(Gdx.files.internal("inventoryBowSprite.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("bow1.png"));
 
     }
 
@@ -159,14 +159,14 @@ public class WeaponBow implements Weapon, Item {
             if (this.bowSprite.isFlipX()) {
                 this.bowSprite.flip(true,false);
             }
-            this.bowSprite.setPosition(this.bowX - this.bowSprite.getWidth()/2 + entity.getFixture().getShape().getRadius() * 2, this.bowY - this.bowSprite.getWidth());
+            this.bowSprite.setPosition(this.bowX - this.bowSprite.getWidth()/2 + entity.getFixture().getShape().getRadius() * 1.5f, this.bowY - this.bowSprite.getWidth());
 
         } else {
 
             if (!this.bowSprite.isFlipX()) {
                 this.bowSprite.flip(true,false);
             }
-            this.bowSprite.setPosition(this.bowX - this.bowSprite.getWidth()/2 - entity.getFixture().getShape().getRadius() * 2, this.bowY - this.bowSprite.getWidth());
+            this.bowSprite.setPosition(this.bowX - this.bowSprite.getWidth()/2 - entity.getFixture().getShape().getRadius() * 1.5f, this.bowY - this.bowSprite.getWidth());
 
         }
 
@@ -190,20 +190,17 @@ public class WeaponBow implements Weapon, Item {
 
         for (float i = 0-this.count/2f; i < this.count/2f; i++) {
 
-            this.magnitudeArrow = getArrowMagnitude(enemyPositionX,enemyPositionY);
+            this.magnitudeArrow = getArrowMagnitude(enemyPositionX,enemyPositionY,this.xArrow,this.yArrow,enemyPositionXVel,enemyPositionYVel);
 
-            this.magnitudeArrow.x = this.magnitudeArrow.x/30f;
-            this.magnitudeArrow.y = this.magnitudeArrow.y/30f;
+            this.magnitudeArrow.x = this.magnitudeArrow.x;
+            this.magnitudeArrow.y = this.magnitudeArrow.y;
 
-            this.magnitudeArrow.x += i*this.disBetweenShotsX/30f;
-            this.magnitudeArrow.y += i*this.disBetweenShotsY/30f;
+            //this.magnitudeArrow.x += i*this.disBetweenShotsX/30f;
+            //this.magnitudeArrow.y += i*this.disBetweenShotsY/30f;
 
-            Random random = new Random();
             this.damageCurrentArrow = (float) Math.round((Math.random() * (damageMaxArrow - damageMinArrow)) + damageMinArrow);
 
-            Projectile projectile;
-
-            projectile = new ArrowProjectile(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly,facingRight);
+            Projectile projectile = new ProjectileArrow(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight);
 
             this.projectileList.add(projectile);
 
@@ -229,17 +226,40 @@ public class WeaponBow implements Weapon, Item {
 
     //calc stuffy wuffy
 
-    public Vector2 getArrowMagnitude(float EnemyPositionX,float EnemyPositionY) {
+    public Vector2 getArrowMagnitude(float EnemyPositionX,float EnemyPositionY,float bowpX,float bowpY,float xVel,float yVel) {
 
         //the worst algorithm, feel free to fine tune it james
 
-        float temp = (EnemyPositionX - bowX)*12f + 12;
+        float t = 2f;
 
-        if(!facingRight) {
-            temp += 20;
+
+        double dx = (EnemyPositionX - bowpX) + xVel * t;
+        double dy = (EnemyPositionY - bowpY);
+
+        /*
+        if (!friendly) {
+            dx = (EnemyPositionX - bowpX);
+            dy = (EnemyPositionY - bowpY) + yVel * t;
+        }
+         */
+
+        if (!friendly) {
+            dx = (EnemyPositionX - bowpX);
+            dy = (EnemyPositionY - bowpY) + yVel * t;
         }
 
-        return new Vector2(temp,90);
+        double vx = dx / t;
+        double vy = (dy - (0.5 * world.getWorld().getGravity().y) * t * t) / t;
+
+        if(!facingRight) {
+            //vx += 20;
+        } else {
+            //vx -= 20;
+        }
+
+        return new Vector2((float) vx, (float) vy);
+
+        //float temp = (EnemyPositionX - bowX)*12f + 12;
     }
 
     QueryCallback queryCallback = new QueryCallback() {

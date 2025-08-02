@@ -19,7 +19,7 @@ public class InventoryScreen extends InputAdapter implements Screen {
 
     InventoryScreenStage inventoryScreenStage;
 
-    Texture background = new Texture(Gdx.files.internal("updatedInventory.png"));
+    Texture background = new Texture(Gdx.files.internal("inventorymach2.png"));
     Sprite sprite;
 
     BitmapFont font;
@@ -29,13 +29,13 @@ public class InventoryScreen extends InputAdapter implements Screen {
         this.game = game;
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 192, 188);
-        camera.setToOrtho(false, 1280,720);
+        //camera.setToOrtho(false, 360, 180);
+        camera.setToOrtho(false, MainApplication.SCREENWIDTH,MainApplication.SCREENHEIGHT);
 
         this.inventoryScreenStage= new InventoryScreenStage(this);
 
         sprite = new Sprite(background);
-        sprite.setSize(1280,720); // Set the size of the sprite
+        sprite.setSize(MainApplication.SCREENWIDTH,MainApplication.SCREENHEIGHT); // Set the size of the sprite
         sprite.setPosition(0, 0); // Set the position of the sprite
         //Gdx.input.setInputProcessor(this.inventoryScreenStage);
 

@@ -5,9 +5,9 @@ public class LevelScreen4 extends LevelScreen {
     public void makeEnemies() {
 
         EnemySnake enemy1 = new EnemySnake(world1, 35, 5);
-        EnemyBunny enemy2 = new EnemyBunny(world1, 40, 5);
-        EnemyBunny enemy3 = new EnemyBunny(world1, 45, 5);
-        EnemyBunny enemy4 = new EnemyBunny(world1, 50, 5);
+        EnemyFox enemy2 = new EnemyFox(world1, 40, 5);
+        EnemyFox enemy3 = new EnemyFox(world1, 45, 5);
+        EnemyFox enemy4 = new EnemyFox(world1, 50, 5);
 
         enemies.addEnemy(enemy1);
         enemies.addEnemy(enemy2);
@@ -46,7 +46,7 @@ public class LevelScreen4 extends LevelScreen {
 
         if (levelDisplayCounter < 300) {
             batch.begin();
-            this.displayTitle("LEVEL 3 --- Sword Sneks",350,650);
+            this.displayTitle("LEVEL 4 --- Pogging out of my gourd right now",350,650);
             batch.end();
         }
 

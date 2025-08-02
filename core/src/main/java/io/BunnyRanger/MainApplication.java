@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 public class MainApplication extends ApplicationAdapter {
 
+    public static final int SCREENWIDTH = 1280;
+    public static final int SCREENHEIGHT = 720;
     public static boolean needToMake = true;
 
     // make and hold an instance of a world
@@ -18,6 +20,9 @@ public class MainApplication extends ApplicationAdapter {
     OrthographicCamera camera;
     OrthographicCamera textCamera;
     MyContactListener myContactListener;
+
+    static public int battleSizeWidth;
+    static public int battleSizeHeight;
 
     SpriteBatch batch;
 
@@ -29,7 +34,7 @@ public class MainApplication extends ApplicationAdapter {
     //players
 
     public static WorldInstance world1 = new WorldInstance();
-    public static Floor floor = new Floor(world1,10000,10000,1,1,"dirt.png");
+    public static Floor floor = new Floor(world1,1000,1000,1,1,"dirt.png");
     static public Party party;
 
     //enemies
@@ -46,7 +51,7 @@ public class MainApplication extends ApplicationAdapter {
 
     //DamageParticles
 
-    static public ArrayList<DamageParticle> damageParticleList = new ArrayList<DamageParticle>();
+    static public ArrayList<ParticleDamage> damageParticleList = new ArrayList<ParticleDamage>();
 
     //level name
 
@@ -54,11 +59,15 @@ public class MainApplication extends ApplicationAdapter {
         debugRenderer = new Box2DDebugRenderer();
         batch = new SpriteBatch();
 
+        //test
+        battleSizeWidth = (int) (16*40f);
+        battleSizeHeight = (int) (9*40f);
+
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 64, 32);
+        camera.setToOrtho(false, battleSizeWidth, battleSizeHeight);
 
         textCamera = new OrthographicCamera();
-        textCamera.setToOrtho(false, 1280, 720);
+        textCamera.setToOrtho(false, SCREENWIDTH, SCREENWIDTH);
     }
 
     public void create() {

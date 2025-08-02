@@ -27,11 +27,18 @@ public class InnShopScreen extends MainApplication implements Screen, ScreenType
     Floor floor3;
     Floor wall1;
     Floor wall2;
+    Floor wall3;
+    Floor wall4;
+    Floor wall5;
+    Floor wall6;
 
     public static String levelName = "Level 0 - Inn";
     public static int levelDisplayCounter = 0;
 
     public static boolean firstBarrier = false;
+    public static boolean secondBarrier = false;
+    public static boolean thirdBarrier = false;
+    public static boolean fourthBarrier = false;
 
     public void show() {
 
@@ -50,10 +57,10 @@ public class InnShopScreen extends MainApplication implements Screen, ScreenType
         //make world
 
         backgroundTexture = new Texture(Gdx.files.internal("innShop.png"));
-        vallyBackground = new Sprite(backgroundTexture, 0, 0, 1280, 720);
-        vallyBackground.setCenterX(32);
-        vallyBackground.setCenterY(16);
-        vallyBackground.setScale(.05f);
+        vallyBackground = new Sprite(backgroundTexture, 0, 0, MainApplication.SCREENWIDTH,MainApplication.SCREENHEIGHT);
+        vallyBackground.setCenterX(MainApplication.battleSizeWidth/2f);
+        vallyBackground.setCenterY(MainApplication.battleSizeHeight/2f);
+        vallyBackground.setScale(.5f);
 
         this.myContactListener = new MyContactListener();
 
@@ -69,7 +76,7 @@ public class InnShopScreen extends MainApplication implements Screen, ScreenType
 
         //Unique
 
-        world1.getWorld().step(1 / 60f, 6, 2);
+        world1.getWorld().step(1 / 30f, 6, 2);
 
         world1.destroyBodies();
 
@@ -122,12 +129,16 @@ public class InnShopScreen extends MainApplication implements Screen, ScreenType
 
         if (firstBarrier && MainApplication.signList.size() >= 2) {
 
-            //FIRST BARRIER DRAW
+            //BARRIER DRAW
 
-            MainApplication.signList.get(1).changeBits();
+            for (int i = 1; i < MainApplication.signList.size(); i++) {
 
-            MainApplication.signList.get(1).updateEnemySprite();
-            MainApplication.signList.get(1).getEnemySprite().draw(batch);
+                MainApplication.signList.get(i).changeBits();
+
+                MainApplication.signList.get(i).updateEnemySprite();
+                MainApplication.signList.get(i).getEnemySprite().draw(batch);
+
+            }
 
         }
 
@@ -147,7 +158,7 @@ public class InnShopScreen extends MainApplication implements Screen, ScreenType
 
         if (levelDisplayCounter < 400) {
 
-            camera.setToOrtho(false, 1280f,720f);
+            camera.setToOrtho(false, MainApplication.SCREENWIDTH,MainApplication.SCREENHEIGHT);
             camera.update();
             batch.setProjectionMatrix(camera.combined);
 
@@ -160,7 +171,7 @@ public class InnShopScreen extends MainApplication implements Screen, ScreenType
 
             levelDisplayCounter += 1;
 
-            camera.setToOrtho(false, 64, 32);
+            camera.setToOrtho(false, battleSizeWidth, battleSizeHeight);
             camera.update();
             batch.setProjectionMatrix(camera.combined);
 
@@ -196,19 +207,38 @@ public class InnShopScreen extends MainApplication implements Screen, ScreenType
 
     public void makeEnemies() {
 
-        floor1 = new Floor(world1, 32, 1, 32, 1, "grass.png");
+        floor1 = new Floor(world1, 0, 1, 40, 1, "grass.png");
         floor3 = new Floor(world1, 32, 33, 32, 1, "dirt.png");
         wall1 = new Floor(world1, 65, 16, 1, 16, "dirt.png");
         wall2 = new Floor(world1, -1, 16, 1, 16, "dirt.png");
+
+        wall3 = new Floor(world1, 28, 22, 3, 1, "dirt.png");
+        wall4 = new Floor(world1, 36, 19, 3, 1, "dirt.png");
+        wall5 = new Floor(world1, 45, 19, 3, 1, "dirt.png");
+        wall6 = new Floor(world1, 54, 22, 3, 1, "dirt.png");
+
+
 
         floorList.add(floor1);
         floorList.add(floor3);
         floorList.add(wall1);
         floorList.add(wall2);
+        floorList.add(wall3);
+        floorList.add(wall4);
+        floorList.add(wall5);
+        floorList.add(wall6);
 
-        MainMenu.makeSign(MainMenu.levelScreen1);
+        MainMenu.makeSign(MainMenu.levelScreen1,60,33);
 
-        MainMenu.makeSign(MainMenu.levelScreen2,50,20); // WHERE FIRST WARP SIGN SHOULD GO
+        MainMenu.makeSign(MainMenu.levelScreen2,28,32); // WHERE FIRST WARP SIGN SHOULD GO
+        MainMenu.makeSign(MainMenu.levelScreen3,36,32); // WHERE FIRST WARP SIGN SHOULD GO
+        MainMenu.makeSign(MainMenu.levelScreen4,45,32); // WHERE FIRST WARP SIGN SHOULD GO
+        MainMenu.makeSign(MainMenu.levelScreen5,54,32); // WHERE FIRST WARP SIGN SHOULD GO
+
+        firstBarrier = true;
+        secondBarrier = true;
+        thirdBarrier = true;
+        fourthBarrier = true;
 
         drawSign = false;
 

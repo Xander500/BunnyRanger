@@ -41,7 +41,12 @@ public class Floor implements Entity {
         bodyDef.type = BodyDef.BodyType.StaticBody;
 
         // Set our body's starting position in the world
-        bodyDef.position.set(x, y);
+        //bodyDef.position.set(x*16 - xSize * 16, y*16 - ySize * 16);
+
+
+
+        // subtract half the size to get it top right not centered
+        bodyDef.position.set(x*16 + xSize * 8, y*16 + ySize * 8);
 
         // Create our body in the world using our body definition
         this.body = world.getWorld().createBody(bodyDef);
@@ -52,7 +57,7 @@ public class Floor implements Entity {
 
         // Create a box shape and set its radius to xSize and ySize
         PolygonShape groundBox = new PolygonShape();
-        groundBox.setAsBox(xSize, ySize);
+        groundBox.setAsBox(xSize*8, ySize*8);
 
         // Create a fixture definition to apply our shape to
         FixtureDef fixtureDef = new FixtureDef();
@@ -75,15 +80,19 @@ public class Floor implements Entity {
 
         textureRegion = new TextureRegion(texture);
 
-        textureRegion.setRegion(0,0,xSize,ySize);
+        //textureRegion.setRegion(0,0,xSize,ySize);
+        textureRegion.setRegion(0, 0, (int)(xSize * 16), (int)(ySize * 16));
 
         sprite = new Sprite(textureRegion);
 
-        sprite.setScale(0.0625f*2);
+        sprite.setScale(1f);
 
-        sprite.setPosition(x - sprite.getWidth() / 2, y - sprite.getHeight() / 2);
+        sprite.setSize(xSize * 16, ySize * 16);
+
+        sprite.setPosition(x*16, y*16);
 
         body.setUserData(this);
+
 
         groundBox.dispose();
     }

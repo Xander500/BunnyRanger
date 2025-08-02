@@ -12,7 +12,7 @@ public class WeaponEmpty extends WeaponBow{
 
         this.bowTexture = new Texture(Gdx.files.internal("Empty.png"));
         this.bowSprite = new Sprite(bowTexture,0,0,16,32);
-        this.bowSprite.setScale(.05f);
+        this.bowSprite.setScale(1f);
 
     }
 }

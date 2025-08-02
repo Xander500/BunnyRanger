@@ -46,8 +46,13 @@ public class LevelScreen5 extends LevelScreen {
 
         if (levelDisplayCounter < 300) {
             batch.begin();
-            this.displayTitle("LEVEL 3 --- Sword Sneks",350,650);
+            this.displayTitle("LEVEL 5 --- AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",350,650);
             batch.end();
+        }
+
+        if (enemies.checkAllIfDead()) {
+            InnShopScreen.firstBarrier = true; // MAKES FIRST WARP SIGN APPEAR
+            System.out.println("made thingy");
         }
 
         //debugRenderer.render(world1.getWorld(), camera.combined);

@@ -43,6 +43,8 @@ public class Projectile implements Entity {
 
         this.bodyDef = new BodyDef();
 
+        bodyDef.linearDamping = 0.0f;
+
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
         bodyDef.position.set(x, y);
@@ -56,7 +58,7 @@ public class Projectile implements Entity {
         fixtureDef.shape = circle;
         fixtureDef.density = 2.0f;
         fixtureDef.friction = 0.4f;
-        fixtureDef.restitution = 0.8f; // Make it bounce a little bit
+        fixtureDef.restitution = 0.0f; // Make it bounce a little bit
 
         this.fixture = body.createFixture(fixtureDef);
         fixture.setUserData(this);

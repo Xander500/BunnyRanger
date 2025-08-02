@@ -65,7 +65,7 @@ public class Sign implements Entity {
         playerTexture = new Texture(Gdx.files.internal("bun.png"));
         enemySprite = new Sprite(playerTexture,0,0,32,32);
 
-        enemySprite.setScale(.1f);
+        enemySprite.setScale(1f);
 
         //weewoo
         this.enemySprite.flip(true,false);
@@ -85,7 +85,7 @@ public class Sign implements Entity {
 
         playerTexture = new Texture(Gdx.files.internal("Sign.png"));
         enemySprite = new Sprite(playerTexture,0,0,16,16);
-        enemySprite.setScale(.2f);
+        enemySprite.setScale(1f);
 
         this.body.setUserData(this);
 

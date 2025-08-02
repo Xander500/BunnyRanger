@@ -1,13 +1,14 @@
 package io.BunnyRanger;
 
+import static io.BunnyRanger.MainApplication.battleSizeHeight;
+import static io.BunnyRanger.MainApplication.battleSizeWidth;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.Shape;
 
-public class DamageParticle {
+public class ParticleDamage {
 
     Body body;
     float damage;
@@ -26,13 +27,15 @@ public class DamageParticle {
     float xPos;
     float yPos;
 
-    DamageParticle(Body body, float damage, BitmapFont font, Color color) {
+    ParticleDamage(Body body, float damage, BitmapFont font, Color color) {
         this.body = body;
         this.damage = damage;
         this.font = font;
         this.color = color;
-        this.offsetX = 0.9f * (float) ((Math.random()*80+20));
-        this.offsetY = 0.9f * (float) ((Math.random()*80+20));
+        //this.offsetX = 0.9f * (float) ((Math.random()*80+20));
+        //this.offsetY = 0.9f * (float) ((Math.random()*80+20));
+        this.offsetX = 0;
+        this.offsetY = 0;
 
         this.xPos = this.body.getPosition().x;
         this.yPos = this.body.getPosition().y;
@@ -49,9 +52,8 @@ public class DamageParticle {
             return false;
         }
 
-        float tmpOffSet = 1;
-        offsetCounter+= 1.5f;
-        offsetCounterY = 80 * (float) Math.sin(offsetCounter/40f);
+        offsetCounter+= .8f;
+        offsetCounterY = 60 * (float) Math.sin(offsetCounter/30f);
 
         float tmpX = font.getScaleX();
         float tmpY = font.getScaleY();
@@ -59,15 +61,7 @@ public class DamageParticle {
         font.getData().setScale(2f);
         font.setColor(this.color);
 
-        for (Fixture fixture : this.body.getFixtureList()) {
-
-            if (fixture.getType() == Shape.Type.Circle) {
-                //tmpOffSet = fixture.getShape().getRadius();
-            }
-
-        }
-
-        font.draw(batch, String.valueOf((int) damage), ((xPos * 20f) + offsetCounter) + offsetX, ((yPos * 22.5f) + offsetCounterY) + offsetY);
+        font.draw(batch, String.valueOf((int) damage), ((xPos*MainApplication.SCREENWIDTH/battleSizeWidth) + offsetCounter) + offsetX, ((yPos*MainApplication.SCREENHEIGHT/battleSizeHeight) + offsetCounterY) + offsetY);
 
         font.getData().setScale(tmpX, tmpY);
         font.setColor(Color.WHITE);

@@ -10,8 +10,8 @@ public class EnemyBunny extends EnemyMoving{
         super(world, x, y);
         health = 10;
         enemyTexture = new Texture(Gdx.files.internal("bun.png"));
-        enemySprite = new Sprite(enemyTexture,0,0,28,26);
-        enemySprite.setScale(.1f);
+        enemySprite = new Sprite(enemyTexture,0,0,16,16);
+        enemySprite.setScale(1f);
     }
 
     public void move(boolean facingRight) {
@@ -24,11 +24,11 @@ public class EnemyBunny extends EnemyMoving{
 
             if(facingRight) {
 
-                this.getBody().setLinearVelocity(-1f,0);
+                this.getBody().setLinearVelocity(.5f,0);
 
             } else {
 
-                this.getBody().setLinearVelocity(1f,0);
+                this.getBody().setLinearVelocity(-.5f,0);
 
             }
 

@@ -4,10 +4,10 @@ public class LevelScreen2 extends LevelScreen {
 
     public void makeEnemies() {
 
-        EnemyBunny enemy1 = new EnemyBunny(world1, 35, 5);
-        EnemyBunny enemy2 = new EnemyBunny(world1, 40, 5);
-        EnemyBunny enemy3 = new EnemyBunny(world1, 45, 5);
-        EnemyBunny enemy4 = new EnemyBunny(world1, 50, 5);
+        EnemyFox enemy1 = new EnemyFox(world1, 35, 5);
+        EnemyFox enemy2 = new EnemyFox(world1, 40, 5);
+        EnemyFox enemy3 = new EnemyFox(world1, 45, 5);
+        EnemyFox enemy4 = new EnemyFox(world1, 50, 5);
 
         enemies.addEnemy(enemy1);
         enemies.addEnemy(enemy2);
@@ -35,8 +35,6 @@ public class LevelScreen2 extends LevelScreen {
         floorList.add(wall2);
 
         MainMenu.makeSign(MainMenu.levelScreen3);
-
-        InnShopScreen.firstBarrier = true; // MAKES FIRST WARP SIGN APPEAR
 
         drawSign = false;
 

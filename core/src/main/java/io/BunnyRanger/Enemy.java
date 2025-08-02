@@ -55,13 +55,13 @@ public abstract class Enemy implements Entity, Damageable {
 
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
-        bodyDef.position.set(x, y);
+        bodyDef.position.set(x*16, y*16);
 
         this.body = world.getWorld().createBody(bodyDef);
         this.body.setUserData("enemy body");
 
         this.circle = new CircleShape();
-        circle.setRadius(1f);
+        circle.setRadius(10f);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
@@ -82,7 +82,7 @@ public abstract class Enemy implements Entity, Damageable {
         texture = new Texture(Gdx.files.internal("healthBar.png"));
         healthBarSprite = new Sprite(texture,0,0,32,8);
 
-        healthBarSprite.setScale(.05f);
+        healthBarSprite.setScale(1f);
 
         this.createHealthBar(world);
 
@@ -91,7 +91,7 @@ public abstract class Enemy implements Entity, Damageable {
         enemyTexture = new Texture(Gdx.files.internal("bun.png"));
         enemySprite = new Sprite(enemyTexture,0,0,32,32);
 
-        enemySprite.setScale(.1f);
+        enemySprite.setScale(1f);
 
         //weewoo
         this.enemySprite.flip(true,false);
@@ -165,6 +165,9 @@ public abstract class Enemy implements Entity, Damageable {
 
     public float takeDamage(float damage) {
 
+        System.out.println("LOLOLOL " + this.bodyB.getPosition().x);
+
+
         if (this.bodyB == null) {
             System.out.println("you got a null that will crash");
             return 1;
@@ -181,12 +184,12 @@ public abstract class Enemy implements Entity, Damageable {
         //healthBarSprite.setScale(.1f);
 
         //MAKING PARTICLES
-        MainApplication.damageParticleList.add(new DamageParticle(this.body,damage,MainApplication.getParty().font, new Color(Color.GREEN)));
+        MainApplication.damageParticleList.add(new ParticleDamage(this.body,damage,MainApplication.getParty().font, new Color(Color.GREEN)));
 
         if (health - damage <= 0 && this.hasNotDied) {
             System.out.println("died and time to try to drop item: ");
             try {
-                MainApplication.damageParticleList.add(new ItemParticle(this.body, this.dropList, MainApplication.getParty().font, new Color(Color.GOLD)));
+                MainApplication.damageParticleList.add(new ParticleItem(this.body, this.dropList, MainApplication.getParty().font, new Color(Color.GOLD)));
             } catch (Exception e)  {
 
             }

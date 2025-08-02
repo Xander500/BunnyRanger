@@ -36,6 +36,8 @@ public class MainMenu extends Game {
     public static Screen currentScreen;
 
     public static BitmapFont font; // use libGDX's default Arial font
+    private static final float TIME_STEP = 1 / 60f;
+    private static float timer = 0;
 
     public static ShaderProgram fontShader;
 
@@ -79,9 +81,19 @@ public class MainMenu extends Game {
 
     public void render() {
 
-        super.render(); // important!
+        timer += Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
 
-        //maybe
+        if (timer >= TIME_STEP) {
+            timer -= TIME_STEP;
+            System.out.println("GO OFF QUEEN");
+            super.render(); // important!
+
+        } else {
+            System.out.println("NOT ENOUGH TIME");
+            return;
+        }
+
+        //physics stuff
 
 
         if (swappingScreen) {
@@ -131,15 +143,14 @@ public class MainMenu extends Game {
                 swappingScreen = false;
                 System.out.println(10);
 
-                if (MainApplication.signList.size() >= 1 && MainApplication.signList.get(0) != null && MainApplication.signList.get(0).illDoIt) {
-                    MainApplication.signList.get(0).executeSwap();
-                }
-
-                if (MainApplication.signList.size() >= 2 && MainApplication.signList.get(1) != null && MainApplication.signList.get(1).illDoIt) {
-                    MainApplication.signList.get(1).executeSwap();
+                for (int i = 0; i < MainApplication.signList.size(); i++) {
+                    if (MainApplication.signList.size() >= 1 && MainApplication.signList.get(i) != null && MainApplication.signList.get(i).illDoIt) {
+                        MainApplication.signList.get(i).executeSwap();
+                    }
                 }
 
                 //MORE EXITS ADD MORE HERE, CAN CHANGE TO FOR LOOP BUT HONESTLY I DONT THINK WE WILL GET MORE THAN 4 EXITS
+                // did it :)
 
                 for (Sign sign : MainApplication.signList) {
                     MainApplication.world1.getWorld().destroyBody(sign.getBody());
