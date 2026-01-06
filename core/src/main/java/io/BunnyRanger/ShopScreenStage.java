@@ -18,7 +18,7 @@ public class ShopScreenStage extends Stage {
 
     ArrayList<InventorySpotActor> actorArrayList = new ArrayList<InventorySpotActor>();
 
-    Image image = new Image(new Texture(Gdx.files.internal("inventory.png")));
+    Image image = new Image(new Texture(Gdx.files.internal("menuShop.png")));
 
     TextureRegionDrawable buyGreen = new TextureRegionDrawable(new Texture((Gdx.files.internal("buyButton.png"))));
     TextureRegionDrawable buyRed = new TextureRegionDrawable(new Texture((Gdx.files.internal("buyButtonRed.png"))));

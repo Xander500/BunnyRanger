@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 
-public class Floor implements Entity {
+public class Wall implements Entity {
 
     WorldInstance world;
     BodyDef bodyDef;
@@ -20,7 +20,7 @@ public class Floor implements Entity {
     TextureRegion textureRegion;
     Sprite sprite;
 
-    public Floor(WorldInstance world, float x, float y, float xSize, float ySize,String string) {
+    public Wall(WorldInstance world, float x, float y, float xSize, float ySize, String string) {
 
         System.out.println("makin Floor");
 

@@ -13,29 +13,29 @@ public class WeaponSword extends WeaponBow {
         super(friendly);
 
         this.angleArrow = (float) 0;
-        this.disBetweenShotsY = 15;
+        this.disBetweenShotsY = 1000000;
 
         this.bowTexture = new Texture(Gdx.files.internal("sword1.png"));
-        this.bowSprite = new Sprite(bowTexture, 0, 0, 16, 32);
-        this.bowSprite.setRotation(0f);
+        this.bowSprite = new Sprite(bowTexture, 0, 0, 16, 16);
+        this.bowSprite.setRotation(16f);
         this.bowSprite.setScale(1f);
 
-        this.inventoryTexture = new Texture(Gdx.files.internal("inventorySword1.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("sword1.png"));
 
         this.buyPrice = 30;
         this.sellPrice = 15;
 
         this.name = "Sword 1";
 
-        this.baseCount = 1;
+        this.baseCount = 5;
         this.count = 1;
-        this.rangeArrow = 30;
-        this.baseRangeArrow = 20;
+        this.rangeArrow = 200;
+        this.baseRangeArrow = 200;
         this.weaponDelay = 30;
         this.baseWeaponDelay = 30;
 
         this.baseDamageMinArrow = 1;
-        this.baseDamageMaxArrow = 3;
+        this.baseDamageMaxArrow = 5;
 
         this.densityArrow = 1;
 
@@ -45,17 +45,6 @@ public class WeaponSword extends WeaponBow {
         this.disBetweenShotsX = 1f;
         this.disBetweenShotsY = 1f;
 
-    }
-
-    public Vector2 getArrowMagnitude(float EnemyPositionX, float EnemyPositionY) {
-
-        //the worst algorithm, feel free to fine tune it james
-
-        if (this.bowX - EnemyPositionX >= 0) {
-            return new Vector2(-5, 7.5f);
-        } else {
-            return new Vector2(5, 7.5f);
-        }
     }
 
     public void weaponProjectileFactory() {
@@ -74,22 +63,19 @@ public class WeaponSword extends WeaponBow {
 
         for (float i = 0; i < this.count; i++) {
 
-            this.magnitudeArrow = new Vector2(4f,0f);
+            if (this.facingRight) {
+                this.magnitudeArrow = new Vector2(15f,0f);
+            } else {
+                this.magnitudeArrow = new Vector2(-15f,0f);
+            }
+
             //this.magnitudeArrow.x += i * this.disBetweenShotsX;
             this.magnitudeArrow.y += i * this.disBetweenShotsY;
-
-            if (this.facingRight) {
-                this.magnitudeArrow = new Vector2(4f,0f);
-            } else {
-                this.magnitudeArrow = new Vector2(-4f,0f);
-            }
 
             Random random = new Random();
             this.damageCurrentArrow = (float) (Math.random() * (damageMaxArrow - damageMinArrow)) + damageMinArrow;
 
-            ProjectileSlash projectile;
-
-            projectile = new ProjectileSlash(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight);
+            ProjectileSlash projectile = new ProjectileSlash(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight, 1);
 
             this.projectileList.add(projectile);
 
@@ -99,11 +85,6 @@ public class WeaponSword extends WeaponBow {
 
     public void drawWeapon() { // maybe
         super.drawWeapon();
-        if (friendly) {
-            this.bowSprite.setRotation(270);
-        } else {
-            this.bowSprite.setRotation(90);
-        }
     }
 
 }

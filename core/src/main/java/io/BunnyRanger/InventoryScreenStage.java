@@ -18,7 +18,7 @@ public class InventoryScreenStage extends Stage {
 
     ArrayList<InventorySpotActor> actorArrayList = new ArrayList<InventorySpotActor>();
 
-    Image image = new Image(new Texture(Gdx.files.internal("inventorymach2.png")));
+    Image image = new Image(new Texture(Gdx.files.internal("menuInventory.png")));
 
     Actor selected = null;
 
@@ -70,14 +70,17 @@ public class InventoryScreenStage extends Stage {
         //starting test
 
         WeaponBow bow8 = new WeaponBow(true);
-        WeaponPistol gun1 = new WeaponPistol(true);
         WeaponBow2 bow21 = new WeaponBow2(true);
+        WeaponPistol gun1 = new WeaponPistol(true);
         WeaponSword sword1 = new WeaponSword(true);
+        WeaponBomb bomb1 = new WeaponBomb(true);
 
         this.addToOpenSlot(bow8);
         this.addToOpenSlot(gun1);
         this.addToOpenSlot(bow21);
         this.addToOpenSlot(sword1);
+        this.addToOpenSlot(sword1);
+        this.addToOpenSlot(bomb1);
 
 
         CardHealth1 cardHealth1 = new CardHealth1();
@@ -185,72 +188,68 @@ public class InventoryScreenStage extends Stage {
 
     public void parseHit(Actor hit,int button) {
 
-        // right click unhovers
+        // Right click = unselect
         if (button == 1) {
-
             if (selected != null) {
                 ((InventorySpotActor) selected).setDrawable(null);
                 selected = null;
             }
-
-            return;
-
-        }
-        // hit was a fluke
-        if(hit == null) {
             return;
         }
-        // nothing is selected
+
+// No item hit
+        if (hit == null) return;
+
+        InventorySpotActor selectedSpot = (InventorySpotActor) selected;
+        InventorySpotActor hitSpot = (InventorySpotActor) hit;
+
+        // Nothing is selected yet → select the new spot
         if (selected == null) {
-
-            ((InventorySpotActor) hit).setDrawable(selectedIcon);
-            selected = (InventorySpotActor) hit;
+            hitSpot.setDrawable(selectedIcon);
+            selected = hitSpot;
             return;
-
-        }
-        // what was selected was empty
-        if (((InventorySpotActor) selected).getSpot() == null) {
-
-            System.out.println("adsads");
-
-            ((InventorySpotActor) selected).setDrawable(null);
-            selected = null;
-
-            ((InventorySpotActor) hit).setDrawable(selectedIcon);
-            selected = (InventorySpotActor) hit;
-
-            return;
-
         }
 
-        // if the instance of item is the same as the instance of what is already there,
-
-        else if (((InventorySpotActor) selected).getSpot() instanceof Weapon && hit instanceof CardInventorySpotActor)  {
-
+        // If selected spot is empty → switch selection to hit
+        if (selectedSpot.getSpot() == null) {
+            selectedSpot.setDrawable(null);
+            hitSpot.setDrawable(selectedIcon);
+            selected = hitSpot;
             return;
-
-        } else if (((InventorySpotActor) selected).getSpot() instanceof Weapon && ((InventorySpotActor) hit).getSpot() instanceof Card)  {
-            return;
-
-        } else if (((InventorySpotActor) selected).getSpot() instanceof Card && hit instanceof WeaponInventorySpotActor)  {
-
-            return;
-
-        } else {
-
-            Item temp = ((InventorySpotActor) selected).getSpot();
-
-            ((InventorySpotActor) selected).addSpot(((InventorySpotActor) hit).getSpot());
-
-            ((InventorySpotActor) hit).addSpot(temp);
-
-            ((InventorySpotActor) selected).setDrawable(null);
-            selected = null;
-
-            this.populatePartyWeapons();
-
         }
 
+        // Type checking
+        Item selectedItem = selectedSpot.getSpot();
+        Item hitItem = hitSpot.getSpot();
+
+        // Block invalid drop targets
+        boolean selectedIsCard = selectedItem instanceof Card;
+        boolean selectedIsWeapon = selectedItem instanceof Weapon;
+
+        boolean hitIsCardSlot = hit instanceof CardInventorySpotActor;
+        boolean hitIsWeaponSlot = hit instanceof WeaponInventorySpotActor;
+
+        boolean selectedIsCardSlot = selected instanceof CardInventorySpotActor;
+        boolean selectedIsWeaponSlot = selected instanceof WeaponInventorySpotActor;
+
+        // Rule enforcement
+        if ((selectedIsWeapon && hitIsCardSlot) || (selectedIsCard && hitIsWeaponSlot)) {
+            return; // Weapon trying to go in card slot or vice versa
+        }
+
+        if ((hitItem instanceof Weapon && selectedIsCardSlot) || (hitItem instanceof Card && selectedIsWeaponSlot)) {
+            return; // Item already in target slot doesn't match
+        }
+
+        // All checks passed → perform swap
+        Item temp = selectedItem;
+        selectedSpot.addSpot(hitItem);
+        hitSpot.addSpot(temp);
+
+        selectedSpot.setDrawable(null);
+        selected = null;
+
+        populatePartyWeapons(); // Update visuals/stats
 
     }
 

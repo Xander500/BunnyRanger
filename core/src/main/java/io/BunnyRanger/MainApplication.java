@@ -2,7 +2,9 @@ package io.BunnyRanger;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
@@ -17,8 +19,8 @@ public class MainApplication extends ApplicationAdapter {
     // make and hold an instance of a world
     //Box box1;
     Box2DDebugRenderer debugRenderer;
-    OrthographicCamera camera;
-    OrthographicCamera textCamera;
+    static OrthographicCamera camera;
+    static OrthographicCamera textCamera;
     MyContactListener myContactListener;
 
     static public int battleSizeWidth;
@@ -34,47 +36,59 @@ public class MainApplication extends ApplicationAdapter {
     //players
 
     public static WorldInstance world1 = new WorldInstance();
-    public static Floor floor = new Floor(world1,1000,1000,1,1,"dirt.png");
-    static public Party party;
+    public static Party party;
 
     //enemies
 
-    static public Enemies enemies;
+    public static Enemies enemies;
 
     //Floor
 
-    static public ArrayList<Floor> floorList = new ArrayList<Floor>();
+    public static ArrayList<Wall> wallList = new ArrayList<Wall>();
 
     //Signs
 
-    static public ArrayList<Sign> signList = new ArrayList<Sign>();
+    public static ArrayList<Sign> signList = new ArrayList<Sign>();
 
     //DamageParticles
 
-    static public ArrayList<ParticleDamage> damageParticleList = new ArrayList<ParticleDamage>();
+    public static ArrayList<Particle> particleList = new ArrayList<Particle>();
 
     //level name
+
+    //cursors
+
+    public static Cursor regular;
+    public static Cursor grab;
+    public static Cursor open;
 
     public MainApplication() {
         debugRenderer = new Box2DDebugRenderer();
         batch = new SpriteBatch();
 
         //test
-        battleSizeWidth = (int) (16*40f);
-        battleSizeHeight = (int) (9*40f);
+        battleSizeWidth = (16*40);
+        battleSizeHeight = (9*40);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, battleSizeWidth, battleSizeHeight);
 
         textCamera = new OrthographicCamera();
         textCamera.setToOrtho(false, SCREENWIDTH, SCREENWIDTH);
+
+        // cursor
+        regular = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("pointerA.png")), 0, 0);
+        open = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("pointerC.png")), 0, 0);
+        grab = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("pointerB.png")), 0, 0);
+
+        Gdx.graphics.setCursor(open);
     }
 
     public void create() {
 
         if(needToMake) {
 
-            party = new Party(world1, 10, 5, camera, floor, projectileList);
+            party = new Party(world1, 10, 5, camera, new Wall(world1,9999,9999,1,1,"dirt.png"), projectileList);
 
             enemies = new Enemies(world1, projectileList);
 
@@ -96,4 +110,5 @@ public class MainApplication extends ApplicationAdapter {
     static Enemies getEnemies() {
         return enemies;
     }
+
 }

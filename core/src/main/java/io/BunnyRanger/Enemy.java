@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
-import com.badlogic.gdx.utils.Array;
 
 import java.util.HashMap;
 
@@ -30,8 +29,10 @@ public abstract class Enemy implements Entity, Damageable {
 
     //healthbar
     Sprite healthBarSprite;
+    Sprite healthBarSpriteBack;
     private Texture texture;
-    float newScale = 1;
+    float healthSize = .5f;
+    float distance = 5f;
 
     //weapon
     Weapon currentWeapon;
@@ -42,12 +43,12 @@ public abstract class Enemy implements Entity, Damageable {
 
     // items drops
 
-    HashMap<Integer,Item> dropList = new HashMap<Integer,Item>();
+    HashMap<Item,Float> dropList = new HashMap<>();
     private boolean hasNotDied = true;
 
     public Enemy(WorldInstance world, float x, float y) {
 
-        damage = 7;
+        damage = 1;
 
         this.world = world;
 
@@ -79,10 +80,13 @@ public abstract class Enemy implements Entity, Damageable {
 
         circle.dispose();
 
-        texture = new Texture(Gdx.files.internal("healthBar.png"));
-        healthBarSprite = new Sprite(texture,0,0,32,8);
+        texture = new Texture(Gdx.files.internal("GreenHealthBar.png"));
+        healthBarSprite = new Sprite(texture,0,0,22,4);
+        healthBarSprite.setScale(.5f);
 
-        healthBarSprite.setScale(1f);
+        texture = new Texture(Gdx.files.internal("healthBar.png"));
+        healthBarSpriteBack = new Sprite(texture,0,0,24,6);
+        healthBarSpriteBack.setScale(.5f);
 
         this.createHealthBar(world);
 
@@ -97,9 +101,9 @@ public abstract class Enemy implements Entity, Damageable {
         this.enemySprite.flip(true,false);
 
         //ENEMY DROPS TEST
-        this.dropList.put(20,new WeaponBow(true));
-        this.dropList.put(30,new WeaponBow2(true));
-        this.dropList.put(40,new WeaponPistol(true));
+        this.dropList.put(new WeaponBow(true), 20f);
+        this.dropList.put(new WeaponBow2(true), 20f);
+        this.dropList.put(new WeaponPistol(true), 20f);
 
         System.out.println("asdasd" + this.dropList.keySet());
 
@@ -165,31 +169,18 @@ public abstract class Enemy implements Entity, Damageable {
 
     public float takeDamage(float damage) {
 
-        System.out.println("LOLOLOL " + this.bodyB.getPosition().x);
-
-
         if (this.bodyB == null) {
             System.out.println("you got a null that will crash");
             return 1;
         }
 
-        Array<Fixture> fixtureList = new Array<Fixture>(1);
-        fixtureList = this.bodyB.getFixtureList();
-
-        fixtureList.get(0).getShape();
-
-        texture = new Texture(Gdx.files.internal("healthBar.png"));
-        healthBarSprite = new Sprite(texture,0,0,32,8);
-
-        //healthBarSprite.setScale(.1f);
-
         //MAKING PARTICLES
-        MainApplication.damageParticleList.add(new ParticleDamage(this.body,damage,MainApplication.getParty().font, new Color(Color.GREEN)));
+        MainApplication.particleList.add(new Particle(this.body,damage,MainApplication.getParty().font, new Color(Color.GREEN)));
 
         if (health - damage <= 0 && this.hasNotDied) {
             System.out.println("died and time to try to drop item: ");
             try {
-                MainApplication.damageParticleList.add(new ParticleItem(this.body, this.dropList, MainApplication.getParty().font, new Color(Color.GOLD)));
+                MainApplication.particleList.add(new ParticleItem(this.body, this.dropList, MainApplication.getParty().font, new Color(Color.GOLD)));
             } catch (Exception e)  {
 
             }
@@ -200,13 +191,17 @@ public abstract class Enemy implements Entity, Damageable {
 
         health -= damage;
 
-        newScale = (health/100f)*.1f;
+        //healthBarSprite.setScale(Math.max(((health / maxHealth) / 2) * 2, 0),1f);
 
-        if (newScale < 0) {
-            newScale = 0;
-        }
+        float healthRatio = Math.max(health / maxHealth, 0f);
+        float baseWidthPx = healthBarSprite.getWidth();
+        float desiredWidthPx = baseWidthPx * healthRatio * healthSize;
 
-        healthBarSprite.setScale(newScale/2,.05f);
+        //snap to even pixels only
+        float snappedWidthPx = Math.round(desiredWidthPx) * 1f;
+
+        float snappedScaleX = snappedWidthPx / baseWidthPx;
+        healthBarSprite.setScale(snappedScaleX, healthSize);
 
         return damage;
     }
@@ -218,19 +213,18 @@ public abstract class Enemy implements Entity, Damageable {
             return;
         }
 
-        newScale = (health/100f)*.1f;
-
-        healthBarSprite.setScale(newScale/2,.05f);
-
-        //this.body.applyLinearImpulse(new Vector2(0f,20f), this.body.getPosition(),false);
         this.bodyB.setLinearVelocity(0,20);
-        this.bodyB.setGravityScale(0);
-        healthBarSprite.setPosition(bodyB.getPosition().x-healthBarSprite.getWidth()/2,bodyB.getPosition().y-healthBarSprite.getHeight()/2);
+        healthBarSprite.setPosition(bodyB.getPosition().x+2-healthBarSprite.getWidth()/2-1,bodyB.getPosition().y+1-healthBarSprite.getHeight()/2);
+        healthBarSpriteBack.setPosition(bodyB.getPosition().x-healthBarSprite.getWidth()/2,bodyB.getPosition().y-healthBarSprite.getHeight()/2);
 
     }
 
     public Sprite getHealthBarSprite() {
         return this.healthBarSprite;
+    }
+
+    public Sprite getHealthBarSpriteBack() {
+        return this.healthBarSpriteBack;
     }
 
     public void createHealthBar(WorldInstance world) {
@@ -263,14 +257,9 @@ public abstract class Enemy implements Entity, Damageable {
 
         DistanceJointDef defJoint = new DistanceJointDef();
         defJoint.initialize(bodyA, bodyB, bodyA.getPosition(), bodyB.getPosition());
-        defJoint.length = 3f;
+        defJoint.length = distance;
 
         world.getWorld().createJoint(defJoint);
-
-        newScale = (health/100f)*.1f;
-
-        healthBarSprite.setScale(newScale/2,.05f);
-
 
     }
 

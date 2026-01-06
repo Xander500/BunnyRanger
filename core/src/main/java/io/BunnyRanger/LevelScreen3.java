@@ -16,15 +16,15 @@ public class LevelScreen3 extends LevelScreen {
         enemy1.addWeapon(bow1);
         enemy2.addWeapon(bow2);
 
-        Floor floor1 = new Floor(world1, 32, 1, 32, 1, "grass.png");
-        Floor floor2 = new Floor(world1, 32, 31, 32, 1, "dirt.png");
-        Floor wall1 = new Floor(world1, 63, 16, 1, 16, "dirt.png");
-        Floor wall2 = new Floor(world1, 1, 16, 1, 16, "dirt.png");
+        Wall floor1 = new Wall(world1, 32, 1, 32, 1, "grass.png");
+        Wall floor2 = new Wall(world1, 32, 31, 32, 1, "dirt.png");
+        Wall wall1 = new Wall(world1, 63, 16, 1, 16, "dirt.png");
+        Wall wall2 = new Wall(world1, 1, 16, 1, 16, "dirt.png");
 
-        floorList.add(floor1);
-        floorList.add(floor2);
-        floorList.add(wall1);
-        floorList.add(wall2);
+        wallList.add(floor1);
+        wallList.add(floor2);
+        wallList.add(wall1);
+        wallList.add(wall2);
 
         MainMenu.makeSign(MainMenu.levelScreen4);
 

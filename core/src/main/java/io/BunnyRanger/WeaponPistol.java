@@ -41,9 +41,10 @@ public class WeaponPistol extends WeaponBow {
             Random random = new Random();
             this.damageCurrentArrow = (float) (Math.random() * (damageMaxArrow - damageMinArrow)) + damageMinArrow;
 
-            ProjectileBulletMusket projectile;
+            Projectile projectile;
 
-            projectile = new ProjectileBulletMusket(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight);
+            projectile = new ProjectileBullet(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight, 1);
+            //projectile = new ProjectileBomb(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight);
 
             this.projectileList.add(projectile);
 

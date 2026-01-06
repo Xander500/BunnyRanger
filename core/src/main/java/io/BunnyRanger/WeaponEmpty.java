@@ -8,7 +8,8 @@ public class WeaponEmpty extends WeaponBow{
 
     public WeaponEmpty(boolean friendly) {
         super(friendly);
-        baseWeaponDelay = 999999999;
+        baseWeaponDelay = 9999999;
+        weaponDelay = 9999999;
 
         this.bowTexture = new Texture(Gdx.files.internal("Empty.png"));
         this.bowSprite = new Sprite(bowTexture,0,0,16,32);

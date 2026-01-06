@@ -3,6 +3,7 @@ package io.BunnyRanger;
 import static io.BunnyRanger.MainMenu.fontShader;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,7 +20,7 @@ public class InventoryScreen extends InputAdapter implements Screen {
 
     InventoryScreenStage inventoryScreenStage;
 
-    Texture background = new Texture(Gdx.files.internal("inventorymach2.png"));
+    Texture background = new Texture(Gdx.files.internal("menuInventory.png"));
     Sprite sprite;
 
     BitmapFont font;
@@ -32,7 +33,7 @@ public class InventoryScreen extends InputAdapter implements Screen {
         //camera.setToOrtho(false, 360, 180);
         camera.setToOrtho(false, MainApplication.SCREENWIDTH,MainApplication.SCREENHEIGHT);
 
-        this.inventoryScreenStage= new InventoryScreenStage(this);
+        this.inventoryScreenStage = new InventoryScreenStage(this);
 
         sprite = new Sprite(background);
         sprite.setSize(MainApplication.SCREENWIDTH,MainApplication.SCREENHEIGHT); // Set the size of the sprite
@@ -70,7 +71,7 @@ public class InventoryScreen extends InputAdapter implements Screen {
             font.getData().setScale(2f);
 
             if (current instanceof Weapon) {
-                this.font.draw(MainMenu.batch, "Name - " + ((Weapon) current).getName() + "\n" + "Dmg - " + ((Weapon) current).getDamageMin() + "~" + ((Weapon) current).getDamageMax() + "\n" + "Count - " + ((Weapon) current).getCount() + "\n" + "Range - " + ((Weapon) current).getRange() + "\n" + "Delay - " + (int) ((Weapon) current).getDelay() + "\n" + "Value - " + ((Weapon) current).getBuy(), 950, 675);
+                this.font.draw(MainMenu.batch, "Name - " + ((Weapon) current).getName() + "\n" + "Dmg - " + ((Weapon) current).getDamageMin() + "~" + ((Weapon) current).getDamageMax() + "\n" + "Count - " + ((Weapon) current).getCount() + "\n" + "Range - " + ((Weapon) current).getRange() + "\n" + "Delay - " + (int) ((Weapon) current).getDelay(0) + "\n" + "Value - " + ((Weapon) current).getBuy(), 950, 675);
             }
 
             if (current instanceof Card) {
@@ -90,14 +91,13 @@ public class InventoryScreen extends InputAdapter implements Screen {
         game.batch.end();
 
 
-        if (Gdx.input.isKeyPressed(33)) {
-
+        if (Gdx.input.isKeyJustPressed(Input.Keys.O)) {
             game.setScreen(MainMenu.currentScreen);
-
-            MainMenu.currentScreen = null;
-
             inventoryScreenStage.populatePartyWeapons();
-
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+            game.setScreen(MainMenu.shopScreen);
+            inventoryScreenStage.populatePartyWeapons();
         }
 
     }
@@ -110,6 +110,10 @@ public class InventoryScreen extends InputAdapter implements Screen {
     }
 
     public void show() {
+
+        MainApplication.getParty().removeMouseJoints();
+        Gdx.graphics.setCursor(MainApplication.regular);
+
     }
     public void resize(int width, int height) {
     }

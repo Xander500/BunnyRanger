@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.physics.box2d.Body;
 
-public class ParticleDamage {
+public class Particle {
 
     Body body;
     float damage;
@@ -27,7 +27,7 @@ public class ParticleDamage {
     float xPos;
     float yPos;
 
-    ParticleDamage(Body body, float damage, BitmapFont font, Color color) {
+    Particle(Body body, float damage, BitmapFont font, Color color) {
         this.body = body;
         this.damage = damage;
         this.font = font;

@@ -1,21 +1,25 @@
 package io.BunnyRanger;
 
+import static com.badlogic.gdx.Gdx.input;
 import static io.BunnyRanger.MainMenu.fontShader;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
-import jdk.internal.net.http.common.Log;
-
 public class LevelScreen extends MainApplication implements Screen, ScreenType {
+
+    Screen screen;
+    Viewport viewport = new FitViewport(battleSizeWidth, battleSizeHeight, camera);
 
     Texture backgroundTexture;
     Sprite vallyBackground;
@@ -35,6 +39,9 @@ public class LevelScreen extends MainApplication implements Screen, ScreenType {
 
     public void show() {
 
+        viewport = new FitViewport(battleSizeWidth, battleSizeHeight, camera);
+        camera.position.set(battleSizeWidth / 2f, battleSizeHeight / 2f, 0);
+
         //Gdx.graphics.setForegroundFPS(80);
 
         if (reset) {
@@ -52,7 +59,7 @@ public class LevelScreen extends MainApplication implements Screen, ScreenType {
         //Unique
         //make world
 
-        backgroundTexture = new Texture(Gdx.files.internal("vally.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("black.png"));
         vallyBackground = new Sprite(backgroundTexture, 0, 0, MainApplication.SCREENWIDTH,MainApplication.SCREENHEIGHT);
         vallyBackground.setCenterX(MainApplication.battleSizeWidth/2f);
         vallyBackground.setCenterY(MainApplication.battleSizeHeight/2f);
@@ -71,9 +78,7 @@ public class LevelScreen extends MainApplication implements Screen, ScreenType {
 
         super.render();
 
-        manualSlow();
-
-        //normal();
+        normal();
 
     }
 
@@ -94,8 +99,6 @@ public class LevelScreen extends MainApplication implements Screen, ScreenType {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
-        levelDisplayCounter += 1;
-
     }
 
     public void makeEnemies() {
@@ -110,126 +113,147 @@ public class LevelScreen extends MainApplication implements Screen, ScreenType {
 
     }
 
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height);
+    }
+
     public void setReset(boolean reset) {
         this.reset = reset;
     }
 
-    private void manualSlow() {
+    private void normal() {
 
-         world1.getWorld().step(1 / 45f, 6, 2);
-
-         world1.destroyBodies();
+        for (int i = 0; i < 10; i++) {
+            world1.getWorld().step(1 / 400f, 8, 3);
+        }
+        world1.destroyBodies();
 
         if (reset && enemies != null && enemies.enemyList.isEmpty()) {
 
-                makeEnemies();
+            makeEnemies();
 
-                reset = false;
+            reset = false;
 
-            }
+        }
 
-            //Unique
+        //Unique
 
-            ScreenUtils.clear(0, 0, 0, 0);
+        ScreenUtils.clear(0, 0, 0, 0);
 
-            //camera.update();
-            //batch.setProjectionMatrix(camera.combined);
+        //camera.update();
+        //batch.setProjectionMatrix(camera.combined);
 
-            batch.begin();
+        batch.begin();
 
-            camera.setToOrtho(false, battleSizeWidth, battleSizeHeight);
-            camera.update();
-            batch.setProjectionMatrix(camera.combined);
+        camera.setToOrtho(false, battleSizeWidth, battleSizeHeight);
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
 
-            // Drawing goes here!
+        // Drawing goes here!
 
-            vallyBackground.draw(batch);
+        vallyBackground.draw(batch);
 
-            for (Floor floor : floorList) {
-                floor.getSprite().draw(batch);
-            }
+        for (Wall wall : wallList) {
+            wall.getSprite().draw(batch);
+        }
 
-            party.updateParty(batch);
+        party.updateParty(batch);
 
-            try {
-                enemies.update(batch);
-            } catch (Exception e) {
+        try {
+            enemies.update(batch);
+        } catch (Exception e) {
 
-            }
+        }
 
-            if (drawSign) {
-                MainApplication.signList.get(0).updateEnemySprite();
-                MainApplication.signList.get(0).getEnemySprite().draw(batch);
-            }
+        if (drawSign) {
+            MainApplication.signList.get(0).updateEnemySprite();
+            MainApplication.signList.get(0).getEnemySprite().draw(batch);
+        }
 
-            // projectile stuffy
+        // projectile stuffy
 
-            //projectileList.removeIf(projectile -> projectile.spriteDestroyDelay <= 0);
+        //projectileList.removeIf(projectile -> projectile.spriteDestroyDelay <= 0);
 
-            //update projectile list
-            MainApplication.projectileList.removeAll(MainApplication.projectileListRemove);
-            MainApplication.projectileListRemove.clear();
+        //update projectile list
+        MainApplication.projectileList.removeAll(MainApplication.projectileListRemove);
+        MainApplication.projectileListRemove.clear();
 
-            for (Projectile projectile : projectileList) {
+        for (Projectile projectile : projectileList) {
 
-                // projectile != null && projectile.body != null && projectile.body.getUserData() != null
-                if (projectile.getProjectileSprite() != null) {
-                    projectile.getProjectileSprite().draw(batch);
-                }
-
-            }
-
-            batch.end();
-
-            ////
-
-            batch.begin();
-
-            batch.setProjectionMatrix(textCamera.combined);
-
-            batch.setShader(fontShader);
-
-            ArrayList<ParticleDamage> tempParticles = new ArrayList<ParticleDamage>();
-
-            for (ParticleDamage particle : damageParticleList) {
-
-                if (!particle.drawParticle(batch)) {
-
-                    tempParticles.add(particle);
-
-                }
-
-            }
-
-            batch.setShader(null);
-
-            damageParticleList.removeAll(tempParticles);
-
-            batch.setProjectionMatrix(camera.combined);
-
-            batch.end();
-
-            if (Gdx.input.isKeyPressed(44)) {
-
-            }
-
-            if (!drawSign && enemies.checkAllIfDead()) {
-
-                alreadyShown = true;
-                drawSign = true;
-                MainApplication.signList.get(0).changeBits();
-
-            }
-
-            Gdx.input.setInputProcessor(party.getInputProcessor());
-
-            if (Gdx.input.isKeyPressed(43)) {
-                MainMenu.currentScreen = MainMenu.instance.getScreen();
-                alreadyShown = true;
-                MainMenu.instance.setScreen(MainMenu.inventoryScreen);
+            // projectile != null && projectile.body != null && projectile.body.getUserData() != null
+            if (projectile.getProjectileSprite() != null) {
+                projectile.getProjectileSprite().draw(batch);
             }
 
         }
+
+        batch.end();
+
+        ////
+
+        batch.begin();
+
+        batch.setProjectionMatrix(textCamera.combined);
+
+        batch.setShader(fontShader);
+
+        ArrayList<Particle> tempParticles = new ArrayList<Particle>();
+
+        for (Particle particle : particleList) {
+
+            if (!particle.drawParticle(batch)) {
+
+                tempParticles.add(particle);
+
+            }
+
+        }
+
+        batch.setShader(null);
+
+        particleList.removeAll(tempParticles);
+
+        batch.setProjectionMatrix(camera.combined);
+
+        batch.end();
+
+        // show sign
+        if (!drawSign && enemies.checkAllIfDead()) {
+
+            alreadyShown = true;
+            drawSign = true;
+            MainApplication.signList.get(0).changeBits();
+
+        }
+
+        //maybe
+        //Gdx.input.setInputProcessor(party.getInputProcessor());
+
+        // p is pressed
+        if (input.isKeyJustPressed(Input.Keys.P)) {
+
+        }
+
+        // o is pressed
+        if (input.isKeyJustPressed(Input.Keys.O)) {
+            MainMenu.currentScreen = MainMenu.instance.getScreen();
+            alreadyShown = true;
+            MainMenu.instance.setScreen(MainMenu.inventoryScreen);
+        }
+
+        // f is pressed
+        if (input.isKeyJustPressed(Input.Keys.F1)) {
+            if (Gdx.graphics.isFullscreen()) {
+                Gdx.graphics.setWindowedMode(1280, 720);
+            } else {
+                Graphics.DisplayMode dm = Gdx.graphics.getDisplayMode();
+                Gdx.graphics.setFullscreenMode(dm);
+                viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+            }
+        }
+
+    }
 
 }
 

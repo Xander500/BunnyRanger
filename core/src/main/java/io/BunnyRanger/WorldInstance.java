@@ -13,7 +13,7 @@ public class WorldInstance {
 
     public WorldInstance() {
 
-        this.world = new World(new Vector2(0, -10), true);
+        this.world = new World(new Vector2(0, -80), false);
 
     }
 

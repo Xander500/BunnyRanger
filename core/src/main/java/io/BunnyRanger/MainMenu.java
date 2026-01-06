@@ -20,7 +20,7 @@ public class MainMenu extends Game {
     public static Game instance;
 
     public static MainMenuScreen mainMenuScreen;
-    public static InnShopScreen innShopScreen;
+    public static LevelScreenInn levelScreenInn;
 
     public static LevelScreen1 levelScreen1;
     public static LevelScreen2 levelScreen2;
@@ -66,7 +66,7 @@ public class MainMenu extends Game {
 
         //screenLevelList = new Screen[2];
 
-        innShopScreen = new InnShopScreen();
+        levelScreenInn = new LevelScreenInn();
 
         levelScreen1 = new LevelScreen1();
         levelScreen2 = new LevelScreen2();
@@ -85,11 +85,11 @@ public class MainMenu extends Game {
 
         if (timer >= TIME_STEP) {
             timer -= TIME_STEP;
-            System.out.println("GO OFF QUEEN");
+            //System.out.println("GO OFF QUEEN");
             super.render(); // important!
 
         } else {
-            System.out.println("NOT ENOUGH TIME");
+            //System.out.println("NOT ENOUGH TIME");
             return;
         }
 
@@ -132,12 +132,12 @@ public class MainMenu extends Game {
                 }
 
                 System.out.println(8);
-                for (Floor floor : MainApplication.floorList) {
-                    if (floor != null && floor.getBody() != null && floor.getBody().getUserData() != null) {
-                        MainApplication.world1.getWorld().destroyBody(floor.getBody());
+                for (Wall wall : MainApplication.wallList) {
+                    if (wall != null && wall.getBody() != null && wall.getBody().getUserData() != null) {
+                        MainApplication.world1.getWorld().destroyBody(wall.getBody());
                     }
                 }
-                MainApplication.floorList.clear();
+                MainApplication.wallList.clear();
 
                 System.out.println(9);
                 swappingScreen = false;
@@ -173,7 +173,7 @@ public class MainMenu extends Game {
     }
 
     public static void makeSign(Screen target) {
-        Sign sign = new Sign(MainApplication.world1,60,20,0,target);
+        Sign sign = new Sign(MainApplication.world1,35,6,0,target);
         MainApplication.signList.add(sign);
     }
 

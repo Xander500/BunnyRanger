@@ -29,10 +29,12 @@ public class Enemies {
         System.out.println("added enemy " + enemyList.size());
         System.out.println("added counter " + counterList.size());
 
+
     }
 
     public void drawAll(int i, Batch batch) {
 
+        enemyList.get(i).getHealthBarSpriteBack().draw(batch);
         enemyList.get(i).getHealthBarSprite().draw(batch);
 
         enemyList.get(i).getWeaponSprite().draw(batch);
@@ -80,7 +82,7 @@ public class Enemies {
                     value = value + 1; // increment value
                     counterList.set(i, value); // replace value
 
-                    if (counterList.get(i) > enemyList.get(i).getCurrentWeapon().getDelay()) {
+                    if (counterList.get(i) > enemyList.get(i).getCurrentWeapon().getDelay(100)) {
 
                         ((Weapon) enemyList.get(i).getCurrentWeapon()).getClosestTarget();
                         enemyList.get(i).useWeapon();

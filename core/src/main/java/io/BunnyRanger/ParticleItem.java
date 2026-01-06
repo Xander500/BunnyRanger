@@ -12,14 +12,12 @@ import com.badlogic.gdx.physics.box2d.Shape;
 
 import java.util.HashMap;
 
-public class ParticleItem extends ParticleDamage{
+public class ParticleItem extends Particle {
 
     //HashMap<Integer,Item> droppableItems;
     Item selectedItem = null;
 
-    float yTimer = 0.001f;
-
-    ParticleItem(Body body, HashMap<Integer,Item> items, BitmapFont font, Color color) {
+    ParticleItem(Body body, HashMap<Item, Float> items, BitmapFont font, Color color) {
 
         super(body, 0, font, color);
 
@@ -27,12 +25,12 @@ public class ParticleItem extends ParticleDamage{
 
         System.out.println(items.keySet().size());
 
-        for (Integer current : items.keySet()) {
+        for (Item current : items.keySet()) {
 
-            if (Math.random() * 100 <= current) {
+            if (Math.random() * 100 <= items.get(current)) {
 
                 //add item
-                this.selectedItem = items.get(current);
+                this.selectedItem = current;
 
                 if (selectedItem == null) {
                     System.out.println("THIS SHOULD NOT HAPPEN! ERROR 3452");

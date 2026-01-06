@@ -1,39 +1,43 @@
 package io.BunnyRanger;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class LevelScreen1 extends LevelScreen {
 
+    @Override
+    public void show() {
+        super.show();
+
+        backgroundTexture = new Texture(Gdx.files.internal("vally.png"));
+        vallyBackground = new Sprite(backgroundTexture, 0, 0, MainApplication.SCREENWIDTH,MainApplication.SCREENHEIGHT);
+        vallyBackground.setCenterX(MainApplication.battleSizeWidth/2f);
+        vallyBackground.setCenterY(MainApplication.battleSizeHeight/2f);
+        vallyBackground.setScale(1/2f);
+
+    }
+
     public void makeEnemies() {
 
-        EnemyFox enemy1 = new EnemyFox(world1, 30, 5);
-        EnemyFox enemy2 = new EnemyFox(world1, 35, 5);
+        for (int i = 0; i < 15; i++) {
+            Enemy enemy1 = new EnemySlime(world1, 16 + 1.7f*i, 5);
+            enemies.addEnemy(enemy1);
+            WeaponEmpty bow1 = new WeaponEmpty(false);
+            enemy1.addWeapon(bow1);
+        }
 
-        enemies.addEnemy(enemy1);
-        enemies.addEnemy(enemy2);
+        Wall floor1 = new Wall(world1, 0, 0f, 40, 1, "grass.png");
+        Wall floor2 = new Wall(world1, 0, 22.5f, 40, 1, "dirt.png");
+        Wall wall1 = new Wall(world1, -1, 0, 1, 21.5f, "dirt.png");
+        Wall wall2 = new Wall(world1, 40, 0, 1, 21.5f, "dirt.png");
 
-        WeaponBow bow1 = new WeaponBow(false);
-        WeaponBow bow2 = new WeaponBow(false);
+        wallList.add(floor1);
+        wallList.add(floor2);
+        wallList.add(wall1);
+        wallList.add(wall2);
 
-        enemy1.addWeapon(bow1);
-        enemy2.addWeapon(bow2);
-
-        Floor floor1 = new Floor(world1, 0, 0f, 40, 1, "grass.png");
-        Floor floor2 = new Floor(world1, 0, 21.5f, 40, 1, "dirt.png");
-        //Floor floor3 = new Floor(world1, 64, 31, 5, 1, "dirt.png");
-        Floor wall1 = new Floor(world1, 0, 0, 1, 21.5f, "dirt.png");
-        Floor wall3 = new Floor(world1, 39, 0, 1, 21.5f, "dirt.png");
-        //Floor wall2 = new Floor(world1, 1, 16, 1, 16, "dirt.png");
-
-        floorList.add(floor1);
-        floorList.add(floor2);
-        //floorList.add(floor3);
-        floorList.add(wall1);
-        //floorList.add(wall2);
-        floorList.add(wall3);
-
-        floorList.add(floor1);
-
+        wallList.add(floor1);
 
         MainMenu.makeSign(MainMenu.levelScreen2);
 
@@ -47,12 +51,11 @@ public class LevelScreen1 extends LevelScreen {
 
         if (levelDisplayCounter < 300) {
             batch.begin();
-            this.displayTitle("LEVEL 1 --- BEGINNING",350,650);
+            this.displayTitle("wowzer" + Gdx.graphics.getFramesPerSecond(),350,650);
             batch.end();
         }
 
-
-        debugRenderer.render(world1.getWorld(), camera.combined);
+        //debugRenderer.render(world1.getWorld(), camera.combined);
         camera.update();
 
     }

@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class WeaponBow implements Weapon, Item {
 
@@ -78,7 +77,7 @@ public class WeaponBow implements Weapon, Item {
 
         name = "WoodBow";
 
-        this.bowTexture = new Texture(Gdx.files.internal("bow1.png"));
+        this.bowTexture = new Texture(Gdx.files.internal("bow1right.png"));
         this.bowSprite = new Sprite(bowTexture,0,0,16,16);
         this.bowSprite.setScale(1f);
         this.bowAngle = 0;
@@ -105,8 +104,8 @@ public class WeaponBow implements Weapon, Item {
         this.count = 1;
         this.baseCount = 1;
 
-        this.rangeArrow = 50;
-        this.baseRangeArrow = 50;
+        this.rangeArrow = 200;
+        this.baseRangeArrow = 200;
 
         this.weaponDelay = 100;
         this.baseWeaponDelay = 100;
@@ -155,22 +154,22 @@ public class WeaponBow implements Weapon, Item {
         this.getEntity().flip(this.facingRight);
 
         if(this.facingRight) {
-
             if (this.bowSprite.isFlipX()) {
                 this.bowSprite.flip(true,false);
             }
-            this.bowSprite.setPosition(this.bowX - this.bowSprite.getWidth()/2 + entity.getFixture().getShape().getRadius() * 1.5f, this.bowY - this.bowSprite.getWidth());
-
         } else {
-
             if (!this.bowSprite.isFlipX()) {
                 this.bowSprite.flip(true,false);
             }
-            this.bowSprite.setPosition(this.bowX - this.bowSprite.getWidth()/2 - entity.getFixture().getShape().getRadius() * 1.5f, this.bowY - this.bowSprite.getWidth());
-
         }
 
-        this.bowSprite.setRotation(this.bowAngle); // maybe no
+        if (this.facingRight) {
+            this.bowSprite.setPosition(this.bowX - this.bowSprite.getWidth()/2f + entity.getFixture().getShape().getRadius() * 1.5f, this.bowY - this.bowSprite.getWidth()/2);
+            this.bowSprite.setRotation(this.bowAngle); // maybe no
+        } else {
+            this.bowSprite.setPosition(this.bowX - this.bowSprite.getWidth()/2f - entity.getFixture().getShape().getRadius() * 1.5f, this.bowY - this.bowSprite.getWidth()/2);
+            this.bowSprite.setRotation(this.bowAngle); // maybe no
+        }
 
     }
 
@@ -181,9 +180,9 @@ public class WeaponBow implements Weapon, Item {
         }
 
         if (this.facingRight) {
-            this.xArrow = this.bowX + entity.getFixture().getShape().getRadius() * 2;
+            this.xArrow = this.bowX + entity.getFixture().getShape().getRadius() * 1.5f;
         } else {
-            this.xArrow = this.bowX - entity.getFixture().getShape().getRadius() * 2;
+            this.xArrow = this.bowX - entity.getFixture().getShape().getRadius() * 1.5f;
         }
 
         this.yArrow = this.bowY;
@@ -192,15 +191,9 @@ public class WeaponBow implements Weapon, Item {
 
             this.magnitudeArrow = getArrowMagnitude(enemyPositionX,enemyPositionY,this.xArrow,this.yArrow,enemyPositionXVel,enemyPositionYVel);
 
-            this.magnitudeArrow.x = this.magnitudeArrow.x;
-            this.magnitudeArrow.y = this.magnitudeArrow.y;
-
-            //this.magnitudeArrow.x += i*this.disBetweenShotsX/30f;
-            //this.magnitudeArrow.y += i*this.disBetweenShotsY/30f;
-
             this.damageCurrentArrow = (float) Math.round((Math.random() * (damageMaxArrow - damageMinArrow)) + damageMinArrow);
 
-            Projectile projectile = new ProjectileArrow(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight);
+            Projectile projectile = new ProjectileArrow(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight, 1);
 
             this.projectileList.add(projectile);
 
@@ -230,7 +223,7 @@ public class WeaponBow implements Weapon, Item {
 
         //the worst algorithm, feel free to fine tune it james
 
-        float t = 2f;
+        float t = 3f;
 
 
         double dx = (EnemyPositionX - bowpX) + xVel * t;
@@ -282,11 +275,13 @@ public class WeaponBow implements Weapon, Item {
                 return true;
             }
 
-            float fun = ((Entity) fixture.getUserData()).getBody().getPosition().x;
+            float fX = ((Entity) fixture.getUserData()).getBody().getPosition().x;
 
-            if (Math.abs(bowX - fun) < far) {
+            float distance = Math.abs(bowX - fX);
 
-                if (bowX - fun <= 0) {
+            if (distance < far) {
+
+                if (bowX - fX <= 0) {
                     facingRight = true;
                 } else {
                     facingRight = false;
@@ -294,9 +289,9 @@ public class WeaponBow implements Weapon, Item {
 
             }
 
-            if (Math.abs(bowX - fun) < far) { // get this working
+            if (distance < far) { // get this working
 
-                far = Math.abs(bowX - fun);
+                far = distance;
 
                 enemyPositionX = ((Entity) fixture.getUserData()).getBody().getPosition().x;
                 enemyPositionY = ((Entity) fixture.getUserData()).getBody().getPosition().y;
@@ -306,8 +301,6 @@ public class WeaponBow implements Weapon, Item {
 
             }
 
-            distanceToClostestTarget = Math.abs(bowX - fun);
-
             return true;
 
         }
@@ -316,13 +309,13 @@ public class WeaponBow implements Weapon, Item {
     public void getClosestTarget() {
 
         //maybe resets closest target
-        enemyPositionX = 1001;
-        enemyPositionY = 1001;
+        enemyPositionX = 2048;
+        enemyPositionY = 2048;
 
         enemyPositionXVel = 0;
         enemyPositionYVel = 0;
 
-        far = 10001;
+        far = 2048;
 
         this.world.getWorld().QueryAABB(queryCallback,this.bowX-this.rangeArrow,this.bowY-this.rangeArrow,this.bowX+this.rangeArrow,this.bowY+this.rangeArrow);
     }
@@ -368,7 +361,7 @@ public class WeaponBow implements Weapon, Item {
     }
 
     public float getBaseDelay() {
-        return -1;
+        return this.baseWeaponDelay;
     }
 
     public void resetToBase() {
@@ -402,8 +395,8 @@ public class WeaponBow implements Weapon, Item {
         return this.sellPrice;
     }
 
-    public float getDelay() {
-        return this.weaponDelay;
+    public float getDelay(int ratio) {
+        return this.weaponDelay + (float) (Math.random() * this.weaponDelay/20 * ratio);
     }
 
     public void setProjectileCount(int num) {

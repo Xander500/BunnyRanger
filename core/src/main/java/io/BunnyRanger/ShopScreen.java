@@ -3,6 +3,7 @@ package io.BunnyRanger;
 import static io.BunnyRanger.MainMenu.fontShader;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,7 +19,7 @@ public class ShopScreen extends InputAdapter implements Screen {
 
     ShopScreenStage shopScreenStage;
 
-    Texture background = new Texture(Gdx.files.internal("updatedShop1.png"));
+    Texture background = new Texture(Gdx.files.internal("menuShop.png"));
     Sprite sprite;
 
     BitmapFont font;
@@ -48,18 +49,18 @@ public class ShopScreen extends InputAdapter implements Screen {
         Gdx.input.setInputProcessor(this); // IMPORTANT
 
         camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
+        MainMenu.batch.setProjectionMatrix(camera.combined);
 
         ScreenUtils.clear(0, 0, 0, 0);
 
-        game.batch.begin();
+        MainMenu.batch.begin();
 
-        sprite.draw(game.batch);
+        sprite.draw(MainMenu.batch);
 
-        game.batch.setShader(fontShader);
+        MainMenu.batch.setShader(fontShader);
         font.getData().setScale(2f);
 
-        MainApplication.getParty().getGoldFont().draw(game.batch,"GOLD " + MainApplication.getParty().getGold(),70,420);
+        MainApplication.getParty().getGoldFont().draw(MainMenu.batch,"GOLD " + MainApplication.getParty().getGold(),70,420);
 
         float tmpX = font.getScaleX();
         float tmpY = font.getScaleY();
@@ -69,34 +70,34 @@ public class ShopScreen extends InputAdapter implements Screen {
 
             Item current = ((InventorySpotActor) shopScreenStage.selected).getSpot();
 
-            game.batch.setShader(fontShader);
+            MainMenu.batch.setShader(fontShader);
 
+            // I don't make this polymorphic due to it being simpler to keep it all here, not enough types to warrant
             if (current instanceof Weapon) {
-                this.font.draw(MainMenu.batch, "Name - " + ((Weapon) current).getName() + "\n" + "Dmg - " + ((Weapon) current).getDamageMin() + "~" + ((Weapon) current).getDamageMax() + "\n" + "Count - " + ((Weapon) current).getCount() + "\n" + "Range - " + ((Weapon) current).getRange() + "\n" + "Delay - " + (int) ((Weapon) current).getDelay() + "\n" + "Value - " + ((Weapon) current).getBuy(), 950, 675);
+                this.font.draw(MainMenu.batch, "Name - " + ((Weapon) current).getName() + "\n" + "Dmg - " + ((Weapon) current).getDamageMin() + "~" + ((Weapon) current).getDamageMax() + "\n" + "Count - " + ((Weapon) current).getCount() + "\n" + "Range - " + ((Weapon) current).getRange() + "\n" + "Delay - " + (int) ((Weapon) current).getBaseDelay() + "\n" + "Value - " + ((Weapon) current).getBuy(), 950, 675);
             }
 
             if (current instanceof Card) {
                 this.font.draw(MainMenu.batch, "Name - " + ((Card) current).getName() + "\n" + "Dmg - " + ((Card) current).getDescription(), 950, 675);
             }
         }
-        game.batch.setShader(null);
+        MainMenu.batch.setShader(null);
         font.getData().setScale(tmpX,tmpY);
 
-        game.batch.end();
+        MainMenu.batch.end();
 
-        game.batch.begin();
+        MainMenu.batch.begin();
 
         shopScreenStage.instance().draw();
 
-        game.batch.end();
+        MainMenu.batch.end();
 
 
-        if (Gdx.input.isKeyPressed(33)) {
-
+        if (Gdx.input.isKeyJustPressed(Input.Keys.O)) {
+            game.setScreen(MainMenu.inventoryScreen);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             game.setScreen(MainMenu.currentScreen);
-
-            MainMenu.currentScreen = null;
-
         }
 
     }

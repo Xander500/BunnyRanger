@@ -10,7 +10,7 @@ public class WeaponBow2 extends WeaponBow {
     public WeaponBow2(Boolean friendly) {
 
         super(friendly);
-        this.count = 1;
+        this.baseCount = 1;
         this.angleArrow = (float) 0;
         this.disBetweenShotsX = 10;
 

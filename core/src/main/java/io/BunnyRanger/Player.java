@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
-import com.badlogic.gdx.utils.Array;
 
 public class Player implements Entity, Damageable {
 
@@ -18,7 +17,6 @@ public class Player implements Entity, Damageable {
     Body body;
     Fixture fixture;
 
-    Floor floor;
     WorldInstance world;
     MouseJointDef jointDef = null;
     MouseJoint joint = null;
@@ -46,13 +44,16 @@ public class Player implements Entity, Damageable {
     //sprite
     Sprite playerSprite;
     Texture playerTexture;
+    Sprite playerSpriteAir;
+    Texture playerTextureAir;
 
     boolean grounded;
 
-    public Player(WorldInstance world, float x, float y, Camera camera, Floor floor,int number) {
+    Sprite healthBarSpriteBack;
+
+    public Player(WorldInstance world, float x, float y, Camera camera, Wall wall, int number) {
 
         this.world = world;
-        this.floor = floor;
         this.player = this;
         this.camera = camera;
 
@@ -67,10 +68,14 @@ public class Player implements Entity, Damageable {
 
         this.body = world.getWorld().createBody(bodyDef);
 
-        this.body.setLinearDamping(2f);
+        this.body.setLinearDamping(.5f);
+
+        this.body.setGravityScale(2);
+
+        this.body.setFixedRotation(true);
 
         CircleShape circle = new CircleShape();
-        circle.setRadius(10f);
+        circle.setRadius(6f);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
@@ -91,22 +96,28 @@ public class Player implements Entity, Damageable {
         //WASH
         this.jointDef = new MouseJointDef();
 
-        this.jointDef.bodyA = floor.getBody();
+        this.jointDef.bodyA = wall.getBody();
         this.jointDef.bodyB = player.getBody();
 
         this.jointDef.collideConnected = true;
-        this.jointDef.maxForce = 5000;
+        this.jointDef.maxForce = 150;
 
         texture = new Texture(Gdx.files.internal("GreenHealthBar.png"));
-        healthBarSprite = new Sprite(texture,0,0,32,8);
+        healthBarSprite = new Sprite(texture);
+        healthBarSprite.setScale(1f);
 
-        healthBarSprite.setScale(.05f);
+        texture = new Texture(Gdx.files.internal("healthBar.png"));
+        healthBarSpriteBack = new Sprite(texture);
+        healthBarSpriteBack.setScale(1f);
 
         this.createHealthBar(world);
 
         //actual sprite
-        playerTexture = new Texture(Gdx.files.internal("bun.png"));
-        playerSprite = new Sprite(playerTexture,0,0,32,32);
+        playerTexture = new Texture(Gdx.files.internal("player.png"));
+        playerSprite = new Sprite(playerTexture,0,0,16,16);
+
+        playerTextureAir = new Texture(Gdx.files.internal("playerAir.png"));
+        playerSpriteAir = new Sprite(playerTextureAir,0,0,16,16);
 
         playerSprite.setScale(1f);
 
@@ -148,6 +159,10 @@ public class Player implements Entity, Damageable {
         return this.healthBarSprite;
     }
 
+    public Sprite getHealthBarSpriteBack() {
+        return this.healthBarSpriteBack;
+    }
+
     public Body getBody() {
 
         if (this.body == null) {
@@ -170,94 +185,56 @@ public class Player implements Entity, Damageable {
         return this.fixture;
     }
 
-    public float takeDamage(float damage) {
-
-        if (this.checkIfDead()) {
-            MainApplication.getParty().damageAll(damage);
-            return damage;
-        }
-
-        Array<Fixture> fixtureList = new Array<Fixture>(1);
-        fixtureList = this.bodyB.getFixtureList();
-
-        fixtureList.get(0).getShape();
-
-        texture = new Texture(Gdx.files.internal("GreenHealthBar.png"));
-        healthBarSprite = new Sprite(texture,0,0,32,8);
-
-        //healthBarSprite.setScale(.1f);
-
-        MainApplication.damageParticleList.add(new ParticleDamage(this.body,damage,MainApplication.getParty().font, new Color(Color.RED)));
-
-        health -= damage;
-
-        newScale = (health/100f)*.1f;
-
-        if (newScale < 0) {
-            newScale = 0;
-        }
-
-        healthBarSprite.setScale(newScale/2,.05f);
-
-        return damage;
-
-    }
-
-    public float takeDamageAll(float damage) {
-
-        Array<Fixture> fixtureList = new Array<Fixture>(1);
-        fixtureList = this.bodyB.getFixtureList();
-
-        fixtureList.get(0).getShape();
-
-        texture = new Texture(Gdx.files.internal("GreenHealthBar.png"));
-        healthBarSprite = new Sprite(texture,0,0,32,8);
-
-        //healthBarSprite.setScale(.1f);
-
-        MainApplication.damageParticleList.add(new ParticleDamage(this.body,damage,MainApplication.getParty().font, new Color(Color.RED)));
-
-        health -= damage;
-
-        newScale = (health/100f)*.1f;
-
-        if (newScale < 0) {
-            newScale = 0;
-        }
-
-        healthBarSprite.setScale(newScale/2,.05f);
-
-        return damage;
-
-    }
-
     public float setHealth(float damage) {
-
-        Array<Fixture> fixtureList = new Array<Fixture>(1);
-        fixtureList = this.bodyB.getFixtureList();
-
-        fixtureList.get(0).getShape();
-
-        texture = new Texture(Gdx.files.internal("GreenHealthBar.png"));
-        healthBarSprite = new Sprite(texture,0,0,32,8);
-
-        //healthBarSprite.setScale(.1f);
-
-        //new
 
         health = damage;
 
-        newScale = (health/100f)*.1f;
-
-        if (newScale < 0) {
-            newScale = 0;
-        }
-
-        healthBarSprite.setScale(newScale/2,.05f);
+        healthBarSprite.setScale(Math.max(health / maxHealth, 0),1f);
 
         return damage;
 
     }
+
+    public float takeDamage(float damage) {
+
+        if (this.checkIfDead()) {
+            //MainApplication.getParty().damageAll(damage);
+            return damage;
+        }
+
+        MainApplication.particleList.add(new Particle(this.body,damage,MainApplication.getParty().font, new Color(Color.RED)));
+
+        health -= damage;
+
+        //healthBarSprite.setScale(Math.max(((health / maxHealth) / 2) * 2, 0),1f);
+
+        float healthRatio = Math.max(health / maxHealth, 0f);
+        float baseWidthPx = healthBarSprite.getWidth();
+        float desiredWidthPx = baseWidthPx * healthRatio;
+
+        //snap to even pixels only
+        float snappedWidthPx = Math.round(desiredWidthPx) * 1f;
+
+        float snappedScaleX = snappedWidthPx / baseWidthPx;
+        healthBarSprite.setScale(snappedScaleX, 1f);
+
+        return damage;
+
+    }
+
+    /*
+    public float takeDamageAll(float damage) {
+
+        MainApplication.damageParticleList.add(new Particle(this.body,damage,MainApplication.getParty().font, new Color(Color.RED)));
+
+        health -= damage;
+
+        healthBarSprite.setScale(Math.max(health/maxHealth,0),1f);
+
+        return damage;
+
+    }
+     */
 
     public void updateHealthBar() {
 
@@ -266,13 +243,10 @@ public class Player implements Entity, Damageable {
             return;
         }
 
-        System.out.println("coolllll " + this.bodyB.getPosition().x);
-
-
-        //this.body.applyLinearImpulse(new Vector2(0f,20f), this.body.getPosition(),false);
+        //this.bodyB.applyForceToCenter(0,1,true);
         this.bodyB.setLinearVelocity(0,20);
-        this.bodyB.setGravityScale(0);
-        healthBarSprite.setPosition(bodyB.getPosition().x-healthBarSprite.getWidth()/2,bodyB.getPosition().y-healthBarSprite.getHeight()/2);
+        healthBarSprite.setPosition(bodyB.getPosition().x+2-healthBarSprite.getWidth()/2-1,bodyB.getPosition().y+1-healthBarSprite.getHeight()/2);
+        healthBarSpriteBack.setPosition(bodyB.getPosition().x-healthBarSprite.getWidth()/2,bodyB.getPosition().y-healthBarSprite.getHeight()/2);
 
     }
 
@@ -286,16 +260,18 @@ public class Player implements Entity, Damageable {
 
         bodyDef.position.set(bodyA.getPosition().x,bodyA.getPosition().y + 1);
 
+        bodyDef.gravityScale = 0f;
+
         this.bodyB = world.getWorld().createBody(bodyDef);
 
         PolygonShape groundBox = new PolygonShape();
-        groundBox.setAsBox(1f, .1f);
+        groundBox.setAsBox(.1f, .1f);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = groundBox;
-        fixtureDef.density = .00001f;
+        fixtureDef.density = .0001f;
         fixtureDef.friction = 0.0f;
-        fixtureDef.restitution = 0.0f; // Make it bounce a little bit
+        fixtureDef.restitution = 0.0f;
 
         fixtureDef.filter.categoryBits = 0x0000;
         fixtureDef.filter.maskBits = 0x0000;
@@ -305,13 +281,15 @@ public class Player implements Entity, Damageable {
 
         DistanceJointDef defJoint = new DistanceJointDef();
         defJoint.initialize(bodyA, bodyB, bodyA.getPosition(), bodyB.getPosition());
-        defJoint.length = 2f;
+        defJoint.length = 18f;
+        defJoint.dampingRatio = 1;
+        defJoint.frequencyHz = 8;
 
         world.getWorld().createJoint(defJoint);
 
-        newScale = (health/100f)*.1f;
+        newScale = (health/maxHealth);
 
-        healthBarSprite.setScale(newScale/2,.05f);
+        healthBarSprite.setScale(newScale,1f);
 
     }
 
@@ -331,11 +309,16 @@ public class Player implements Entity, Damageable {
             return;
         }
 
-        playerSprite.setPosition(body.getPosition().x-playerSprite.getWidth()/2,body.getPosition().y-playerSprite.getHeight()/2);
+        getPlayerSprite().setPosition(body.getPosition().x-playerSprite.getWidth()/2,body.getPosition().y-playerSprite.getHeight()/4);
     }
 
     public Sprite getPlayerSprite() {
-        return playerSprite;
+
+        if (grounded) {
+            return playerSprite;
+        } else {
+            return playerSpriteAir;
+        }
     }
 
     public void addWeapon(Weapon weapon) {

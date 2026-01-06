@@ -46,7 +46,7 @@ public class MainMenuScreen implements Screen {
 
         if (Gdx.input.isTouched()) {
             //game.setScreen(MainMenu.innShopScreen);
-            game.setScreen(MainMenu.levelScreen1);
+            game.setScreen(MainMenu.levelScreenInn);
         }
 
         if (Gdx.input.isKeyPressed(33)) {

@@ -18,7 +18,7 @@ public interface Weapon {
 
     abstract void drawWeapon();
 
-    abstract float getDelay();
+    abstract float getDelay(int ratio);
 
     abstract public void getClosestTarget();
 

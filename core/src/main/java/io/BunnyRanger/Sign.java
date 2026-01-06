@@ -37,12 +37,12 @@ public class Sign implements Entity {
 
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
-        bodyDef.position.set(x, y);
+        bodyDef.position.set(x*16, y*16);
 
         this.body = world.getWorld().createBody(bodyDef);
 
         this.circle = new CircleShape();
-        circle.setRadius(1f);
+        circle.setRadius(9f);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
@@ -62,14 +62,6 @@ public class Sign implements Entity {
 
         // actual hitbox
 
-        playerTexture = new Texture(Gdx.files.internal("bun.png"));
-        enemySprite = new Sprite(playerTexture,0,0,32,32);
-
-        enemySprite.setScale(1f);
-
-        //weewoo
-        this.enemySprite.flip(true,false);
-
         // START OF SIGN STUFF
 
         this.currentLevel = currentLevel;
@@ -85,7 +77,10 @@ public class Sign implements Entity {
 
         playerTexture = new Texture(Gdx.files.internal("Sign.png"));
         enemySprite = new Sprite(playerTexture,0,0,16,16);
-        enemySprite.setScale(1f);
+        enemySprite.setScale(1.5f);
+
+        //this.enemySprite.flip(true,false);
+
 
         this.body.setUserData(this);
 
@@ -125,7 +120,7 @@ public class Sign implements Entity {
             illDoIt = false;
 
             // maybe somewhere else
-            MainApplication.getParty().resetParty();
+            MainApplication.getParty().resetParty(5,1);
         } else {
             System.out.println(666);
         }

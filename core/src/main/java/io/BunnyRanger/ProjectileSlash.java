@@ -7,20 +7,20 @@ import com.badlogic.gdx.math.Vector2;
 
 public class ProjectileSlash extends ProjectileArrow {
 
-    public ProjectileSlash(WorldInstance world, float x, float y, float xSize, float ySize, float angle, Vector2 magnitude, float damage, float density, boolean friendly, boolean facingRight) {
+    public ProjectileSlash(WorldInstance world, float x, float y, float xSize, float ySize, float angle, Vector2 magnitude, float damage, float density, boolean friendly, boolean facingRight, int parent) {
 
-        super(world, x, y, xSize / 2, ySize, angle, magnitude, damage, density, friendly, facingRight);
+        super(world, x, y, xSize / 2, ySize, angle, magnitude, damage, density, friendly, facingRight, parent);
 
         //lifespan
-        this.spriteDestroyLifeSpan = 60;
+        this.spriteDestroyLifeSpan = 400;
 
         this.texture = null;
         this.projectileSprite = null;
 
         this.texture = new Texture(Gdx.files.internal("SlashProjectile.png"));
-        this.projectileSprite = new Sprite(texture, 0, 0, 8, 32);
+        this.projectileSprite = new Sprite(texture, 0, 0, 8, 16);
 
-        this.projectileSprite.setScale(.07f);
+        this.projectileSprite.setScale(1f);
 
         if (facingRight) {
             this.angle = angle;

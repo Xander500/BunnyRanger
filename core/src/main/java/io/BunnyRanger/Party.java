@@ -65,15 +65,15 @@ public class Party extends InputAdapter {
     boolean playerAliveStatus3 = true;
     boolean playerAliveStatus4 = true;
 
-    public Party(WorldInstance world, float x, float y, Camera camera, Floor floor, ArrayList<Projectile> projectileList) {
+    public Party(WorldInstance world, float x, float y, Camera camera, Wall wall, ArrayList<Projectile> projectileList) {
 
         this.x = x;
         this.y = y;
 
-        this.player1 = new Player(world,x,y,camera,floor,0);
-        this.player2 = new Player(world,x+5,y,camera,floor,1);
-        this.player3 = new Player(world,x+10,y,camera,floor,2);
-        this.player4 = new Player(world,x+15,y,camera,floor,3);
+        this.player1 = new Player(world,x,y,camera, wall,0);
+        this.player2 = new Player(world,x+5,y,camera, wall,1);
+        this.player3 = new Player(world,x+10,y,camera, wall,2);
+        this.player4 = new Player(world,x+15,y,camera, wall,3);
 
         this.playerList[0] = this.player1;
         this.playerList[1] = this.player2;
@@ -96,7 +96,7 @@ public class Party extends InputAdapter {
 
         this.jointDef = new MouseJointDef();
 
-        this.jointDef.bodyA = floor.getBody();
+        this.jointDef.bodyA = wall.getBody();
         this.jointDef.bodyB = playerList[0].getBody(); /////
 
         this.jointDef.collideConnected = true;
@@ -128,11 +128,11 @@ public class Party extends InputAdapter {
     public void damageAll(float damage) {
         for (int i = 0; i < 4; i++) {
             System.out.println("Damaged all due to dead player for " + damage);
-            this.playerList[i].takeDamageAll(damage);
+            this.playerList[i].takeDamage(damage);
         }
     }
 
-    public void resetParty() {
+    public void resetParty(int pX,int pY) {
 
 
         this.player1.setHealth(player1.maxHealth);
@@ -140,10 +140,10 @@ public class Party extends InputAdapter {
         this.player3.setHealth(player3.maxHealth);
         this.player4.setHealth(player4.maxHealth);
 
-        this.player1.getBody().setTransform(x,y,0);
-        this.player2.getBody().setTransform(x+5,y,0);
-        this.player3.getBody().setTransform(x+10,y,0);
-        this.player4.getBody().setTransform(x+15,y,0);
+        this.player1.getBody().setTransform(pX*16,pY*16,0);
+        this.player2.getBody().setTransform((pX+2)*16,pY*16,0);
+        this.player3.getBody().setTransform((pX+4)*16,pY*16,0);
+        this.player4.getBody().setTransform((pX+6)*16,pY*16,0);
 
         this.player1.getBody().setLinearVelocity(0,0);
         this.player2.getBody().setLinearVelocity(0,0);
@@ -175,7 +175,6 @@ public class Party extends InputAdapter {
                 }
 
                 // KILLS PLAYERS /////////////
-                /*
                 for (Fixture fixture : playerList[i].body.getFixtureList()) {
 
                     // Get the current filter data
@@ -189,7 +188,6 @@ public class Party extends InputAdapter {
 
                     playerAliveStatusList[i] = false;
                 }
-                */
 
 
             } else {
@@ -202,7 +200,7 @@ public class Party extends InputAdapter {
                     counterList[i] = 0;
                 }
 
-                if (counterList[i] > playerList[i].getCurrentWeapon().getDelay()) {
+                if (counterList[i] > playerList[i].getCurrentWeapon().getDelay(5)) {
 
                     ((Weapon) playerList[i].getCurrentWeapon()).getClosestTarget();
                     playerList[i].useWeapon();
@@ -247,13 +245,14 @@ public class Party extends InputAdapter {
 
     public void drawAll(int i, Batch batch) {
 
+        playerList[i].getHealthBarSpriteBack().draw(batch);
         playerList[i].getHealthBarSprite().draw(batch);
-
-        playerList[i].getWeaponSprite().draw(batch);
 
         playerList[i].updatePlayerSprite();
 
         playerList[i].getPlayerSprite().draw(batch);
+
+        playerList[i].getWeaponSprite().draw(batch);
 
     }
 
@@ -263,25 +262,27 @@ public class Party extends InputAdapter {
 
         public boolean reportFixture(Fixture fixture) {
 
-            if (!fixture.testPoint(tmp2.set(tmp.x,tmp.y)) || !(fixture.getUserData() instanceof Player && ((Player) fixture.getUserData()).body.getUserData().equals("Player body"))) {
-                return false;
+            if (!(fixture.getUserData() instanceof Player && ((Player) fixture.getUserData()).body.getUserData().equals("Player body"))) {
+                return true;
             }
+
+            Gdx.graphics.setCursor(MainApplication.grab);
 
             int i = ((Player) fixture.getUserData()).number;
 
             jointDef.bodyB = playerList[i].getBody();
-            jointDef.target.set(tmp.x,tmp.y);
+            jointDef.target.set(playerList[i].getBody().getPosition().x - player1.getPlayerSprite().getWidth() / 2,playerList[i].getBody().getPosition().y + player1.getPlayerSprite().getHeight() / 2);
 
             jointDef.maxForce = 5000; // max force it apply on trying to drag an object
-            jointDef.frequencyHz = 10; // how snappy and responsive it is
-            jointDef.dampingRatio = 1; // how fast to goes without overshooting 0 - 1 where 1 is no overshooting
+            jointDef.frequencyHz = 2; // how snappy and responsive it is
+            jointDef.dampingRatio = .1f; // how fast to goes without overshooting 0 - 1 where 1 is no overshooting
 
 
             joint = (MouseJoint) world.getWorld().createJoint(jointDef);
 
             jointList.add(joint);
 
-            return true;
+            return false;
         }
     };
 
@@ -290,8 +291,7 @@ public class Party extends InputAdapter {
         tmp.set(screenX,screenY,0);
         tmp = camera.unproject(tmp);
 
-        this.world.getWorld().QueryAABB(queryCallback,tmp.x,tmp.y,tmp.x,tmp.y);
-
+        this.world.getWorld().QueryAABB(queryCallback, tmp.x -8, tmp.y -24, tmp.x+24, tmp.y +24);
         return true;
 
     }
@@ -302,6 +302,9 @@ public class Party extends InputAdapter {
     }
 
     public void removeMouseJoints() {
+
+        Gdx.graphics.setCursor(MainApplication.open);
+
         for (Joint joint : jointList) {
 
             if (joint != null) {
@@ -315,7 +318,6 @@ public class Party extends InputAdapter {
     }
 
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-
 
             if (this.joint == null || world.getWorld().isLocked()) {
                 return false;
