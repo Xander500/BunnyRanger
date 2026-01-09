@@ -10,7 +10,7 @@ public class MyContactListener implements ContactListener {
 
     public void beginContact(Contact contact) {
 
-        if (contact.getFixtureA() == null || contact.getFixtureA() == null) {
+        if (contact.getFixtureA() == null || contact.getFixtureB() == null) {
             return;
         }
 
@@ -24,14 +24,14 @@ public class MyContactListener implements ContactListener {
         Entity currentEntity = (Entity) contact.getFixtureA().getUserData();
         Entity secondEntity = (Entity) contact.getFixtureB().getUserData();
 
-        currentEntity.executeContact(secondEntity);
-        secondEntity.executeContact(currentEntity);
+        currentEntity.executeBegin(secondEntity);
+        secondEntity.executeBegin(currentEntity);
 
     }
 
     public void endContact(Contact contact) {
 
-        if (contact.getFixtureA() == null || contact.getFixtureA() == null) {
+        if (contact.getFixtureA() == null || contact.getFixtureB() == null) {
             return;
         }
 
@@ -42,15 +42,8 @@ public class MyContactListener implements ContactListener {
         Entity currentEntity = (Entity) contact.getFixtureA().getUserData();
         Entity secondEntity = (Entity) contact.getFixtureB().getUserData();
 
-        if (currentEntity.getNameID().equals("Floor") && secondEntity.getNameID().equals("Player")) {
-            ((Player) secondEntity).unground();
-            System.out.println("Grounded END");
-        }
-
-        if (secondEntity.getNameID().equals("Floor") && currentEntity.getNameID().equals("Player")) {
-            ((Player) currentEntity).unground();
-            System.out.println("Grounded END");
-        }
+        currentEntity.executeEnd(secondEntity);
+        secondEntity.executeEnd(currentEntity);
 
     }
 

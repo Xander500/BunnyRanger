@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
-public class Projectile implements Entity {
+public abstract class Projectile implements Entity {
 
     BodyDef bodyDef;
     FixtureDef fixtureDef;
@@ -156,7 +156,7 @@ public class Projectile implements Entity {
         return this.nameID;
     }
 
-    public void executeContact(Entity secondEntity) {
+    public void executeBegin(Entity secondEntity) {
 
         if (secondEntity.getNameID().equals("Player")) {
 
@@ -214,6 +214,11 @@ public class Projectile implements Entity {
             }
 
         }
+
+    }
+
+    @Override
+    public void executeEnd(Entity secondEntity) {
 
     }
 

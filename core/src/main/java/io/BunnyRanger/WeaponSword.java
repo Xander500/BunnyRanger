@@ -27,11 +27,11 @@ public class WeaponSword extends WeaponBow {
 
         this.name = "Sword 1";
 
-        this.baseCount = 5;
+        this.baseCount = 1;
         this.count = 1;
         this.rangeArrow = 200;
         this.baseRangeArrow = 200;
-        this.weaponDelay = 30;
+        this.weaponDelay = 60;
         this.baseWeaponDelay = 30;
 
         this.baseDamageMinArrow = 1;

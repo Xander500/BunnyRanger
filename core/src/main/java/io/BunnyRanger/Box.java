@@ -55,7 +55,12 @@ public class Box implements Entity {
         return this.nameID;
     }
 
-    public void executeContact(Entity secondEntity) {
+    public void executeBegin(Entity secondEntity) {
+
+    }
+
+    @Override
+    public void executeEnd(Entity secondEntity) {
 
     }
 

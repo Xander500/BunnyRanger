@@ -7,7 +7,8 @@ public interface Entity {
 
     abstract public String getNameID();
 
-    abstract public void executeContact(Entity secondEntity);
+    abstract public void executeBegin(Entity secondEntity);
+    abstract public void executeEnd(Entity secondEntity);
 
     abstract public Body getBody();
 

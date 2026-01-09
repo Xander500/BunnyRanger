@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class WeaponBow implements Weapon, Item {
 
     //Bow stuff
-    ProjectileArrow type;
+    Projectile type;
     float bowX;
     float bowY;
     float bowAngle;
@@ -193,7 +193,7 @@ public class WeaponBow implements Weapon, Item {
 
             this.damageCurrentArrow = (float) Math.round((Math.random() * (damageMaxArrow - damageMinArrow)) + damageMinArrow);
 
-            Projectile projectile = new ProjectileArrow(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight, 1);
+            Projectile projectile = new ProjectilePiercing(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight, 1);
 
             this.projectileList.add(projectile);
 

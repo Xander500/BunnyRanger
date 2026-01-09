@@ -96,7 +96,7 @@ public class Sign implements Entity {
         return this.nameID;
     }
 
-    public void executeContact(Entity secondEntity) {
+    public void executeBegin(Entity secondEntity) {
 
         if (secondEntity.getNameID().equals("Player")) {
 
@@ -110,6 +110,11 @@ public class Sign implements Entity {
 
             MainMenu.swappingScreen = true;
         }
+
+    }
+
+    @Override
+    public void executeEnd(Entity secondEntity) {
 
     }
 

@@ -113,7 +113,7 @@ public abstract class Enemy implements Entity, Damageable {
         return this.nameID;
     }
 
-    public void executeContact(Entity secondEntity) {
+    public void executeBegin(Entity secondEntity) {
 
         if (secondEntity.getNameID().equals("Box")) {
 
@@ -136,6 +136,10 @@ public abstract class Enemy implements Entity, Damageable {
             System.out.println("hit by projectile for " + this.takeDamage(removeProjectile.getDamage()));
 
         }
+
+    }
+    @Override
+    public void executeEnd(Entity secondEntity) {
 
     }
 

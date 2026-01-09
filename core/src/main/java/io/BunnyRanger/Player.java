@@ -130,7 +130,7 @@ public class Player implements Entity, Damageable {
         return this.nameID;
     }
 
-    public void executeContact(Entity secondEntity) {
+    public void executeBegin(Entity secondEntity) {
 
         if (secondEntity.getNameID().equals("Enemy")) {
 
@@ -154,6 +154,14 @@ public class Player implements Entity, Damageable {
         }
 
     }
+
+    public void executeEnd(Entity secondEntity) {
+        if (secondEntity.getNameID().equals("Floor")) {
+            this.unground();
+            System.out.println("Grounded END");
+        }
+    }
+
 
     public Sprite getHealthBarSprite() {
         return this.healthBarSprite;

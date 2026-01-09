@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
-public class ProjectileSlash extends ProjectileArrow {
+public class ProjectileSlash extends Projectile {
 
     public ProjectileSlash(WorldInstance world, float x, float y, float xSize, float ySize, float angle, Vector2 magnitude, float damage, float density, boolean friendly, boolean facingRight, int parent) {
 
@@ -79,5 +79,8 @@ public class ProjectileSlash extends ProjectileArrow {
 
         return this.projectileSprite;
 
+    }
+    public void executeBegin(Entity secondEntity) {
+        super.executeBegin(secondEntity);
     }
 }
