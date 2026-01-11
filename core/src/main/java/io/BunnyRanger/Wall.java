@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.*;
 
 public class Wall implements Entity {
 
-    WorldInstance world;
+    WorldHandler world;
     BodyDef bodyDef;
     FixtureDef fixtureDef;
     Fixture fixture;
@@ -20,7 +20,7 @@ public class Wall implements Entity {
     TextureRegion textureRegion;
     Sprite sprite;
 
-    public Wall(WorldInstance world, float x, float y, float xSize, float ySize, String string) {
+    public Wall(WorldHandler world, float x, float y, float xSize, float ySize, String string) {
 
         System.out.println("makin Floor");
 
@@ -130,7 +130,7 @@ public class Wall implements Entity {
         return this.fixtureDef;
     }
 
-    public WorldInstance getWorldInstance() {
+    public WorldHandler getWorldInstance() {
         return this.world;
     }
 

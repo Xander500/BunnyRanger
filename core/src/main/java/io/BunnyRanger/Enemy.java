@@ -16,7 +16,7 @@ public abstract class Enemy implements Entity, Damageable {
     CircleShape circle;
     Body body;
     String nameID = "Enemy";
-    WorldInstance world;
+    WorldHandler world;
     Fixture fixture;
 
     float damage;
@@ -46,7 +46,11 @@ public abstract class Enemy implements Entity, Damageable {
     HashMap<Item,Float> dropList = new HashMap<>();
     private boolean hasNotDied = true;
 
-    public Enemy(WorldInstance world, float x, float y) {
+    // gold and xp
+    private int gold;
+    private int xp;
+
+    public Enemy(WorldHandler world, float x, float y) {
 
         damage = 1;
 
@@ -100,12 +104,17 @@ public abstract class Enemy implements Entity, Damageable {
         //weewoo
         this.enemySprite.flip(true,false);
 
-        //ENEMY DROPS TEST
+
+        //ENEMY DROPS TEST EDIT THIS ALWAYS
         this.dropList.put(new WeaponBow(true), 20f);
         this.dropList.put(new WeaponBow2(true), 20f);
         this.dropList.put(new WeaponPistol(true), 20f);
 
         System.out.println("asdasd" + this.dropList.keySet());
+
+        //XP AND GOLD
+        this.xp = 1;
+        this.gold = 3;
 
     }
 
@@ -155,7 +164,7 @@ public abstract class Enemy implements Entity, Damageable {
         return this.fixture;
     }
 
-    public WorldInstance getWorldInstance() {
+    public WorldHandler getWorldInstance() {
         return this.world;
     }
 
@@ -179,12 +188,12 @@ public abstract class Enemy implements Entity, Damageable {
         }
 
         //MAKING PARTICLES
-        MainApplication.particleList.add(new Particle(this.body,damage,MainApplication.getParty().font, new Color(Color.GREEN)));
+        WorldHandler.particleList.add(new Particle(this.body,damage, WorldHandler.getParty().font, new Color(Color.GREEN)));
 
         if (health - damage <= 0 && this.hasNotDied) {
             System.out.println("died and time to try to drop item: ");
             try {
-                MainApplication.particleList.add(new ParticleItem(this.body, this.dropList, MainApplication.getParty().font, new Color(Color.GOLD)));
+                WorldHandler.particleList.add(new ParticleItem(this.body, this.dropList, WorldHandler.getParty().font, new Color(Color.GOLD)));
             } catch (Exception e)  {
 
             }
@@ -231,7 +240,7 @@ public abstract class Enemy implements Entity, Damageable {
         return this.healthBarSpriteBack;
     }
 
-    public void createHealthBar(WorldInstance world) {
+    public void createHealthBar(WorldHandler world) {
 
         Body bodyA = this.getBody();
 
@@ -338,4 +347,13 @@ public abstract class Enemy implements Entity, Damageable {
         //this.getBody().applyLinearImpulse(-1,0,this.getBody().getPosition().x,this.getBody().getPosition().y,false);
 
     }
+
+    public int getGold() {
+       return this.gold;
+    }
+
+    public int getXp() {
+        return this.xp;
+    }
+
 }

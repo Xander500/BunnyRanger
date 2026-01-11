@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class ShopScreenStage extends Stage {
 
-    ShopScreen parentScreen;
+    ScreenShop parentScreen;
 
     Stage inventoryStage;
 
@@ -36,7 +36,7 @@ public class ShopScreenStage extends Stage {
     ShopScreenModifyActor buyButton;
     ShopScreenModifyActor sellButton;
 
-    ShopScreenStage(ShopScreen parentScreen) {
+    ShopScreenStage(ScreenShop parentScreen) {
 
         this.parentScreen = parentScreen;
 
@@ -298,7 +298,7 @@ public class ShopScreenStage extends Stage {
 
             if (((InventorySpotActor) selected).getSpot() != null) {
 
-                if (MainApplication.getParty().testGold(((InventorySpotActor) selected).getSpot().getBuyPrice())) {
+                if (WorldHandler.getParty().testGold(((InventorySpotActor) selected).getSpot().getBuyPrice())) {
                     buyButton.setDrawable(buyGreen);
                     buyButton.active = true;
                 } else {
@@ -334,7 +334,7 @@ public class ShopScreenStage extends Stage {
 
             if (((InventorySpotActor) selected).getSpot() != null) {
 
-                if (MainApplication.getParty().testGold(((InventorySpotActor) selected).getSpot().getBuyPrice())) {
+                if (WorldHandler.getParty().testGold(((InventorySpotActor) selected).getSpot().getBuyPrice())) {
                     buyButton.setDrawable(buyGreen);
                     buyButton.active = true;
                 } else {
@@ -368,7 +368,7 @@ public class ShopScreenStage extends Stage {
 
             Item temp = ((InventorySpotActor) selected).getSpot();
 
-            MainApplication.getParty().addGold(-((ShopInventorySpotActor) selected).buyPrice);
+            WorldHandler.getParty().addGold(-((ShopInventorySpotActor) selected).buyPrice);
 
             ((InventorySpotActor) selected).addSpot(((InventorySpotActor) hit).getSpot());
 
@@ -392,7 +392,7 @@ public class ShopScreenStage extends Stage {
 
             Item temp = ((InventorySpotActor) selected).getSpot();
 
-            MainApplication.getParty().addGold(((InventorySpotActor) selected).getSpot().getSellPrice());
+            WorldHandler.getParty().addGold(((InventorySpotActor) selected).getSpot().getSellPrice());
 
             ((InventorySpotActor) selected).addSpot(((InventorySpotActor) hit).getSpot());
 
@@ -417,7 +417,7 @@ public class ShopScreenStage extends Stage {
 
         for (int i = 0; i < 36; i++) {
 
-            Item item = ((InventorySpotActor) MainMenu.inventoryScreen.inventoryScreenStage.table.getChild(i)).getSpot();
+            Item item = ((InventorySpotActor) GameHandler.screenInventory.inventoryScreenStage.table.getChild(i)).getSpot();
 
             ((InventorySpotActor) this.table.getChild(i)).addSpot(item);
 

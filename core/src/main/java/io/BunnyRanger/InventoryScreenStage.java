@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class InventoryScreenStage extends Stage {
 
-    InventoryScreen parentScreen;
+    ScreenInventory parentScreen;
 
     Stage inventoryStage;
 
@@ -36,7 +36,7 @@ public class InventoryScreenStage extends Stage {
 
     TextureRegionDrawable selectedIcon = new TextureRegionDrawable(new Texture((Gdx.files.internal("selected.png"))));
 
-    InventoryScreenStage(InventoryScreen parentScreen) {
+    InventoryScreenStage(ScreenInventory parentScreen) {
 
         this.parentScreen = parentScreen;
 
@@ -257,24 +257,24 @@ public class InventoryScreenStage extends Stage {
 
         //maybe change
         if (this.weaponSlot1.getSpot() != null) {
-            MainApplication.getParty().getPlayer(0).addWeapon((Weapon) this.weaponSlot1.getSpot());
+            WorldHandler.getParty().getPlayer(0).addWeapon((Weapon) this.weaponSlot1.getSpot());
         } else {
-            MainApplication.getParty().getPlayer(0).addWeapon(new WeaponEmpty(true));
+            WorldHandler.getParty().getPlayer(0).addWeapon(new WeaponEmpty(true));
         }
         if (this.weaponSlot2.getSpot() != null) {
-            MainApplication.getParty().getPlayer(1).addWeapon((Weapon) this.weaponSlot2.getSpot());
+            WorldHandler.getParty().getPlayer(1).addWeapon((Weapon) this.weaponSlot2.getSpot());
         }else {
-            MainApplication.getParty().getPlayer(1).addWeapon(new WeaponEmpty(true));
+            WorldHandler.getParty().getPlayer(1).addWeapon(new WeaponEmpty(true));
         }
         if (this.weaponSlot3.getSpot() != null) {
-            MainApplication.getParty().getPlayer(2).addWeapon((Weapon) this.weaponSlot3.getSpot());
+            WorldHandler.getParty().getPlayer(2).addWeapon((Weapon) this.weaponSlot3.getSpot());
         }else {
-            MainApplication.getParty().getPlayer(2).addWeapon(new WeaponEmpty(true));
+            WorldHandler.getParty().getPlayer(2).addWeapon(new WeaponEmpty(true));
         }
         if (this.weaponSlot4.getSpot() != null) {
-            MainApplication.getParty().getPlayer(3).addWeapon((Weapon) this.weaponSlot4.getSpot());
+            WorldHandler.getParty().getPlayer(3).addWeapon((Weapon) this.weaponSlot4.getSpot());
         }else {
-            MainApplication.getParty().getPlayer(3).addWeapon(new WeaponEmpty(true));
+            WorldHandler.getParty().getPlayer(3).addWeapon(new WeaponEmpty(true));
         }
 
         this.populatePartyCards();
@@ -283,22 +283,22 @@ public class InventoryScreenStage extends Stage {
 
     public void populatePartyCards() {
 
-        MainApplication.getParty().getPlayer(0).getCurrentWeapon().resetToBase();
-        MainApplication.getParty().getPlayer(1).getCurrentWeapon().resetToBase();
-        MainApplication.getParty().getPlayer(2).getCurrentWeapon().resetToBase();
-        MainApplication.getParty().getPlayer(3).getCurrentWeapon().resetToBase();
+        WorldHandler.getParty().getPlayer(0).getCurrentWeapon().resetToBase();
+        WorldHandler.getParty().getPlayer(1).getCurrentWeapon().resetToBase();
+        WorldHandler.getParty().getPlayer(2).getCurrentWeapon().resetToBase();
+        WorldHandler.getParty().getPlayer(3).getCurrentWeapon().resetToBase();
 
         if (this.cardSlot1.getSpot() != null) {
-            ((Card) this.cardSlot1.getSpot()).effect(0,MainApplication.getParty().getPlayer(0));
+            ((Card) this.cardSlot1.getSpot()).effect(0, WorldHandler.getParty().getPlayer(0));
         }
         if (this.cardSlot2.getSpot() != null) {
-            ((Card) this.cardSlot2.getSpot()).effect(0,MainApplication.getParty().getPlayer(1));
+            ((Card) this.cardSlot2.getSpot()).effect(0, WorldHandler.getParty().getPlayer(1));
         }
         if (this.cardSlot3.getSpot() != null) {
-            ((Card) this.cardSlot3.getSpot()).effect(0,MainApplication.getParty().getPlayer(2));
+            ((Card) this.cardSlot3.getSpot()).effect(0, WorldHandler.getParty().getPlayer(2));
         }
         if (this.cardSlot4.getSpot() != null) {
-            ((Card) this.cardSlot4.getSpot()).effect(0,MainApplication.getParty().getPlayer(3));
+            ((Card) this.cardSlot4.getSpot()).effect(0, WorldHandler.getParty().getPlayer(3));
         }
 
     }
@@ -327,7 +327,7 @@ public class InventoryScreenStage extends Stage {
 
         for (int i = 0; i < 36; i++) {
 
-            Item item = ((InventorySpotActor) MainMenu.shopScreen.shopScreenStage.table.getChild(i)).getSpot();
+            Item item = ((InventorySpotActor) GameHandler.screenShop.shopScreenStage.table.getChild(i)).getSpot();
 
             ((InventorySpotActor) this.table.getChild(i)).addSpot(item);
 

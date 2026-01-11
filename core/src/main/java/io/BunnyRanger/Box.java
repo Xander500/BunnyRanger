@@ -8,12 +8,12 @@ public class Box implements Entity {
     FixtureDef fixtureDef;
     CircleShape circle;
     Body body;
-    WorldInstance world;
+    WorldHandler world;
     Fixture fixture;
 
     String nameID = "Box";
 
-    public Box(WorldInstance world, float x, float y) {
+    public Box(WorldHandler world, float x, float y) {
 
         this.world = world;
 
@@ -80,7 +80,7 @@ public class Box implements Entity {
         return this.fixtureDef;
     }
 
-    public WorldInstance getWorldInstance() {
+    public WorldHandler getWorldInstance() {
         return this.world;
     }
 

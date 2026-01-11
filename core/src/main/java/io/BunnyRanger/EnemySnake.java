@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class EnemySnake extends EnemyMoving {
 
-    public EnemySnake(WorldInstance world, float x, float y) {
+    public EnemySnake(WorldHandler world, float x, float y) {
         super(world, x, y);
         health = 30;
         enemyTexture = new Texture(Gdx.files.internal("snek.png"));

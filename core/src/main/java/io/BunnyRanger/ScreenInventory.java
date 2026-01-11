@@ -1,6 +1,6 @@
 package io.BunnyRanger;
 
-import static io.BunnyRanger.MainMenu.fontShader;
+import static io.BunnyRanger.GameHandler.fontShader;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -13,9 +13,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class InventoryScreen extends InputAdapter implements Screen {
+public class ScreenInventory extends InputAdapter implements Screen {
 
-    MainMenu game;
     OrthographicCamera camera;
 
     InventoryScreenStage inventoryScreenStage;
@@ -25,22 +24,19 @@ public class InventoryScreen extends InputAdapter implements Screen {
 
     BitmapFont font;
 
-    public InventoryScreen(MainMenu game) {
-
-        this.game = game;
+    public ScreenInventory() {
 
         camera = new OrthographicCamera();
         //camera.setToOrtho(false, 360, 180);
-        camera.setToOrtho(false, MainApplication.SCREENWIDTH,MainApplication.SCREENHEIGHT);
+        camera.setToOrtho(false, WorldHandler.SCREENWIDTH, WorldHandler.SCREENHEIGHT);
 
         this.inventoryScreenStage = new InventoryScreenStage(this);
 
         sprite = new Sprite(background);
-        sprite.setSize(MainApplication.SCREENWIDTH,MainApplication.SCREENHEIGHT); // Set the size of the sprite
+        sprite.setSize(WorldHandler.SCREENWIDTH, WorldHandler.SCREENHEIGHT); // Set the size of the sprite
         sprite.setPosition(0, 0); // Set the position of the sprite
-        //Gdx.input.setInputProcessor(this.inventoryScreenStage);
 
-        font = MainMenu.getFont();
+        font = GameHandler.getFont();
 
     }
 
@@ -49,21 +45,20 @@ public class InventoryScreen extends InputAdapter implements Screen {
         Gdx.input.setInputProcessor(this); // IMPORTANT
 
         camera.update();
-
-        game.batch.setProjectionMatrix(camera.combined);
+        GameHandler.batch.setProjectionMatrix(camera.combined);
 
         ScreenUtils.clear(0, 0, 0, 0);
 
-        game.batch.begin();
+        GameHandler.batch.begin();
 
-        sprite.draw(game.batch);
+        sprite.draw(GameHandler.batch);
 
         float tmpX = font.getScaleX();
         float tmpY = font.getScaleY();
 
         font.getData().setScale(4f);
-        MainMenu.batch.setShader(fontShader);
-        MainApplication.getParty().getGoldFont().draw(game.batch,"GOLD " + MainApplication.getParty().getGold(),70,415);
+        GameHandler.batch.setShader(fontShader);
+        WorldHandler.getParty().getGoldFont().draw(GameHandler.batch,"GOLD " + WorldHandler.getParty().getGold(),70,415);
 
         if (inventoryScreenStage.selected != null && ((InventorySpotActor) inventoryScreenStage.selected).getSpot() != null) {
 
@@ -71,32 +66,37 @@ public class InventoryScreen extends InputAdapter implements Screen {
             font.getData().setScale(2f);
 
             if (current instanceof Weapon) {
-                this.font.draw(MainMenu.batch, "Name - " + ((Weapon) current).getName() + "\n" + "Dmg - " + ((Weapon) current).getDamageMin() + "~" + ((Weapon) current).getDamageMax() + "\n" + "Count - " + ((Weapon) current).getCount() + "\n" + "Range - " + ((Weapon) current).getRange() + "\n" + "Delay - " + (int) ((Weapon) current).getDelay(0) + "\n" + "Value - " + ((Weapon) current).getBuy(), 950, 675);
+                this.font.draw(GameHandler.batch, "Name - " + ((Weapon) current).getName() + "\n" + "Dmg - " + ((Weapon) current).getDamageMin() + "~" + ((Weapon) current).getDamageMax() + "\n" + "Count - " + ((Weapon) current).getCount() + "\n" + "Range - " + ((Weapon) current).getRange() + "\n" + "Delay - " + (int) ((Weapon) current).getDelay(0) + "\n" + "Value - " + ((Weapon) current).getBuy(), 950, 675);
             }
 
             if (current instanceof Card) {
-                this.font.draw(MainMenu.batch, "Name - " + ((Card) current).getName() + "\n\n" + "Disc - " + ((Card) current).getDescription(), 950, 675);
+                this.font.draw(GameHandler.batch, "Name - " + ((Card) current).getName() + "\n\n" + "Disc - " + ((Card) current).getDescription(), 950, 675);
             }
 
         }
-        game.batch.setShader(null);
+        GameHandler.batch.setShader(null);
         font.getData().setScale(tmpX,tmpY);
 
-        game.batch.end();
+        GameHandler.batch.end();
 
-        game.batch.begin();
+        GameHandler.batch.begin();
 
         inventoryScreenStage.instance().draw();
 
-        game.batch.end();
+        /*
+        MainApplication.getParty().resetPartyInventory();
+        MainApplication.getParty().updateParty(game.batch);
+         */
+
+        GameHandler.batch.end();
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.O)) {
-            game.setScreen(MainMenu.currentScreen);
+            GameHandler.instance.setScreen(GameHandler.currentScreen);
             inventoryScreenStage.populatePartyWeapons();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-            game.setScreen(MainMenu.shopScreen);
+            GameHandler.instance.setScreen(GameHandler.screenShop);
             inventoryScreenStage.populatePartyWeapons();
         }
 
@@ -111,8 +111,8 @@ public class InventoryScreen extends InputAdapter implements Screen {
 
     public void show() {
 
-        MainApplication.getParty().removeMouseJoints();
-        Gdx.graphics.setCursor(MainApplication.regular);
+        WorldHandler.getParty().removeMouseJoints();
+        Gdx.graphics.setCursor(WorldHandler.regular);
 
     }
     public void resize(int width, int height) {
@@ -122,7 +122,7 @@ public class InventoryScreen extends InputAdapter implements Screen {
     public void resume() {
     }
     public void hide() {
-        MainMenu.shopScreen.shopScreenStage.hydrate();
+        GameHandler.screenShop.shopScreenStage.hydrate();
     }
     public void dispose() {
     }

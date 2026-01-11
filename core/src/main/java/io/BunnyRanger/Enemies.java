@@ -15,9 +15,9 @@ public class Enemies {
 
     ArrayList<Integer> counterList = new ArrayList<Integer>();
 
-    WorldInstance world;
+    WorldHandler world;
 
-    public Enemies(WorldInstance world, ArrayList<Projectile> projectileList) {
+    public Enemies(WorldHandler world, ArrayList<Projectile> projectileList) {
         this.projectileList = projectileList;
         this.world = world;
     }
@@ -66,7 +66,8 @@ public class Enemies {
 
                     enemyListRemove.add(enemyList.get(i));
                     //counterList.remove(i);
-                    MainApplication.getParty().addGold(5); // change 5 to enemy.getGoldValue()
+                    WorldHandler.getParty().addGold(enemyList.get(i).getGold()); // change 5 to enemy.getGoldValue()
+                    WorldHandler.getParty().addXp(enemyList.get(i).getXp()); // change 5 to enemy.getGoldValue()
 
                 } else {
 

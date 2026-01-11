@@ -14,7 +14,7 @@ public interface Entity {
 
     abstract public Fixture getFixture();
 
-    abstract public WorldInstance getWorldInstance();
+    abstract public WorldHandler getWorldInstance();
 
     abstract public void flip(boolean facingRight);
 }

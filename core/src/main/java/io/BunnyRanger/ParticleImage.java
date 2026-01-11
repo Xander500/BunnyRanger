@@ -1,11 +1,8 @@
 package io.BunnyRanger;
 
-import static io.BunnyRanger.MainApplication.battleSizeHeight;
-import static io.BunnyRanger.MainApplication.battleSizeWidth;
-import static io.BunnyRanger.MainMenu.fontShader;
+import static io.BunnyRanger.GameHandler.fontShader;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -49,11 +46,11 @@ public class ParticleImage extends Particle {
         this.alpha += alphaReduceAmount;
         image.setAlpha(Math.min(this.alpha,255));
 
-        batch.setShader(null);
-        batch.setProjectionMatrix(MainApplication.camera.combined);
+        GameHandler.batch.setShader(null);
+        GameHandler.batch.setProjectionMatrix(WorldHandler.camera.combined);
         image.draw(batch);
-        batch.setProjectionMatrix(MainApplication.textCamera.combined);
-        batch.setShader(fontShader);
+        GameHandler.batch.setProjectionMatrix(WorldHandler.textCamera.combined);
+        GameHandler.batch.setShader(fontShader);
         currentLinger++;
 
         return true;

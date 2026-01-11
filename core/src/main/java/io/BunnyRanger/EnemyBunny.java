@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class EnemyBunny extends EnemyMoving{
 
-    public EnemyBunny(WorldInstance world, float x, float y) {
+    public EnemyBunny(WorldHandler world, float x, float y) {
         super(world, x, y);
         health = 10;
         enemyTexture = new Texture(Gdx.files.internal("bun.png"));

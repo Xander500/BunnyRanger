@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class ProjectileSlash extends Projectile {
 
-    public ProjectileSlash(WorldInstance world, float x, float y, float xSize, float ySize, float angle, Vector2 magnitude, float damage, float density, boolean friendly, boolean facingRight, int parent) {
+    public ProjectileSlash(WorldHandler world, float x, float y, float xSize, float ySize, float angle, Vector2 magnitude, float damage, float density, boolean friendly, boolean facingRight, int parent) {
 
         super(world, x, y, xSize / 2, ySize, angle, magnitude, damage, density, friendly, facingRight, parent);
 
@@ -70,8 +70,8 @@ public class ProjectileSlash extends Projectile {
         } else {
 
             //System.out.println("time to remove");
-            MainApplication.world1.addDestroyBody(this.getBody());
-            MainApplication.projectileListRemove.add(this);
+            WorldHandler.getWorldHandler().addDestroyBody(this.getBody());
+            WorldHandler.projectileListRemove.add(this);
 
             this.remove = true;
 

@@ -1,7 +1,7 @@
 package io.BunnyRanger;
 
-import static io.BunnyRanger.MainApplication.battleSizeHeight;
-import static io.BunnyRanger.MainApplication.battleSizeWidth;
+import static io.BunnyRanger.WorldHandler.battleSizeHeight;
+import static io.BunnyRanger.WorldHandler.battleSizeWidth;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -37,8 +37,8 @@ public class ParticleItem extends Particle {
                     // maybe need something
                 }
 
-                MainMenu.inventoryScreen.inventoryScreenStage.addToOpenSlot(selectedItem);
-                MainMenu.shopScreen.shopScreenStage.addToOpenSlot(selectedItem);
+                GameHandler.screenInventory.inventoryScreenStage.addToOpenSlot(selectedItem);
+                GameHandler.screenShop.shopScreenStage.addToOpenSlot(selectedItem);
 
                 System.out.println("added " + selectedItem);
 
@@ -78,7 +78,7 @@ public class ParticleItem extends Particle {
             return false;
         }
 
-        font.draw(batch, selectedItem.getName(), ((xPos*MainApplication.SCREENWIDTH/battleSizeWidth) + offsetCounter) + offsetX, ((yPos*MainApplication.SCREENHEIGHT/battleSizeHeight) + offsetCounterY) + offsetY);
+        font.draw(batch, selectedItem.getName(), ((xPos* WorldHandler.SCREENWIDTH/battleSizeWidth) + offsetCounter) + offsetX, ((yPos* WorldHandler.SCREENHEIGHT/battleSizeHeight) + offsetCounterY) + offsetY);
 
         font.getData().setScale(tmpX, tmpY);
         font.setColor(Color.WHITE);

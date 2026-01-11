@@ -11,7 +11,7 @@ abstract public interface Damageable {
 
     abstract public void updateHealthBar();
 
-    abstract void createHealthBar(WorldInstance world);
+    abstract void createHealthBar(WorldHandler world);
 
     abstract boolean checkIfDead();
 

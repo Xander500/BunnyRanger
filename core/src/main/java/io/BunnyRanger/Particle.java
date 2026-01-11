@@ -1,7 +1,7 @@
 package io.BunnyRanger;
 
-import static io.BunnyRanger.MainApplication.battleSizeHeight;
-import static io.BunnyRanger.MainApplication.battleSizeWidth;
+import static io.BunnyRanger.WorldHandler.battleSizeHeight;
+import static io.BunnyRanger.WorldHandler.battleSizeWidth;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -61,7 +61,7 @@ public class Particle {
         font.getData().setScale(2f);
         font.setColor(this.color);
 
-        font.draw(batch, String.valueOf((int) damage), ((xPos*MainApplication.SCREENWIDTH/battleSizeWidth) + offsetCounter) + offsetX, ((yPos*MainApplication.SCREENHEIGHT/battleSizeHeight) + offsetCounterY) + offsetY);
+        font.draw(batch, String.valueOf((int) damage), ((xPos* WorldHandler.SCREENWIDTH/battleSizeWidth) + offsetCounter) + offsetX, ((yPos* WorldHandler.SCREENHEIGHT/battleSizeHeight) + offsetCounterY) + offsetY);
 
         font.getData().setScale(tmpX, tmpY);
         font.setColor(Color.WHITE);

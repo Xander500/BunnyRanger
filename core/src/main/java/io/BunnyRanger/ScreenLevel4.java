@@ -1,13 +1,23 @@
 package io.BunnyRanger;
 
-public class LevelScreen4 extends LevelScreen {
+public class ScreenLevel4 extends ScreenLevel {
+
+    @Override
+    public void create() {
+        super.create();
+        changeBackground("vally.png");
+    }
+    @Override
+    public void show() {
+        super.show();
+    }
 
     public void makeEnemies() {
 
-        EnemySnake enemy1 = new EnemySnake(world1, 35, 5);
-        EnemyFox enemy2 = new EnemyFox(world1, 40, 5);
-        EnemyFox enemy3 = new EnemyFox(world1, 45, 5);
-        EnemyFox enemy4 = new EnemyFox(world1, 50, 5);
+        EnemySnake enemy1 = new EnemySnake(worldHandler, 35, 5);
+        EnemyFox enemy2 = new EnemyFox(worldHandler, 40, 5);
+        EnemyFox enemy3 = new EnemyFox(worldHandler, 45, 5);
+        EnemyFox enemy4 = new EnemyFox(worldHandler, 50, 5);
 
         enemies.addEnemy(enemy1);
         enemies.addEnemy(enemy2);
@@ -24,17 +34,17 @@ public class LevelScreen4 extends LevelScreen {
         enemy3.addWeapon(bow3);
         enemy4.addWeapon(bow4);
 
-        Wall floor1 = new Wall(world1, 32, 1, 32, 1, "grass.png");
-        Wall floor2 = new Wall(world1, 32, 31, 32, 1, "dirt.png");
-        Wall wall1 = new Wall(world1, 63, 16, 1, 16, "dirt.png");
-        Wall wall2 = new Wall(world1, 1, 16, 1, 16, "dirt.png");
+        Wall floor1 = new Wall(worldHandler, 32, 1, 32, 1, "grass.png");
+        Wall floor2 = new Wall(worldHandler, 32, 31, 32, 1, "dirt.png");
+        Wall wall1 = new Wall(worldHandler, 63, 16, 1, 16, "dirt.png");
+        Wall wall2 = new Wall(worldHandler, 1, 16, 1, 16, "dirt.png");
 
         wallList.add(floor1);
         wallList.add(floor2);
         wallList.add(wall1);
         wallList.add(wall2);
 
-        MainMenu.makeSign(MainMenu.levelScreen5);
+        GameHandler.makeSign(GameHandler.screenLevel5);
 
         drawSign = false;
 
@@ -45,13 +55,13 @@ public class LevelScreen4 extends LevelScreen {
         super.render(delta);
 
         if (levelDisplayCounter < 300) {
-            batch.begin();
+            GameHandler.batch.begin();
             this.displayTitle("LEVEL 4 --- Pogging out of my gourd right now",350,650);
-            batch.end();
+            GameHandler.batch.end();
         }
 
         //debugRenderer.render(world1.getWorld(), camera.combined);
-        camera.update();
+        WorldHandler.camera.update();
 
     }
 

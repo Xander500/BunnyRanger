@@ -3,11 +3,10 @@ package io.BunnyRanger;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
 
 public class EnemySlime extends EnemyMoving {
 
-    public EnemySlime(WorldInstance world, float x, float y) {
+    public EnemySlime(WorldHandler world, float x, float y) {
         super(world, x, y);
         maxHealth = 10;
         health = 10;

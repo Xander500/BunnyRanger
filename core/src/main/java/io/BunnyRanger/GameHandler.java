@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.physics.box2d.Joint;
 
-public class MainMenu extends Game {
+public class GameHandler extends Game {
 
     public static boolean swappingScreen;
     public static int indexScreen;
@@ -18,18 +18,19 @@ public class MainMenu extends Game {
     public static SpriteBatch batch;
 
     public static Game instance;
+    private static WorldHandler worldHandler;
 
-    public static MainMenuScreen mainMenuScreen;
-    public static LevelScreenInn levelScreenInn;
+    public static ScreenMainMenu screenMainMenu;
+    public static ScreenLevelInn levelScreenInn;
 
-    public static LevelScreen1 levelScreen1;
-    public static LevelScreen2 levelScreen2;
-    public static LevelScreen3 levelScreen3;
-    public static LevelScreen levelScreen4;
-    public static LevelScreen levelScreen5;
+    public static ScreenLevel screenLevel1;
+    public static ScreenLevel screenLevel2;
+    public static ScreenLevel screenLevel3;
+    public static ScreenLevel screenLevel4;
+    public static ScreenLevel screenLevel5;
 
-    public static InventoryScreen inventoryScreen;
-    public static ShopScreen shopScreen;
+    public static ScreenInventory screenInventory;
+    public static ScreenShop screenShop;
 
     public static Screen[] screenLevelList;
 
@@ -59,23 +60,30 @@ public class MainMenu extends Game {
 
         batch = new SpriteBatch();
 
-        mainMenuScreen = new MainMenuScreen(this);
-        inventoryScreen = new InventoryScreen(this);
-        shopScreen = new ShopScreen(this);
-        shopScreen.shopScreenStage.hydrate();
+        screenMainMenu = new ScreenMainMenu();
+        screenInventory = new ScreenInventory();
+        screenShop = new ScreenShop();
+        screenShop.shopScreenStage.hydrate();
 
         //screenLevelList = new Screen[2];
 
-        levelScreenInn = new LevelScreenInn();
+        levelScreenInn = new ScreenLevelInn();
+        levelScreenInn.create();
 
-        levelScreen1 = new LevelScreen1();
-        levelScreen2 = new LevelScreen2();
-        levelScreen3 = new LevelScreen3();
-        levelScreen4 = new LevelScreen4();
-        levelScreen5 = new LevelScreen5();
+        screenLevel1 = new ScreenLevel1();
+        screenLevel1.create();
+        screenLevel2 = new ScreenLevel2();
+        screenLevel2.create();
+        screenLevel3 = new ScreenLevel3();
+        screenLevel3.create();
+        screenLevel4 = new ScreenLevel4();
+        screenLevel4.create();
+        screenLevel5 = new ScreenLevel5();
+        screenLevel5.create();
 
+        worldHandler = new WorldHandler();
 
-        this.setScreen(mainMenuScreen); // poggers
+        this.setScreen(screenMainMenu); // poggers
 
     }
 
@@ -97,66 +105,64 @@ public class MainMenu extends Game {
 
 
         if (swappingScreen) {
-
             try {
-
-                for (Enemy enemy : MainApplication.getEnemies().enemyList) {
+                for (Enemy enemy : WorldHandler.getEnemies().enemyList) {
 
                     if (enemy != null && enemy.getBody() != null && enemy.getBody().getUserData() != null) {
-                        MainApplication.world1.getWorld().destroyBody(enemy.getBody());
+                        WorldHandler.getWorld().destroyBody(enemy.getBody());
                     }
 
                     if (enemy != null && enemy.bodyB != null && enemy.bodyB.getUserData() != null) {
-                        MainApplication.world1.getWorld().destroyBody(enemy.bodyB);
+                        WorldHandler.getWorld().destroyBody(enemy.bodyB);
                     }
                 }
 
-                MainApplication.getEnemies().removeAll();
+                WorldHandler.getEnemies().removeAll();
 
-                for (Projectile projectile : MainApplication.projectileList) {
+                for (Projectile projectile : WorldHandler.projectileList) {
 
-                    if (projectile.getBody() != null && projectile.getBody() != null && projectile.getBody().getUserData() != null) {
-                        MainApplication.world1.getWorld().destroyBody(projectile.getBody());
+                    if (projectile.getBody() != null && projectile.getBody().getUserData() != null) {
+                        WorldHandler.getWorld().destroyBody(projectile.getBody());
                     }
 
                 }
 
-                MainApplication.projectileList.clear();
+                WorldHandler.projectileList.clear();
 
                 for (Joint joint : Party.jointList) {
 
                     if (joint != null) {
-                       // MainApplication.world1.getWorld().destroyJoint(joint);
+                       // MainApplication.getWorld().destroyJoint(joint);
                     }
 
                 }
 
                 System.out.println(8);
-                for (Wall wall : MainApplication.wallList) {
+                for (Wall wall : WorldHandler.wallList) {
                     if (wall != null && wall.getBody() != null && wall.getBody().getUserData() != null) {
-                        MainApplication.world1.getWorld().destroyBody(wall.getBody());
+                        WorldHandler.getWorld().destroyBody(wall.getBody());
                     }
                 }
-                MainApplication.wallList.clear();
+                WorldHandler.wallList.clear();
 
                 System.out.println(9);
                 swappingScreen = false;
                 System.out.println(10);
 
-                for (int i = 0; i < MainApplication.signList.size(); i++) {
-                    if (MainApplication.signList.size() >= 1 && MainApplication.signList.get(i) != null && MainApplication.signList.get(i).illDoIt) {
-                        MainApplication.signList.get(i).executeSwap();
+                for (int i = 0; i < WorldHandler.signList.size(); i++) {
+                    if (WorldHandler.signList.get(i) != null && WorldHandler.signList.get(i).illDoIt) {
+                        WorldHandler.signList.get(i).executeSwap();
                     }
                 }
 
                 //MORE EXITS ADD MORE HERE, CAN CHANGE TO FOR LOOP BUT HONESTLY I DONT THINK WE WILL GET MORE THAN 4 EXITS
                 // did it :)
 
-                for (Sign sign : MainApplication.signList) {
-                    MainApplication.world1.getWorld().destroyBody(sign.getBody());
+                for (Sign sign : WorldHandler.signList) {
+                    WorldHandler.getWorld().destroyBody(sign.getBody());
                 }
 
-                MainApplication.signList.clear();
+                WorldHandler.signList.clear();
 
             } catch(Exception e) {
                 System.out.println("error in MainMenu - destroying bodies between scene changes");
@@ -167,19 +173,19 @@ public class MainMenu extends Game {
 
     public void dispose() {
 
-        batch.dispose();
+        GameHandler.batch.dispose();
         font.dispose();
 
     }
 
     public static void makeSign(Screen target) {
-        Sign sign = new Sign(MainApplication.world1,35,6,0,target);
-        MainApplication.signList.add(sign);
+        Sign sign = new Sign(WorldHandler.getWorldHandler(),35,6,0,target);
+        WorldHandler.signList.add(sign);
     }
 
     public static void makeSign(Screen target,int x,int y) {
-        Sign sign = new Sign(MainApplication.world1,x,y,0,target);
-        MainApplication.signList.add(sign);
+        Sign sign = new Sign(WorldHandler.getWorldHandler(),x,y,0,target);
+        WorldHandler.signList.add(sign);
     }
 
     static public BitmapFont getFont() {

@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class ProjectileBullet extends Projectile {
 
-    public ProjectileBullet(WorldInstance world, float x, float y, float xSize, float ySize, float angle, Vector2 magnitude, float damage, float density, boolean friendly, boolean facingRight, int parent) {
+    public ProjectileBullet(WorldHandler world, float x, float y, float xSize, float ySize, float angle, Vector2 magnitude, float damage, float density, boolean friendly, boolean facingRight, int parent) {
         super(world, x, y, xSize/2, ySize, angle, magnitude, damage, density, friendly, facingRight, parent);
 
         this.texture = null;
@@ -24,7 +24,7 @@ public class ProjectileBullet extends Projectile {
     @Override
     public int death() {
         if (!onDeath) {
-            MainApplication.particleList.add(new Particle(this.body, 50000, MainApplication.getParty().font, new Color(Color.RED)));
+            WorldHandler.particleList.add(new Particle(this.body, 50000, WorldHandler.getParty().font, new Color(Color.RED)));
         }
         onDeath = true;
         return super.death();

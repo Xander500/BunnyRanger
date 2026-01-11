@@ -15,7 +15,7 @@ public abstract class Projectile implements Entity {
     CircleShape circle;
     Body body;
     String nameID = "Projectile";
-    WorldInstance world;
+    WorldHandler world;
     float damage;
     Fixture fixture;
 
@@ -52,7 +52,7 @@ public abstract class Projectile implements Entity {
     int parent;
 
     //pellet
-    public Projectile(WorldInstance world, float x, float y) {
+    public Projectile(WorldHandler world, float x, float y) {
 
         damage = 10;
 
@@ -84,7 +84,7 @@ public abstract class Projectile implements Entity {
 
     }
 
-    public Projectile(WorldInstance world, float x, float y, float xSize, float ySize, float angle, Vector2 magnitude, float damage, float density, boolean friendly, boolean facingRight, int parent) {
+    public Projectile(WorldHandler world, float x, float y, float xSize, float ySize, float angle, Vector2 magnitude, float damage, float density, boolean friendly, boolean facingRight, int parent) {
 
         texture = new Texture(Gdx.files.internal("ArrowProjectile.png"));
         projectileSprite = new Sprite(texture);
@@ -242,7 +242,7 @@ public abstract class Projectile implements Entity {
         return this.fixture;
     }
 
-    public WorldInstance getWorldInstance() {
+    public WorldHandler getWorldInstance() {
         return this.world;
     }
 
@@ -295,8 +295,8 @@ public abstract class Projectile implements Entity {
         } else {
 
             //System.out.println("time to remove");
-            MainApplication.world1.addDestroyBody(this.getBody());
-            MainApplication.projectileListRemove.add(this);
+            WorldHandler.getWorldHandler().addDestroyBody(this.getBody());
+            WorldHandler.projectileListRemove.add(this);
 
             this.remove = true;
 

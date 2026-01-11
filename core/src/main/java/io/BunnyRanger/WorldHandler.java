@@ -1,70 +1,65 @@
 package io.BunnyRanger;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
 
-public class MainApplication extends ApplicationAdapter {
+public class WorldHandler {
+
+    private static WorldHandler worldHandler;
+    private static World world;
+    private WorldContactListener worldContactListener;
+    Array<Body> bodyDestroyList;
+    boolean removeingTime;
 
     public static final int SCREENWIDTH = 1280;
     public static final int SCREENHEIGHT = 720;
-    public static boolean needToMake = true;
 
     // make and hold an instance of a world
     //Box box1;
     Box2DDebugRenderer debugRenderer;
     static OrthographicCamera camera;
     static OrthographicCamera textCamera;
-    MyContactListener myContactListener;
-
     static public int battleSizeWidth;
     static public int battleSizeHeight;
 
-    SpriteBatch batch;
-
+    //players
+    public static Party party;
+    //enemies
+    public static Enemies enemies;
+    //Wall
+    public static ArrayList<Wall> wallList = new ArrayList<Wall>();
+    //Signs
+    public static ArrayList<Sign> signList = new ArrayList<Sign>();
+    //DamageParticles
+    public static ArrayList<Particle> particleList = new ArrayList<Particle>();
     // projectiles
-
     static public ArrayList<Projectile> projectileList = new ArrayList<Projectile>();
     static public ArrayList<Projectile> projectileListRemove = new ArrayList<Projectile>();
-
-    //players
-
-    public static WorldInstance world1 = new WorldInstance();
-    public static Party party;
-
-    //enemies
-
-    public static Enemies enemies;
-
-    //Floor
-
-    public static ArrayList<Wall> wallList = new ArrayList<Wall>();
-
-    //Signs
-
-    public static ArrayList<Sign> signList = new ArrayList<Sign>();
-
-    //DamageParticles
-
-    public static ArrayList<Particle> particleList = new ArrayList<Particle>();
-
     //level name
 
     //cursors
-
     public static Cursor regular;
     public static Cursor grab;
     public static Cursor open;
 
-    public MainApplication() {
+    public WorldHandler() {
+
+        worldHandler = this;
+        this.worldContactListener = new WorldContactListener();
+
+        world = new World(new Vector2(0, -80), false);
+        world.setContactListener(this.worldContactListener);
+
         debugRenderer = new Box2DDebugRenderer();
-        batch = new SpriteBatch();
 
         //test
         battleSizeWidth = (16*40);
@@ -82,26 +77,41 @@ public class MainApplication extends ApplicationAdapter {
         grab = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("pointerB.png")), 0, 0);
 
         Gdx.graphics.setCursor(open);
+
+        party = new Party(worldHandler, 10, 5, camera, new Wall(worldHandler,9999,9999,1,1,"dirt.png"), projectileList);
+
+        enemies = new Enemies(worldHandler, projectileList);
+
     }
 
-    public void create() {
+    public static World getWorld() {
+        return world;
+    }
+    public static WorldHandler getWorldHandler() {
+        return worldHandler;
+    }
 
-        if(needToMake) {
+    public void destroyBodies() {
 
-            party = new Party(world1, 10, 5, camera, new Wall(world1,9999,9999,1,1,"dirt.png"), projectileList);
-
-            enemies = new Enemies(world1, projectileList);
-
-            needToMake = false;
-
+        if (!removeingTime) {
+            return;
         }
 
+        this.bodyDestroyList = new Array<Body>(world.getBodyCount());
+        world.getBodies(bodyDestroyList);
+
+        for (Body body : bodyDestroyList) {
+            if (body != null && !(body.getUserData() == null) && body.getUserData().equals("remove")) {
+                world.destroyBody(body);
+            }
+        }
+        this.removeingTime = false;
+
     }
 
-    public void render() {
-
-        super.render();
-
+    public void addDestroyBody(Body body) {
+        body.setUserData("remove");
+        this.removeingTime = true;
     }
 
     static Party getParty() {

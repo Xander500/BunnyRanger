@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 public class ProjectileBomb extends Projectile {
-    public ProjectileBomb(WorldInstance world, float x, float y, float xSize, float ySize, float angle, Vector2 magnitude, float damage, float density, boolean friendly, boolean facingRight, int parent) {
+    public ProjectileBomb(WorldHandler world, float x, float y, float xSize, float ySize, float angle, Vector2 magnitude, float damage, float density, boolean friendly, boolean facingRight, int parent) {
         super(world, x, y, xSize, ySize, angle, magnitude, damage, density, friendly, facingRight, parent);
         texture = new Texture(Gdx.files.internal("bomb1.png"));
         projectileSprite = new Sprite(texture);
@@ -17,7 +17,7 @@ public class ProjectileBomb extends Projectile {
     @Override
     public int death() {
         if (!onDeath) {
-            MainApplication.particleList.add(new ParticleImage(this.body, 50000, MainApplication.getParty().font, new Color(Color.RED),"fireball3.png", 8,32,1));
+            WorldHandler.particleList.add(new ParticleImage(this.body, 50000, WorldHandler.getParty().font, new Color(Color.RED),"fireball3.png", 8,32,1));
         }
 
         onDeath = true;

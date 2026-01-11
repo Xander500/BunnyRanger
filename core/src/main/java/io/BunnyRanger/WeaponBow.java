@@ -24,7 +24,7 @@ public class WeaponBow implements Weapon, Item {
 
     String name;
 
-    WorldInstance world;
+    WorldHandler world;
     Entity entity;
 
     //calc stuff
@@ -55,7 +55,7 @@ public class WeaponBow implements Weapon, Item {
     // for stupid calculation, don't touchy
     float far;
 
-    ArrayList<Projectile> projectileList = MainApplication.projectileList;
+    ArrayList<Projectile> projectileList = WorldHandler.projectileList;
     int sellPrice = 5;
     int buyPrice = 10;
 

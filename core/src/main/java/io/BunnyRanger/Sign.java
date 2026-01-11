@@ -22,14 +22,14 @@ public class Sign implements Entity {
     CircleShape circle;
     Body body;
     String nameID = "Enemy";
-    WorldInstance world;
+    WorldHandler world;
     Fixture fixture;
 
     //actual sprite
     Sprite enemySprite;
     Texture playerTexture;
 
-    public Sign(WorldInstance world, float x, float y, int currentLevel,Screen target) {
+    public Sign(WorldHandler world, float x, float y, int currentLevel, Screen target) {
 
         this.world = world;
 
@@ -100,15 +100,13 @@ public class Sign implements Entity {
 
         if (secondEntity.getNameID().equals("Player")) {
 
-            Gdx.input.setInputProcessor(null);
+            GameHandler.currentScreen = GameHandler.instance.getScreen();
 
-            MainMenu.currentScreen = MainMenu.instance.getScreen();
-
-            ((ScreenType) target).setReset(true);
+            ((ScreenLevel) target).setReset(true);
 
             illDoIt = true;
 
-            MainMenu.swappingScreen = true;
+            GameHandler.swappingScreen = true;
         }
 
     }
@@ -119,13 +117,13 @@ public class Sign implements Entity {
     }
 
     public void executeSwap() {
-        if (!MainApplication.world1.getWorld().isLocked()) {
-            MainMenu.instance.setScreen(target);
-            MainMenu.indexScreen = currentLevel;
+        if (!WorldHandler.getWorld().isLocked()) {
+            GameHandler.instance.setScreen(target);
+            GameHandler.indexScreen = currentLevel;
             illDoIt = false;
 
             // maybe somewhere else
-            MainApplication.getParty().resetParty(5,1);
+            WorldHandler.getParty().resetParty(5,1);
         } else {
             System.out.println(666);
         }
@@ -160,7 +158,7 @@ public class Sign implements Entity {
         return this.fixture;
     }
 
-    public WorldInstance getWorldInstance() {
+    public WorldHandler getWorldInstance() {
         return this.world;
     }
 

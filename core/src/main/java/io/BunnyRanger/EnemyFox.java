@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class EnemyFox extends EnemyMoving{
 
-    public EnemyFox(WorldInstance world, float x, float y) {
+    public EnemyFox(WorldHandler world, float x, float y) {
         super(world, x, y);
         health = 10;
         maxHealth = 10;

@@ -1,12 +1,10 @@
 package io.BunnyRanger.gwt;
 
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 
-import io.BunnyRanger.Main;
-import io.BunnyRanger.MainMenu;
+import io.BunnyRanger.GameHandler;
 
 /** Launches the GWT application. */
 public class GwtLauncher extends GwtApplication {
@@ -26,6 +24,6 @@ public class GwtLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-            return new MainMenu();
+            return new GameHandler();
         }
 }

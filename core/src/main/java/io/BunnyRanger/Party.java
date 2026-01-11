@@ -33,11 +33,6 @@ public class Party extends InputAdapter {
 
     int[] counterList = new int[4];
 
-    int count1 = 0;
-    int count2 = 0;
-    int count3 = 0;
-    int count4 = 0;
-
     ArrayList<Projectile> projectileList;
 
     //draggable
@@ -51,21 +46,19 @@ public class Party extends InputAdapter {
     MouseJoint joint = null;
 
     Camera camera;
-    WorldInstance world;
+    WorldHandler world;
 
     BitmapFont font;
-    int gold = 100;
 
-    //
+    //GOLD AND XP
+    int gold = 100;
+    int xp = 1;
+
+    //position save
 
     boolean[] playerAliveStatusList = new boolean[4];
 
-    boolean playerAliveStatus1 = true;
-    boolean playerAliveStatus2 = true;
-    boolean playerAliveStatus3 = true;
-    boolean playerAliveStatus4 = true;
-
-    public Party(WorldInstance world, float x, float y, Camera camera, Wall wall, ArrayList<Projectile> projectileList) {
+    public Party(WorldHandler world, float x, float y, Camera camera, Wall wall, ArrayList<Projectile> projectileList) {
 
         this.x = x;
         this.y = y;
@@ -80,15 +73,10 @@ public class Party extends InputAdapter {
         this.playerList[2] = this.player3;
         this.playerList[3] = this.player4;
 
-        this.counterList[0] = count1;
-        this.counterList[1] = count2;
-        this.counterList[2] = count3;
-        this.counterList[3] = count4;
-
-        this.playerAliveStatusList[0] = playerAliveStatus1;
-        this.playerAliveStatusList[1] = playerAliveStatus2;
-        this.playerAliveStatusList[2] = playerAliveStatus3;
-        this.playerAliveStatusList[3] = playerAliveStatus4;
+        this.counterList[0] = 0;
+        this.counterList[1] = 0;
+        this.counterList[2] = 0;
+        this.counterList[3] = 0;
 
         this.projectileList = projectileList;
 
@@ -117,7 +105,7 @@ public class Party extends InputAdapter {
         this.playerList[2].addWeapon(bow3);
         this.playerList[3].addWeapon(bow4);
 
-        font = MainMenu.getFont();
+        font = GameHandler.getFont();
         font.setColor(Color.WHITE);
 
         font.getData().scale(1);
@@ -134,7 +122,6 @@ public class Party extends InputAdapter {
 
     public void resetParty(int pX,int pY) {
 
-
         this.player1.setHealth(player1.maxHealth);
         this.player2.setHealth(player2.maxHealth);
         this.player3.setHealth(player3.maxHealth);
@@ -144,6 +131,27 @@ public class Party extends InputAdapter {
         this.player2.getBody().setTransform((pX+2)*16,pY*16,0);
         this.player3.getBody().setTransform((pX+4)*16,pY*16,0);
         this.player4.getBody().setTransform((pX+6)*16,pY*16,0);
+
+        this.player1.getBody().setLinearVelocity(0,0);
+        this.player2.getBody().setLinearVelocity(0,0);
+        this.player3.getBody().setLinearVelocity(0,0);
+        this.player4.getBody().setLinearVelocity(0,0);
+
+        System.out.println("aa");
+
+    }
+
+    public void resetPartyInventory() {
+
+        this.player1.setHealth(player1.maxHealth);
+        this.player2.setHealth(player2.maxHealth);
+        this.player3.setHealth(player3.maxHealth);
+        this.player4.setHealth(player4.maxHealth);
+
+        this.player1.getBody().setTransform(10*16,30*16,0);
+        this.player2.getBody().setTransform((10+2)*16,30*16,0);
+        this.player3.getBody().setTransform((10+4)*16,30*16,0);
+        this.player4.getBody().setTransform((10+6)*16,30*16,0);
 
         this.player1.getBody().setLinearVelocity(0,0);
         this.player2.getBody().setLinearVelocity(0,0);
@@ -266,16 +274,16 @@ public class Party extends InputAdapter {
                 return true;
             }
 
-            Gdx.graphics.setCursor(MainApplication.grab);
+            Gdx.graphics.setCursor(WorldHandler.grab);
 
             int i = ((Player) fixture.getUserData()).number;
 
             jointDef.bodyB = playerList[i].getBody();
             jointDef.target.set(playerList[i].getBody().getPosition().x - player1.getPlayerSprite().getWidth() / 2,playerList[i].getBody().getPosition().y + player1.getPlayerSprite().getHeight() / 2);
 
-            jointDef.maxForce = 5000; // max force it apply on trying to drag an object
-            jointDef.frequencyHz = 2; // how snappy and responsive it is
-            jointDef.dampingRatio = .1f; // how fast to goes without overshooting 0 - 1 where 1 is no overshooting
+            jointDef.maxForce = 3000; // max force it apply on trying to drag an object
+            jointDef.frequencyHz = 2f; // how snappy and responsive it is
+            jointDef.dampingRatio = .3f; // how fast to goes without overshooting 0 - 1 where 1 is no overshooting
 
 
             joint = (MouseJoint) world.getWorld().createJoint(jointDef);
@@ -303,7 +311,7 @@ public class Party extends InputAdapter {
 
     public void removeMouseJoints() {
 
-        Gdx.graphics.setCursor(MainApplication.open);
+        Gdx.graphics.setCursor(WorldHandler.open);
 
         for (Joint joint : jointList) {
 
@@ -353,6 +361,22 @@ public class Party extends InputAdapter {
 
     public boolean testGold(int i) {
         return gold >= i;
+    }
+
+    public int getXp() {
+        return this.xp;
+    }
+
+    public void setXp(int i) {
+        this.xp = i;
+    }
+
+    public void addXp(int i) {
+        this.xp += i;
+    }
+
+    public boolean testLevelUp(int i) {
+        return this.xp >= i;
     }
 
 }

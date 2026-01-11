@@ -17,7 +17,7 @@ public class Player implements Entity, Damageable {
     Body body;
     Fixture fixture;
 
-    WorldInstance world;
+    WorldHandler world;
     MouseJointDef jointDef = null;
     MouseJoint joint = null;
     Player player = null;
@@ -51,7 +51,7 @@ public class Player implements Entity, Damageable {
 
     Sprite healthBarSpriteBack;
 
-    public Player(WorldInstance world, float x, float y, Camera camera, Wall wall, int number) {
+    public Player(WorldHandler world, float x, float y, Camera camera, Wall wall, int number) {
 
         this.world = world;
         this.player = this;
@@ -210,7 +210,7 @@ public class Player implements Entity, Damageable {
             return damage;
         }
 
-        MainApplication.particleList.add(new Particle(this.body,damage,MainApplication.getParty().font, new Color(Color.RED)));
+        WorldHandler.particleList.add(new Particle(this.body,damage, WorldHandler.getParty().font, new Color(Color.RED)));
 
         health -= damage;
 
@@ -258,7 +258,7 @@ public class Player implements Entity, Damageable {
 
     }
 
-    public void createHealthBar(WorldInstance world) {
+    public void createHealthBar(WorldHandler world) {
 
         Body bodyA = this.getBody();
 
@@ -351,7 +351,7 @@ public class Player implements Entity, Damageable {
         this.currentWeapon.weaponProjectileFactory();
     }
 
-    public WorldInstance getWorldInstance() {
+    public WorldHandler getWorldInstance() {
         return this.world;
     }
 

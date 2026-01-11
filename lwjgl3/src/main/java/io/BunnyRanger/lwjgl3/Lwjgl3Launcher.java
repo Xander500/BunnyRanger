@@ -1,12 +1,10 @@
 package io.BunnyRanger.lwjgl3;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import io.BunnyRanger.Main;
-import io.BunnyRanger.MainApplication;
-import io.BunnyRanger.MainMenu;
+
+import io.BunnyRanger.WorldHandler;
+import io.BunnyRanger.GameHandler;
 
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {
@@ -17,7 +15,7 @@ public class Lwjgl3Launcher {
     }
 
     private static Lwjgl3Application createApplication() {
-        return new Lwjgl3Application(new MainMenu(), getDefaultConfiguration());
+        return new Lwjgl3Application(new GameHandler(), getDefaultConfiguration());
     }
 
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {
@@ -36,7 +34,7 @@ public class Lwjgl3Launcher {
         //// You can change these files; they are in lwjgl3/src/main/resources/ .
         configuration.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
 
-        configuration.setWindowedMode(MainApplication.SCREENWIDTH,MainApplication.SCREENHEIGHT);
+        configuration.setWindowedMode(WorldHandler.SCREENWIDTH, WorldHandler.SCREENHEIGHT);
         //configuration.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
         configuration.setForegroundFPS(60);
 
