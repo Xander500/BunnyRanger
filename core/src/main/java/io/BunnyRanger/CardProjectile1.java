@@ -25,7 +25,7 @@ public class CardProjectile1 extends Card{
         this.number = number;
         this.player = player;
 
-        this.player.getCurrentWeapon().setProjectileCount(this.player.getCurrentWeapon().getBaseProjectile() * 2);
+        this.player.getCurrentWeapon().setProjectileCount(this.player.getCurrentWeapon().getProjectile() * 2);
 
     }
 

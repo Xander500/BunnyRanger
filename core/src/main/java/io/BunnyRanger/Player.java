@@ -21,7 +21,6 @@ public class Player implements Entity, Damageable {
     MouseJointDef jointDef = null;
     MouseJoint joint = null;
     Player player = null;
-    Camera camera;
     String nameID = "Player";
 
     //Damageable
@@ -51,11 +50,10 @@ public class Player implements Entity, Damageable {
 
     Sprite healthBarSpriteBack;
 
-    public Player(WorldHandler world, float x, float y, Camera camera, Wall wall, int number) {
+    public Player(WorldHandler world, float x, float y, Wall wall, int number) {
 
         this.world = world;
         this.player = this;
-        this.camera = camera;
 
         this.number = number;
 

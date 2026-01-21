@@ -71,6 +71,7 @@ public class WeaponBow implements Weapon, Item {
     float baseDamageMaxArrow;
     float baseRangeArrow;
 
+
     float distanceToClostestTarget;
 
     public WeaponBow(boolean friendly) {
@@ -346,6 +347,11 @@ public class WeaponBow implements Weapon, Item {
 
     public int getBaseProjectile() {
         return this.baseCount;
+    }
+
+    @Override
+    public int getProjectile() {
+        return this.count;
     }
 
     public float getBaseRange() {

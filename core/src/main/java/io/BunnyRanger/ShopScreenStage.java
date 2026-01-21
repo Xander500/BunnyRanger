@@ -33,8 +33,8 @@ public class ShopScreenStage extends Stage {
 
     Table table = new Table();
 
-    ShopScreenModifyActor buyButton;
-    ShopScreenModifyActor sellButton;
+    ActorShopModify buyButton;
+    ActorShopModify sellButton;
 
     ShopScreenStage(ScreenShop parentScreen) {
 
@@ -106,7 +106,7 @@ public class ShopScreenStage extends Stage {
 
             for (int j = 0; j < 8; j++) {
 
-                ShopInventorySpotActor shopSpotActorTemp = new ShopInventorySpotActor(this, null, -1, 10, 5);
+                ActorShopInventory shopSpotActorTemp = new ActorShopInventory(this, null, -1, 10, 5);
 
                 actorArrayList.add(shopSpotActorTemp);
 
@@ -127,13 +127,13 @@ public class ShopScreenStage extends Stage {
         WeaponBow bow2 = new WeaponBow2(true);
         WeaponBow gun1 = new WeaponPistol(true);
 
-        ((ShopInventorySpotActor) table.getChild(55)).addSpot(bow1);
-        ((ShopInventorySpotActor) table.getChild(56)).addSpot(bow2);
-        ((ShopInventorySpotActor) table.getChild(57)).addSpot(gun1);
+        ((ActorShopInventory) table.getChild(55)).addSpot(bow1);
+        ((ActorShopInventory) table.getChild(56)).addSpot(bow2);
+        ((ActorShopInventory) table.getChild(57)).addSpot(gun1);
 
 
-        this.buyButton = new ShopScreenModifyActor(this, null);
-        this.sellButton = new ShopScreenModifyActor(this, null);
+        this.buyButton = new ActorShopModify(this, null);
+        this.sellButton = new ActorShopModify(this, null);
 
         actorArrayList.add(buyButton);
         actorArrayList.add(buyButton);
@@ -178,14 +178,14 @@ public class ShopScreenStage extends Stage {
             return;
         }
 
-        if (selected != null && selected instanceof ShopInventorySpotActor && !(hit instanceof ShopInventorySpotActor) && !(hit instanceof ShopScreenModifyActor)) {
+        if (selected != null && selected instanceof ActorShopInventory && !(hit instanceof ActorShopInventory) && !(hit instanceof ActorShopModify)) {
 
             ((InventorySpotActor) selected).setDrawable(null);
             selected = null;
 
         }
 
-        if (selected != null && !(selected instanceof ShopInventorySpotActor) && !(selected instanceof ShopScreenModifyActor) && hit instanceof ShopInventorySpotActor) {
+        if (selected != null && !(selected instanceof ActorShopInventory) && !(selected instanceof ActorShopModify) && hit instanceof ActorShopInventory) {
 
             ((InventorySpotActor) selected).setDrawable(null);
             selected = null;
@@ -193,7 +193,7 @@ public class ShopScreenStage extends Stage {
 
         }
 
-        if (!(selected instanceof ShopInventorySpotActor) && !(hit instanceof ShopInventorySpotActor) && !(selected instanceof ShopScreenModifyActor) && !(hit instanceof ShopScreenModifyActor)) {
+        if (!(selected instanceof ActorShopInventory) && !(hit instanceof ActorShopInventory) && !(selected instanceof ActorShopModify) && !(hit instanceof ActorShopModify)) {
 
             if (hit == null) {
                 if (selected == null || ((InventorySpotActor) selected).getSpot() == null) {
@@ -205,7 +205,7 @@ public class ShopScreenStage extends Stage {
                 return;
             }
 
-            if (hit instanceof ShopScreenModifyActor && selected == null) {
+            if (hit instanceof ActorShopModify && selected == null) {
                 if (selected == null || ((InventorySpotActor) selected).getSpot() == null) {
                     buyButton.setDrawable(buyRedGrey);
                     buyButton.active = false;
@@ -288,13 +288,13 @@ public class ShopScreenStage extends Stage {
 
         // MAYBE NOT
 
-        if (selected != null && selected instanceof ShopInventorySpotActor && hit instanceof ShopInventorySpotActor) {
+        if (selected != null && selected instanceof ActorShopInventory && hit instanceof ActorShopInventory) {
 
             ((InventorySpotActor) selected).setDrawable(null);
 
             ((InventorySpotActor) hit).setDrawable(new TextureRegionDrawable(new Texture((Gdx.files.internal("sleected.png")))));
 
-            selected = ((ShopInventorySpotActor) hit);
+            selected = ((ActorShopInventory) hit);
 
             if (((InventorySpotActor) selected).getSpot() != null) {
 
@@ -347,7 +347,7 @@ public class ShopScreenStage extends Stage {
 
             }
 
-            if (selected instanceof ShopScreenModifyActor) {
+            if (selected instanceof ActorShopModify) {
                 System.out.println("CRINGEHAHAHAHAHA");
 
                 ((InventorySpotActor) selected).setDrawable(null);
@@ -364,11 +364,11 @@ public class ShopScreenStage extends Stage {
 
         }
 
-        if (selected instanceof ShopInventorySpotActor && hit instanceof ShopScreenModifyActor && ((ShopInventorySpotActor) selected).getSpot() != null && buyButton.active && hit == buyButton) {
+        if (selected instanceof ActorShopInventory && hit instanceof ActorShopModify && ((ActorShopInventory) selected).getSpot() != null && buyButton.active && hit == buyButton) {
 
             Item temp = ((InventorySpotActor) selected).getSpot();
 
-            WorldHandler.getParty().addGold(-((ShopInventorySpotActor) selected).buyPrice);
+            WorldHandler.getParty().addGold(-((ActorShopInventory) selected).buyPrice);
 
             ((InventorySpotActor) selected).addSpot(((InventorySpotActor) hit).getSpot());
 
@@ -388,7 +388,7 @@ public class ShopScreenStage extends Stage {
 
         }
 
-        if (selected instanceof InventorySpotActor && ((InventorySpotActor) selected).getSpot() != null && hit instanceof ShopScreenModifyActor && sellButton.active && hit == sellButton) {
+        if (selected instanceof InventorySpotActor && ((InventorySpotActor) selected).getSpot() != null && hit instanceof ActorShopModify && sellButton.active && hit == sellButton) {
 
             Item temp = ((InventorySpotActor) selected).getSpot();
 
@@ -429,7 +429,7 @@ public class ShopScreenStage extends Stage {
 
         for (int i = 0; i < 36;i++) {
 
-            if (this.table.getChild(i) instanceof WeaponInventorySpotActor) {
+            if (this.table.getChild(i) instanceof ActorInventory) {
                 return;
             }
 
@@ -448,7 +448,7 @@ public class ShopScreenStage extends Stage {
 
         for (int i = 55; i < 92;i++) {
 
-            if (this.table.getChild(i) instanceof WeaponInventorySpotActor) {
+            if (this.table.getChild(i) instanceof ActorInventory) {
                 return;
             }
 

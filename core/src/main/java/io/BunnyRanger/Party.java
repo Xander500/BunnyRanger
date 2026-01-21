@@ -5,8 +5,10 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -63,10 +65,10 @@ public class Party extends InputAdapter {
         this.x = x;
         this.y = y;
 
-        this.player1 = new Player(world,x,y,camera, wall,0);
-        this.player2 = new Player(world,x+5,y,camera, wall,1);
-        this.player3 = new Player(world,x+10,y,camera, wall,2);
-        this.player4 = new Player(world,x+15,y,camera, wall,3);
+        this.player1 = new Player(world,x,y, wall,0);
+        this.player2 = new Player(world,x+5,y, wall,1);
+        this.player3 = new Player(world,x+10,y, wall,2);
+        this.player4 = new Player(world,x+15,y, wall,3);
 
         this.playerList[0] = this.player1;
         this.playerList[1] = this.player2;
@@ -131,27 +133,6 @@ public class Party extends InputAdapter {
         this.player2.getBody().setTransform((pX+2)*16,pY*16,0);
         this.player3.getBody().setTransform((pX+4)*16,pY*16,0);
         this.player4.getBody().setTransform((pX+6)*16,pY*16,0);
-
-        this.player1.getBody().setLinearVelocity(0,0);
-        this.player2.getBody().setLinearVelocity(0,0);
-        this.player3.getBody().setLinearVelocity(0,0);
-        this.player4.getBody().setLinearVelocity(0,0);
-
-        System.out.println("aa");
-
-    }
-
-    public void resetPartyInventory() {
-
-        this.player1.setHealth(player1.maxHealth);
-        this.player2.setHealth(player2.maxHealth);
-        this.player3.setHealth(player3.maxHealth);
-        this.player4.setHealth(player4.maxHealth);
-
-        this.player1.getBody().setTransform(10*16,30*16,0);
-        this.player2.getBody().setTransform((10+2)*16,30*16,0);
-        this.player3.getBody().setTransform((10+4)*16,30*16,0);
-        this.player4.getBody().setTransform((10+6)*16,30*16,0);
 
         this.player1.getBody().setLinearVelocity(0,0);
         this.player2.getBody().setLinearVelocity(0,0);
@@ -250,6 +231,83 @@ public class Party extends InputAdapter {
         }
 
     }
+
+    public void inventoryRender(Batch batch) {
+        ((OrthographicCamera) camera).zoom = .5f;
+        camera.update();
+        for (int i = 0; i < 4; i++) {
+                playerList[i].updateHealthBar();
+                playerList[i].drawWeapon();
+
+                float scale = 2f; // double size
+
+                // Save the original batch transform
+                Matrix4 original = batch.getTransformMatrix().cpy();
+
+                // Apply scaling
+                Matrix4 scaleMatrix = new Matrix4();
+                scaleMatrix.setToScaling(scale, scale, 1f);
+                batch.setTransformMatrix(scaleMatrix);
+
+                // Draw all sprites
+                playerList[i].getHealthBarSpriteBack().setOriginCenter();
+                playerList[i].getHealthBarSpriteBack().draw(batch);
+
+                playerList[i].getHealthBarSprite().setOriginCenter();
+                playerList[i].getHealthBarSprite().draw(batch);
+
+                playerList[i].updatePlayerSprite();
+                playerList[i].getPlayerSprite().setOriginCenter();
+                playerList[i].getPlayerSprite().draw(batch);
+
+                playerList[i].getWeaponSprite().setOriginCenter();
+                playerList[i].getWeaponSprite().draw(batch);
+
+                // Restore original batch transform
+                batch.setTransformMatrix(original);
+        }
+        ((OrthographicCamera) camera).zoom = 1f;
+        camera.update();
+    }
+
+    public Vector2[] inventoryShow() {
+
+        Vector2[] originalPositions = new Vector2[4];
+
+        originalPositions[0] = new Vector2(player1.getBody().getPosition());
+        originalPositions[1] = new Vector2(player2.getBody().getPosition());
+        originalPositions[2] = new Vector2(player3.getBody().getPosition());
+        originalPositions[3] = new Vector2(player4.getBody().getPosition());
+
+        player1.getBody().setTransform(19.25f*16, 18*16, 0);
+        player2.getBody().setTransform((19.25f+2)*16, 18*16, 0);
+        player3.getBody().setTransform((19.25f+4)*16, 18*16, 0);
+        player4.getBody().setTransform((19.25f+6)*16, 18*16, 0);
+
+        player1.bodyB.setTransform(19*16, 24*16, 0);
+        player2.bodyB.setTransform((19+2)*16, 24*16, 0);
+        player3.bodyB.setTransform((19+4)*16, 24*16, 0);
+        player4.bodyB.setTransform((19+6)*16, 24*16, 0);
+
+        player1.getBody().setLinearVelocity(0,0);
+        player2.getBody().setLinearVelocity(0,0);
+        player3.getBody().setLinearVelocity(0,0);
+        player4.getBody().setLinearVelocity(0,0);
+
+        System.out.println("Inventory shown, original positions saved");
+
+        // Return the original positions
+        return originalPositions;
+    }
+
+    public void restorePositions(Vector2[] originalPositions) {
+        player1.getBody().setTransform(originalPositions[0], 0);
+        player2.getBody().setTransform(originalPositions[1], 0);
+        player3.getBody().setTransform(originalPositions[2], 0);
+        player4.getBody().setTransform(originalPositions[3], 0);
+
+    }
+
 
     public void drawAll(int i, Batch batch) {
 

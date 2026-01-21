@@ -24,10 +24,10 @@ public class InventoryScreenStage extends Stage {
 
     Table table;
 
-    WeaponInventorySpotActor weaponSlot1;
-    WeaponInventorySpotActor weaponSlot2;
-    WeaponInventorySpotActor weaponSlot3;
-    WeaponInventorySpotActor weaponSlot4;
+    ActorInventory weaponSlot1;
+    ActorInventory weaponSlot2;
+    ActorInventory weaponSlot3;
+    ActorInventory weaponSlot4;
 
     CardInventorySpotActor cardSlot1;
     CardInventorySpotActor cardSlot2;
@@ -105,10 +105,10 @@ public class InventoryScreenStage extends Stage {
         WeaponBow bow4 = new WeaponBow(true);
 
 
-        this.weaponSlot1 = new WeaponInventorySpotActor(this,null,0);
-        this.weaponSlot2 = new WeaponInventorySpotActor(this,null,1);
-        this.weaponSlot3 = new WeaponInventorySpotActor(this,null,2);
-        this.weaponSlot4 = new WeaponInventorySpotActor(this,null,3);
+        this.weaponSlot1 = new ActorInventory(this,null,0);
+        this.weaponSlot2 = new ActorInventory(this,null,1);
+        this.weaponSlot3 = new ActorInventory(this,null,2);
+        this.weaponSlot4 = new ActorInventory(this,null,3);
 
         actorArrayList.add(this.weaponSlot1);
         actorArrayList.add(this.weaponSlot2);
@@ -227,10 +227,10 @@ public class InventoryScreenStage extends Stage {
         boolean selectedIsWeapon = selectedItem instanceof Weapon;
 
         boolean hitIsCardSlot = hit instanceof CardInventorySpotActor;
-        boolean hitIsWeaponSlot = hit instanceof WeaponInventorySpotActor;
+        boolean hitIsWeaponSlot = hit instanceof ActorInventory;
 
         boolean selectedIsCardSlot = selected instanceof CardInventorySpotActor;
-        boolean selectedIsWeaponSlot = selected instanceof WeaponInventorySpotActor;
+        boolean selectedIsWeaponSlot = selected instanceof ActorInventory;
 
         // Rule enforcement
         if ((selectedIsWeapon && hitIsCardSlot) || (selectedIsCard && hitIsWeaponSlot)) {
@@ -308,7 +308,7 @@ public class InventoryScreenStage extends Stage {
 
         for (int i = 0; i < 36;i++) {
 
-            if (this.table.getChild(i) instanceof WeaponInventorySpotActor) {
+            if (this.table.getChild(i) instanceof ActorInventory) {
                 return;
             }
 

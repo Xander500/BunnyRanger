@@ -10,7 +10,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class ScreenInventory extends InputAdapter implements Screen {
@@ -23,6 +25,10 @@ public class ScreenInventory extends InputAdapter implements Screen {
     Sprite sprite;
 
     BitmapFont font;
+
+    Vector2[] positions;
+
+    Wall floor;
 
     public ScreenInventory() {
 
@@ -41,8 +47,6 @@ public class ScreenInventory extends InputAdapter implements Screen {
     }
 
     public void render(float delta) {
-
-        Gdx.input.setInputProcessor(this); // IMPORTANT
 
         camera.update();
         GameHandler.batch.setProjectionMatrix(camera.combined);
@@ -83,10 +87,10 @@ public class ScreenInventory extends InputAdapter implements Screen {
 
         inventoryScreenStage.instance().draw();
 
-        /*
-        MainApplication.getParty().resetPartyInventory();
-        MainApplication.getParty().updateParty(game.batch);
-         */
+        //show stuff
+        WorldHandler.getParty().inventoryRender(GameHandler.batch);
+        //WorldHandler.getWorld().step(1/5f,3,6);
+        //
 
         GameHandler.batch.end();
 
@@ -113,6 +117,11 @@ public class ScreenInventory extends InputAdapter implements Screen {
 
         WorldHandler.getParty().removeMouseJoints();
         Gdx.graphics.setCursor(WorldHandler.regular);
+        Gdx.input.setInputProcessor(this); // IMPORTANT
+
+        //show stuff
+        positions = WorldHandler.getParty().inventoryShow();
+        floor = new Wall(WorldHandler.getWorldHandler(), 0, 13f, 40, 1, "dirt.png");
 
     }
     public void resize(int width, int height) {
@@ -123,6 +132,8 @@ public class ScreenInventory extends InputAdapter implements Screen {
     }
     public void hide() {
         GameHandler.screenShop.shopScreenStage.hydrate();
+        WorldHandler.getParty().restorePositions(positions);
+        WorldHandler.getWorld().destroyBody(floor.body);
     }
     public void dispose() {
     }

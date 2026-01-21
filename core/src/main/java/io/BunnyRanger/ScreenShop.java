@@ -42,8 +42,6 @@ public class ScreenShop extends InputAdapter implements Screen {
 
     public void render(float delta) {
 
-        Gdx.input.setInputProcessor(this); // IMPORTANT
-
         camera.update();
         GameHandler.batch.setProjectionMatrix(camera.combined);
 
@@ -106,6 +104,7 @@ public class ScreenShop extends InputAdapter implements Screen {
     }
 
     public void show() {
+        Gdx.input.setInputProcessor(this); // IMPORTANT
     }
     public void resize(int width, int height) {
     }

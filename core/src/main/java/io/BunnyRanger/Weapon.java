@@ -39,6 +39,7 @@ public interface Weapon {
     abstract int getBuy();
 
     abstract int getBaseProjectile();
+    abstract int getProjectile();
 
     abstract float getBaseRange();
 
