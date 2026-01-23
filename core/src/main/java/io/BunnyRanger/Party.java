@@ -279,15 +279,15 @@ public class Party extends InputAdapter {
         originalPositions[2] = new Vector2(player3.getBody().getPosition());
         originalPositions[3] = new Vector2(player4.getBody().getPosition());
 
-        player1.getBody().setTransform(19.25f*16, 18*16, 0);
-        player2.getBody().setTransform((19.25f+2)*16, 18*16, 0);
-        player3.getBody().setTransform((19.25f+4)*16, 18*16, 0);
-        player4.getBody().setTransform((19.25f+6)*16, 18*16, 0);
+        player1.getBody().setTransform(19.25f*16, 14.35f*16, 0);
+        player2.getBody().setTransform((19.25f+2)*16, 14.35f*16, 0);
+        player3.getBody().setTransform((19.25f+4)*16, 14.35f*16, 0);
+        player4.getBody().setTransform((19.25f+6)*16, 14.35f*16, 0);
 
-        player1.bodyB.setTransform(19*16, 24*16, 0);
-        player2.bodyB.setTransform((19+2)*16, 24*16, 0);
-        player3.bodyB.setTransform((19+4)*16, 24*16, 0);
-        player4.bodyB.setTransform((19+6)*16, 24*16, 0);
+        player1.bodyB.setTransform(19.25f*16, 15.35f*16, 0);
+        player2.bodyB.setTransform((19.25f+2)*16, 15.35f*16, 0);
+        player3.bodyB.setTransform((19.25f+4)*16, 15.35f*16, 0);
+        player4.bodyB.setTransform((19.25f+6)*16, 15.35f*16, 0);
 
         player1.getBody().setLinearVelocity(0,0);
         player2.getBody().setLinearVelocity(0,0);

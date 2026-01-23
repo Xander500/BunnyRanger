@@ -26,7 +26,7 @@ public class CardHealth1 extends Card{
         this.number = number;
         this.player = player;
 
-        this.player.maxHealth += this.player.baseMaxHealth * 2f;
+        this.player.maxHealth += player.baseMaxHealth * .5f;
 
     }
 

@@ -29,7 +29,6 @@ public class Enemies {
         System.out.println("added enemy " + enemyList.size());
         System.out.println("added counter " + counterList.size());
 
-
     }
 
     public void drawAll(int i, Batch batch) {
@@ -46,7 +45,6 @@ public class Enemies {
     }
 
     // enemyList.get(i).move(enemyList.get(i).getCurrentWeapon().getDirection()); only moving during attack works currently
-
 
     public void update(Batch batch) throws Exception {
 
@@ -66,8 +64,8 @@ public class Enemies {
 
                     enemyListRemove.add(enemyList.get(i));
                     //counterList.remove(i);
-                    WorldHandler.getParty().addGold(enemyList.get(i).getGold()); // change 5 to enemy.getGoldValue()
-                    WorldHandler.getParty().addXp(enemyList.get(i).getXp()); // change 5 to enemy.getGoldValue()
+                    WorldHandler.getParty().addGold(enemyList.get(i).getGold()); //
+                    WorldHandler.getParty().addXp(enemyList.get(i).getXp()); //
 
                 } else {
 

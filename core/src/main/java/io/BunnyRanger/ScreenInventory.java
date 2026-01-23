@@ -60,9 +60,11 @@ public class ScreenInventory extends InputAdapter implements Screen {
         float tmpX = font.getScaleX();
         float tmpY = font.getScaleY();
 
-        font.getData().setScale(4f);
+        font.getData().setScale(3f);
         GameHandler.batch.setShader(fontShader);
-        WorldHandler.getParty().getGoldFont().draw(GameHandler.batch,"GOLD " + WorldHandler.getParty().getGold(),70,415);
+        WorldHandler.getParty().getGoldFont().draw(GameHandler.batch,"GOLD " + WorldHandler.getParty().getGold(),68 + (64*.5f),80 + (64*4.25f));
+        WorldHandler.getParty().getGoldFont().draw(GameHandler.batch,"XP " + WorldHandler.getParty().getXp(),68 + (64*4.5f), 80 + (64*4.25f));
+
 
         if (inventoryScreenStage.selected != null && ((InventorySpotActor) inventoryScreenStage.selected).getSpot() != null) {
 
@@ -121,7 +123,7 @@ public class ScreenInventory extends InputAdapter implements Screen {
 
         //show stuff
         positions = WorldHandler.getParty().inventoryShow();
-        floor = new Wall(WorldHandler.getWorldHandler(), 0, 13f, 40, 1, "dirt.png");
+        floor = new Wall(WorldHandler.getWorldHandler(), 0, 12f-40, 40, 2+40, "dirt.png");
 
     }
     public void resize(int width, int height) {

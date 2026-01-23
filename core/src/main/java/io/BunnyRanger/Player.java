@@ -50,6 +50,15 @@ public class Player implements Entity, Damageable {
 
     Sprite healthBarSpriteBack;
 
+    //level system modifyers
+    int attackLevel;
+    int attackSpeedLevel;
+    int specialLevel;
+    int healthLevel;
+    int defenseLevel;
+    int dodgeLevel;
+    int luckLevel;
+
     public Player(WorldHandler world, float x, float y, Wall wall, int number) {
 
         this.world = world;
