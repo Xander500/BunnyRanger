@@ -23,24 +23,12 @@ public class EnemySlime extends EnemyMoving {
     public void moveAttack(boolean facingRight) {
 
         if (moveCount > 50) {
-
-            if (Math.random() > .5) {
-
-                this.getBody().setLinearVelocity(2f, 0);
-
-            } else {
-
-                this.getBody().setLinearVelocity(-2f, 0);
-
-            }
-
+            float vx = Math.random() > .5 ? 2f : -2f;
+            getBody().setLinearVelocity(vx, 0);
             moveCount = 0;
-
         }
 
         moveCount++;
-
-
     }
 
 }

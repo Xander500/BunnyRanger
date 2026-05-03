@@ -30,6 +30,8 @@ public class ScreenInventory extends InputAdapter implements Screen {
 
     Wall floor;
 
+    Boolean[] inAirs = new Boolean[4];
+
     public ScreenInventory() {
 
         camera = new OrthographicCamera();
@@ -122,8 +124,12 @@ public class ScreenInventory extends InputAdapter implements Screen {
         Gdx.input.setInputProcessor(this); // IMPORTANT
 
         //show stuff
+        inAirs[0] = WorldHandler.getParty().getPlayer(0).grounded;
+        inAirs[1] = WorldHandler.getParty().getPlayer(1).grounded;
+        inAirs[2] = WorldHandler.getParty().getPlayer(2).grounded;
+        inAirs[3] = WorldHandler.getParty().getPlayer(3).grounded;
         positions = WorldHandler.getParty().inventoryShow();
-        floor = new Wall(WorldHandler.getWorldHandler(), 0, 12f-40, 40, 2+40, "dirt.png");
+        floor = new Wall(WorldHandler.getWorldHandler(), 0, 12*2f, 40, 2, "dirt.png");
 
     }
     public void resize(int width, int height) {
@@ -134,7 +140,7 @@ public class ScreenInventory extends InputAdapter implements Screen {
     }
     public void hide() {
         GameHandler.screenShop.shopScreenStage.hydrate();
-        WorldHandler.getParty().restorePositions(positions);
+        WorldHandler.getParty().restorePositions(positions, inAirs);
         WorldHandler.getWorld().destroyBody(floor.body);
     }
     public void dispose() {

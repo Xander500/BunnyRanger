@@ -164,7 +164,7 @@ public class Player implements Entity, Damageable {
 
     public void executeEnd(Entity secondEntity) {
         if (secondEntity.getNameID().equals("Floor")) {
-            this.unground();
+            this.setGround(false);
             System.out.println("Grounded END");
         }
     }
@@ -386,8 +386,8 @@ public class Player implements Entity, Damageable {
         return grounded;
     }
 
-    public void unground() {
-        grounded = false;
+    public void setGround(Boolean value) {
+        grounded = value;
     }
 
     //sprite

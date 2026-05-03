@@ -294,18 +294,31 @@ public class Party extends InputAdapter {
         player3.getBody().setLinearVelocity(0,0);
         player4.getBody().setLinearVelocity(0,0);
 
+        player1.setGround(true);
+        player2.setGround(true);
+        player3.setGround(true);
+        player4.setGround(true);
+
         System.out.println("Inventory shown, original positions saved");
+
+        for (Enemy enemy : WorldHandler.getEnemies().enemyList) {
+           enemy.body.setActive(false);
+        }
 
         // Return the original positions
         return originalPositions;
     }
 
-    public void restorePositions(Vector2[] originalPositions) {
+    public void restorePositions(Vector2[] originalPositions, Boolean[] inAir) {
         player1.getBody().setTransform(originalPositions[0], 0);
         player2.getBody().setTransform(originalPositions[1], 0);
         player3.getBody().setTransform(originalPositions[2], 0);
         player4.getBody().setTransform(originalPositions[3], 0);
 
+        player1.setGround(inAir[0]);
+        player2.setGround(inAir[1]);
+        player3.setGround(inAir[2]);
+        player4.setGround(inAir[3]);
     }
 
 

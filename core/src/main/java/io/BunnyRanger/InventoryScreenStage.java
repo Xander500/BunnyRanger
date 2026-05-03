@@ -131,7 +131,6 @@ public class InventoryScreenStage extends Stage {
         table.addActor(this.weaponSlot3);
         table.addActor(this.weaponSlot4);
 
-
         // CARD SLOT
 
         Card card1 = new Card();
@@ -196,6 +195,19 @@ public class InventoryScreenStage extends Stage {
         table.addActor(this.cardSlot8);
 
 
+        //LEVEL SYSTEM
+
+        for(int i = 3; i < 6; i++) {
+            for(int j = 8; j < 12; j++) {
+
+                InventorySpotActor inventorySpotActorTemp = new ActorInventoryUpgrade(this,null, 0);
+                actorArrayList.add(inventorySpotActorTemp);
+                inventorySpotActorTemp.setImageSize(15f*4,15f*4);
+                inventorySpotActorTemp.setImagePostion(75 + (j*64f), 125 + (i*64f));
+                table.addActor(inventorySpotActorTemp);
+
+            }
+        }
 
 
     }
