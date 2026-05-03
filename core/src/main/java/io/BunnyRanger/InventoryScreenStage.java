@@ -21,6 +21,9 @@ public class InventoryScreenStage extends Stage {
     Image image = new Image(new Texture(Gdx.files.internal("menuInventory.png")));
 
     Actor selected = null;
+    Actor selectedPlayer = null;
+    ActorInventoryUpgrade selectedUpgrade;
+
 
     Table table;
 
@@ -196,15 +199,23 @@ public class InventoryScreenStage extends Stage {
 
 
         //LEVEL SYSTEM
-
-        for(int i = 3; i < 6; i++) {
+         for (int j = 8; j < 12; j++) {
+            InventorySpotActor inventorySpotActorTemp = new ActorInventoryPlayer(this,null, j - 8);
+            actorArrayList.add(inventorySpotActorTemp);
+            inventorySpotActorTemp.setImageSize(15f*4,15f*4);
+            inventorySpotActorTemp.setImagePostion(75 + (j*64f), 125 + (5*64f));
+            table.addActor(inventorySpotActorTemp);
+         }
+        int upgrades = 0;
+        for(int i = 3; i < 5; i++) {
             for(int j = 8; j < 12; j++) {
 
-                InventorySpotActor inventorySpotActorTemp = new ActorInventoryUpgrade(this,null, 0);
+                InventorySpotActor inventorySpotActorTemp = new ActorInventoryUpgrade(this,null, upgrades);
                 actorArrayList.add(inventorySpotActorTemp);
                 inventorySpotActorTemp.setImageSize(15f*4,15f*4);
                 inventorySpotActorTemp.setImagePostion(75 + (j*64f), 125 + (i*64f));
                 table.addActor(inventorySpotActorTemp);
+                upgrades++;
 
             }
         }
@@ -220,72 +231,83 @@ public class InventoryScreenStage extends Stage {
         return this.image;
     }
 
-    public void parseHit(Actor hit,int button) {
-
-        // Right click = unselect
+    public void parseHit(Actor hit, int button) {
         if (button == 1) {
-            if (selected != null) {
-                ((InventorySpotActor) selected).setDrawable(null);
-                selected = null;
-            }
+            clearSelections();
+            return;
+        }
+        if (hit == null) {
             return;
         }
 
-// No item hit
-        if (hit == null) return;
-
-        InventorySpotActor selectedSpot = (InventorySpotActor) selected;
-        InventorySpotActor hitSpot = (InventorySpotActor) hit;
-
-        // Nothing is selected yet → select the new spot
-        if (selected == null) {
-            hitSpot.setDrawable(selectedIcon);
-            selected = hitSpot;
-            return;
-        }
-
-        // If selected spot is empty → switch selection to hit
-        if (selectedSpot.getSpot() == null) {
-            selectedSpot.setDrawable(null);
-            hitSpot.setDrawable(selectedIcon);
-            selected = hitSpot;
-            return;
-        }
-
-        // Type checking
-        Item selectedItem = selectedSpot.getSpot();
-        Item hitItem = hitSpot.getSpot();
-
-        // Block invalid drop targets
-        boolean selectedIsCard = selectedItem instanceof Card;
-        boolean selectedIsWeapon = selectedItem instanceof Weapon;
-
-        boolean hitIsCardSlot = hit instanceof ActorInventoryCard;
-        boolean hitIsWeaponSlot = hit instanceof ActorInventory;
-
-        boolean selectedIsCardSlot = selected instanceof ActorInventoryCard;
-        boolean selectedIsWeaponSlot = selected instanceof ActorInventory;
-
-        // Rule enforcement
-        if ((selectedIsWeapon && hitIsCardSlot) || (selectedIsCard && hitIsWeaponSlot)) {
-            return; // Weapon trying to go in card slot or vice versa
-        }
-
-        if ((hitItem instanceof Weapon && selectedIsCardSlot) || (hitItem instanceof Card && selectedIsWeaponSlot)) {
-            return; // Item already in target slot doesn't match
-        }
-
-        // All checks passed → perform swap
-        Item temp = selectedItem;
-        selectedSpot.addSpot(hitItem);
-        hitSpot.addSpot(temp);
-
-        selectedSpot.setDrawable(null);
-        selected = null;
-
-        populatePartyWeapons(); // Update visuals/stats
+        System.out.println("hit: " + (hit != null ? hit.getClass().getName() : "null"));
+        ((InventorySpotActor) hit).onHit(this); // 'this' satisfies InventoryContext
 
     }
+
+    private void clearSelections() {
+        if (selected != null) {
+            ((InventorySpotActor) selected).setDrawable(null);
+            selected = null;
+        }
+        if (selectedPlayer != null) {
+            ((InventorySpotActor)selectedPlayer).setDrawable(null);
+            selectedPlayer = null;
+        }
+        if (selectedUpgrade != null) {
+            selectedUpgrade.setDrawable(null);
+        }
+        clearUpgradeSelection(); // zeroes out both selectedPlayer and selectedUpgrade}
+    }
+
+    public ActorInventoryUpgrade getSelectedUpgrade() {
+        return selectedUpgrade;
+    }
+
+    InventorySpotActor getSelected() {
+        return (InventorySpotActor) selected;
+    }
+    InventorySpotActor getSelectedPlayer() {
+        return (InventorySpotActor) selectedPlayer;
+    }
+    void setSelected(InventorySpotActor spot) {
+        this.selected = spot;
+    }
+    void clearSelected() {
+        if (selected != null) {
+            ((InventorySpotActor) selected).setDrawable(null);
+            selected = null;
+        }
+        if (selectedPlayer != null) {
+            ((InventorySpotActor) selectedPlayer).setDrawable(null);
+            selectedPlayer = null;
+        }
+    }
+    void clearSelectedPlayer() {
+        //??????
+    }
+    TextureRegionDrawable getSelectedIcon() {
+       return selectedIcon;
+    }
+
+    public void setSelectedPlayer(ActorInventoryPlayer player) {
+        selectedPlayer = player;
+        ((InventorySpotActor) selectedPlayer).setDrawable(selectedIcon);
+    }
+
+    public void setSelectedUpgrade(ActorInventoryUpgrade upgrade) {
+        if (selectedUpgrade != null) selectedUpgrade.setDrawable(null);
+        selectedUpgrade = upgrade;
+        selectedUpgrade.setDrawable(selectedIcon);
+    }
+
+    public void clearUpgradeSelection() {
+        if (selectedPlayer != null) ((InventorySpotActor) selectedPlayer).setDrawable(null);
+        if (selectedUpgrade != null) selectedUpgrade.setDrawable(null);
+        selectedPlayer = null;
+        selectedUpgrade = null;
+    }
+
 
     public void populatePartyWeapons() {
 

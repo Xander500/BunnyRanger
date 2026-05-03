@@ -112,6 +112,54 @@ public class InventorySpotActor extends Image {
 
     }
 
+    public void onHit(InventoryScreenStage stage) {
+        stage.clearUpgradeSelection();
+        if (handleEmptySelectionCases(stage)) return;
 
+        InventorySpotActor selected = stage.getSelected();
+        Item selectedItem = selected.getSpot();
+        Item hitItem = this.getSpot();
+
+        // Basic slots accept anything — no type restrictions
+        // But still block cross-type swaps if the slots themselves are typed
+        if (selectedItem instanceof Card && this instanceof ActorInventory) return;
+        if (selectedItem instanceof Weapon && this instanceof ActorInventoryCard) return;
+        if (hitItem instanceof Weapon && selected instanceof ActorInventoryCard) return;
+        if (hitItem instanceof Card && selected instanceof ActorInventory) return;
+
+        swapWith(selected, stage);
+    }
+
+    void selectAsMain(InventoryScreenStage stage) {
+        setDrawable(stage.getSelectedIcon());
+        stage.setSelected(this);
+    }
+
+    void swapWith(InventorySpotActor other, InventoryScreenStage stage) {
+        Item temp = other.getSpot();
+        other.addSpot(this.getSpot());
+        this.addSpot(temp);
+
+        other.setDrawable(null);
+        stage.clearSelected();
+        stage.populatePartyWeapons();
+    }
+
+    protected boolean handleEmptySelectionCases(InventoryScreenStage stage) {
+        InventorySpotActor selected = stage.getSelected();
+
+        if (selected == null) {
+            selectAsMain(stage);
+            return true;
+        }
+
+        if (selected.getSpot() == null) {
+            selected.setDrawable(null);
+            selectAsMain(stage);
+            return true;
+        }
+
+        return false;
+    }
 
 }

@@ -15,4 +15,21 @@ public class ActorInventoryCard extends InventorySpotActor {
 
     }
 
+    public void onHit(InventoryScreenStage stage) {
+        stage.clearUpgradeSelection();
+        if (handleEmptySelectionCases(stage)) return;
+
+        InventorySpotActor selected = stage.getSelected();
+        Item selectedItem = selected.getSpot();
+        Item hitItem      = this.getSpot();
+
+        // A Weapon must never land in a card slot
+        if (selectedItem instanceof Weapon) return;
+
+        // If the card slot already holds a card and the source is a weapon slot, block
+        if (hitItem instanceof Card && selected instanceof ActorInventory) return;
+
+        swapWith(selected, stage);
+    }
+
 }

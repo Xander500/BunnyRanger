@@ -15,4 +15,31 @@ public class ActorInventoryUpgrade extends InventorySpotActor {
 
     }
 
+    public void onHit(InventoryScreenStage stage) {
+
+        ActorInventoryPlayer selectedPlayer   = (ActorInventoryPlayer) stage.getSelectedPlayer();
+        ActorInventoryUpgrade previousUpgrade = stage.getSelectedUpgrade();
+        if (selectedPlayer == null) return;
+
+        setDrawable(stage.getSelectedIcon());
+        stage.setSelectedUpgrade(this);
+
+        if (this.number == 3 && previousUpgrade != null) {
+            previousUpgrade.execute(selectedPlayer);
+            previousUpgrade.setDrawable(null);
+            stage.clearUpgradeSelection();
+            return;
+        }
+
+        if (this.number == 3) {
+            stage.clearUpgradeSelection();
+        }
+
+    }
+
+    public void execute(ActorInventoryPlayer player) {
+        //specific implementation
+        System.out.println("upgraded " + this.number);
+    }
+
 }

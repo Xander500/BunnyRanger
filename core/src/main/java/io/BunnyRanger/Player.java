@@ -131,6 +131,14 @@ public class Player implements Entity, Damageable {
         this.body.setUserData("Player body");
         this.bodyB.setUserData("Player healthBar");
 
+        attackLevel = 0;
+        luckLevel = 0;
+        attackSpeedLevel = 0;
+        defenseLevel = 0;
+        dodgeLevel = 0;
+        healthLevel = 0;
+        specialLevel = 0;
+
     }
 
     public String getNameID() {

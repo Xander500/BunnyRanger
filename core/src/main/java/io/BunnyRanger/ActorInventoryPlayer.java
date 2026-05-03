@@ -15,4 +15,10 @@ public class ActorInventoryPlayer extends InventorySpotActor {
 
     }
 
+    public void onHit(InventoryScreenStage stage) {
+        // Clear any pending item selection, then claim the player slot
+        stage.clearSelected();
+        stage.setSelectedPlayer(this);
+    }
+
 }
