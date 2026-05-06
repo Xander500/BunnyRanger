@@ -57,7 +57,7 @@ public class Player implements Entity, Damageable {
     int healthLevel;
     int defenseLevel;
     int dodgeLevel;
-    int luckLevel;
+    int movementSpeedLevel;
 
     public Player(WorldHandler world, float x, float y, Wall wall, int number) {
 
@@ -131,12 +131,12 @@ public class Player implements Entity, Damageable {
         this.body.setUserData("Player body");
         this.bodyB.setUserData("Player healthBar");
 
-        attackLevel = 0;
-        luckLevel = 0;
-        attackSpeedLevel = 0;
+        healthLevel = 0;
         defenseLevel = 0;
         dodgeLevel = 0;
-        healthLevel = 0;
+        movementSpeedLevel = 0;
+        attackLevel = 0;
+        attackSpeedLevel = 0;
         specialLevel = 0;
 
     }

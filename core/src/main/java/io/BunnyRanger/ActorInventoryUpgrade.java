@@ -39,7 +39,12 @@ public class ActorInventoryUpgrade extends InventorySpotActor {
 
     public void execute(ActorInventoryPlayer player) {
         //specific implementation
-        System.out.println("upgraded " + this.number);
+        System.out.println("upgraded " + this.number + " from " + player.number);
+
+        Player currentPlayer = WorldHandler.getParty().getPlayer(player.number);
+
+
+
     }
 
 }

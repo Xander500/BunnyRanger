@@ -194,7 +194,7 @@ public class WeaponBow implements Weapon, Item {
 
             this.damageCurrentArrow = (float) Math.round((Math.random() * (damageMaxArrow - damageMinArrow)) + damageMinArrow);
 
-            Projectile projectile = new ProjectilePiercing(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight, 1);
+            Projectile projectile = new ProjectileArrow(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight, 1);
 
             this.projectileList.add(projectile);
 
