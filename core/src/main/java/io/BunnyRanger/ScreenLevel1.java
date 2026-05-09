@@ -18,7 +18,7 @@ public class ScreenLevel1 extends ScreenLevel {
 
     public void makeEnemies() {
 
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 5; i++) {
             Enemy enemy1 = new EnemySlime(worldHandler, 16 + 1.7f*i, 5);
             enemies.addEnemy(enemy1);
             WeaponEmpty bow1 = new WeaponEmpty(false);
@@ -49,7 +49,7 @@ public class ScreenLevel1 extends ScreenLevel {
 
         if (levelDisplayCounter < 300) {
             GameHandler.batch.begin();
-            this.displayTitle("wowzer" + Gdx.graphics.getFramesPerSecond(),350,650);
+            this.displayTitle("LEVEL 1" + Gdx.graphics.getFramesPerSecond(),350,650);
             GameHandler.batch.end();
         }
 
