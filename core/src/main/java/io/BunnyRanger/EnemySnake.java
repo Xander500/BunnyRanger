@@ -9,9 +9,11 @@ public class EnemySnake extends EnemyMoving {
     public EnemySnake(WorldHandler world, float x, float y) {
         super(world, x, y);
         health = 30;
+        maxHealth = 30;
         enemyTexture = new Texture(Gdx.files.internal("snek.png"));
         enemySprite = new Sprite(enemyTexture,0,0,16,16);
         enemySprite.setScale(1);
+        setRewards(6, 3);
     }
 
     public void move(boolean facingRight) {
@@ -20,22 +22,10 @@ public class EnemySnake extends EnemyMoving {
 
     public void moveAttack(boolean facingRight) {
 
-        if (moveCount > 200) {
-
-            if(facingRight) {
-
-                this.getBody().setLinearVelocity(1f,10);
-
-            } else {
-
-                this.getBody().setLinearVelocity(-1f,10);
-
-            }
-
-            moveCount = 0;
-
+        hopTowardTarget(facingRight, 1.7f, 8f, 115);
+        if (moveCount % 45 == 0) {
+            paceTowardTarget(facingRight, .7f, 1);
         }
-
         moveCount++;
 
     }

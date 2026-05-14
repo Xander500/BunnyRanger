@@ -13,6 +13,7 @@ public class EnemySlime extends EnemyMoving {
         enemyTexture = new Texture(Gdx.files.internal("slime.png"));
         enemySprite = new Sprite(enemyTexture, 0, 0, 16, 16);
         enemySprite.setScale(1);
+        setRewards(2, 1);
     }
 
     public void move(boolean facingRight) {
@@ -22,12 +23,7 @@ public class EnemySlime extends EnemyMoving {
 
     public void moveAttack(boolean facingRight) {
 
-        if (moveCount > 50) {
-            float vx = Math.random() > .5 ? 2f : -2f;
-            getBody().setLinearVelocity(vx, 0);
-            moveCount = 0;
-        }
-
+        zigZag(1.3f, 65);
         moveCount++;
     }
 

@@ -28,6 +28,11 @@ public class GameHandler extends Game {
     public static ScreenLevel screenLevel3;
     public static ScreenLevel screenLevel4;
     public static ScreenLevel screenLevel5;
+    public static ScreenLevel screenLevel6;
+    public static ScreenLevel screenLevel7;
+    public static ScreenLevel screenLevel8;
+    public static ScreenLevel screenLevel9;
+    public static ScreenLevel screenLevel10;
 
     public static ScreenInventory screenInventory;
     public static ScreenShop screenShop;
@@ -80,6 +85,16 @@ public class GameHandler extends Game {
         screenLevel4.create();
         screenLevel5 = new ScreenLevel5();
         screenLevel5.create();
+        screenLevel6 = new ScreenLevel6();
+        screenLevel6.create();
+        screenLevel7 = new ScreenLevel7();
+        screenLevel7.create();
+        screenLevel8 = new ScreenLevel8();
+        screenLevel8.create();
+        screenLevel9 = new ScreenLevel9();
+        screenLevel9.create();
+        screenLevel10 = new ScreenLevel10();
+        screenLevel10.create();
 
         worldHandler = new WorldHandler();
 

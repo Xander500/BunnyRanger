@@ -13,22 +13,22 @@ public class ScreenLevel3 extends ScreenLevel {
     }
     public void makeEnemies() {
 
-        EnemySnake enemy1 = new EnemySnake(WorldHandler.getWorldHandler(), 35, 5);
-        EnemySnake enemy2 = new EnemySnake(WorldHandler.getWorldHandler(), 40, 5);
+        for (int i = 0; i < 3; i++) {
+            Enemy enemy = new EnemySnake(worldHandler, 26 + 2.5f * i, 5);
+            enemies.addEnemy(enemy);
+            enemy.addWeapon(new WeaponSword(false));
+        }
 
-        enemies.addEnemy(enemy1);
-        enemies.addEnemy(enemy2);
+        for (int i = 0; i < 2; i++) {
+            Enemy enemy = new EnemyFox(worldHandler, 32 + 2.5f * i, 5);
+            enemies.addEnemy(enemy);
+            enemy.addWeapon(new WeaponBow(false));
+        }
 
-        WeaponSword bow1 = new WeaponSword(false);
-        WeaponSword bow2 = new WeaponSword(false);
-
-        enemy1.addWeapon(bow1);
-        enemy2.addWeapon(bow2);
-
-        Wall floor1 = new Wall(worldHandler, 32, 1, 32, 1, "grass.png");
-        Wall floor2 = new Wall(worldHandler, 32, 31, 32, 1, "dirt.png");
-        Wall wall1 = new Wall(worldHandler, 63, 16, 1, 16, "dirt.png");
-        Wall wall2 = new Wall(worldHandler, 1, 16, 1, 16, "dirt.png");
+        Wall floor1 = new Wall(worldHandler, 0, 0f, 40, 1, "grass.png");
+        Wall floor2 = new Wall(worldHandler, 0, 22.5f, 40, 1, "dirt.png");
+        Wall wall1 = new Wall(worldHandler, -1, 0, 1, 21.5f, "dirt.png");
+        Wall wall2 = new Wall(worldHandler, 40, 0, 1, 21.5f, "dirt.png");
 
         wallList.add(floor1);
         wallList.add(floor2);

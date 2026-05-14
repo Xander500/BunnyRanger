@@ -21,7 +21,12 @@ public class WeaponBow2 extends WeaponBow {
         this.weaponDelay = 100;
 
         this.damageMaxArrow = 4;
+        this.baseDamageMaxArrow = 4;
         this.damageMinArrow = 2;
+        this.baseDamageMinArrow = 2;
+        this.rangeArrow = 220;
+        this.baseRangeArrow = 220;
+        this.baseWeaponDelay = 100;
 
         this.buyPrice = 20;
         this.sellPrice = 10;
@@ -37,4 +42,3 @@ public class WeaponBow2 extends WeaponBow {
     }
 
 }
-

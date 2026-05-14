@@ -71,8 +71,15 @@ public class WeaponPistol extends WeaponBow {
         this.name = "Gun 1";
 
         this.count = 5;
+        this.baseCount = 5;
         this.rangeArrow = 50;
+        this.baseRangeArrow = 50;
+        this.damageMinArrow = 1;
+        this.baseDamageMinArrow = 1;
+        this.damageMaxArrow = 3;
+        this.baseDamageMaxArrow = 3;
         this.weaponDelay = 120;
+        this.baseWeaponDelay = 120;
 
         this.densityArrow = 1;
 

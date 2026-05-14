@@ -108,7 +108,11 @@ public abstract class Enemy implements Entity, Damageable {
         //ENEMY DROPS TEST EDIT THIS ALWAYS
         this.dropList.put(new WeaponBow(true), 20f);
         this.dropList.put(new WeaponBow2(true), 20f);
+        this.dropList.put(new WeaponBow3(true), 10f);
         this.dropList.put(new WeaponPistol(true), 20f);
+        this.dropList.put(new WeaponPistol2(true), 10f);
+        this.dropList.put(new WeaponSword(true), 12f);
+        this.dropList.put(new WeaponBomb(true), 8f);
 
         System.out.println("asdasd" + this.dropList.keySet());
 
@@ -116,6 +120,11 @@ public abstract class Enemy implements Entity, Damageable {
         this.xp = 1;
         this.gold = 3;
 
+    }
+
+    protected void setRewards(int gold, int xp) {
+        this.gold = gold;
+        this.xp = xp;
     }
 
     public String getNameID() {

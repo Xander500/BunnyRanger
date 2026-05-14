@@ -355,15 +355,15 @@ public class WeaponBow implements Weapon, Item {
     }
 
     public float getBaseRange() {
-        return -1;
+        return baseRangeArrow;
     }
 
     public float getBaseMaxDamage() {
-        return -1;
+        return baseDamageMaxArrow;
     }
 
     public float getBaseMinDamage() {
-        return -1;
+        return baseDamageMinArrow;
     }
 
     public float getBaseDelay() {

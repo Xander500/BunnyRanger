@@ -144,11 +144,8 @@ public class ScreenLevel implements Screen {
         WorldHandler.getWorldHandler().destroyBodies();
 
         if (reset && enemies != null && enemies.enemyList.isEmpty()) {
-
             makeEnemies();
-
             reset = false;
-
         }
 
         //Unique
@@ -180,7 +177,7 @@ public class ScreenLevel implements Screen {
 
         }
 
-        if (drawSign) {
+        if (drawSign && !WorldHandler.signList.isEmpty()) {
             WorldHandler.signList.get(0).updateEnemySprite();
             WorldHandler.signList.get(0).getEnemySprite().draw(GameHandler.batch);
         }

@@ -25,19 +25,24 @@ public class WeaponBomb extends WeaponBow{
         this.disBetweenShotsX = 20;
         this.disBetweenShotsY = 0;
 
+        this.damageMinArrow = 10;
         this.baseDamageMinArrow = 10;
+        this.damageMaxArrow = 20;
         this.baseDamageMaxArrow = 20;
 
+        this.count = 1;
         this.baseCount = 1;
 
+        this.rangeArrow = 200;
         this.baseRangeArrow = 200;
 
+        this.weaponDelay = 200;
         this.baseWeaponDelay = 200;
 
         // shop
         this.inventoryTexture = new Texture(Gdx.files.internal("bomb1.png"));
-        this.buyPrice = 999;
-        this.sellPrice = 999;
+        this.buyPrice = 45;
+        this.sellPrice = 22;
     }
 
     public void weaponProjectileFactory() {

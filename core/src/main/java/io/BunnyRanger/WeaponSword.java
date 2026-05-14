@@ -32,9 +32,11 @@ public class WeaponSword extends WeaponBow {
         this.rangeArrow = 200;
         this.baseRangeArrow = 200;
         this.weaponDelay = 60;
-        this.baseWeaponDelay = 30;
+        this.baseWeaponDelay = 60;
 
+        this.damageMinArrow = 1;
         this.baseDamageMinArrow = 1;
+        this.damageMaxArrow = 5;
         this.baseDamageMaxArrow = 5;
 
         this.densityArrow = 1;

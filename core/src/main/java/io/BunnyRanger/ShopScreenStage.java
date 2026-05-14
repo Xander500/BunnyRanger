@@ -125,11 +125,29 @@ public class ShopScreenStage extends Stage {
 
         WeaponBow bow1 = new WeaponBow(true);
         WeaponBow bow2 = new WeaponBow2(true);
+        WeaponBow bow3 = new WeaponBow3(true);
         WeaponBow gun1 = new WeaponPistol(true);
+        WeaponBow gun2 = new WeaponPistol2(true);
+        WeaponBow gun3 = new WeaponPistol3(true);
+        WeaponBow sword1 = new WeaponSword(true);
+        WeaponBow sword2 = new WeaponSword2(true);
+        WeaponBow sword3 = new WeaponSword3(true);
+        WeaponBow bomb1 = new WeaponBomb(true);
+        WeaponBow bomb2 = new WeaponBomb2(true);
+        WeaponBow bomb3 = new WeaponBomb3(true);
 
         ((ActorShopInventory) table.getChild(55)).addSpot(bow1);
         ((ActorShopInventory) table.getChild(56)).addSpot(bow2);
-        ((ActorShopInventory) table.getChild(57)).addSpot(gun1);
+        ((ActorShopInventory) table.getChild(57)).addSpot(bow3);
+        ((ActorShopInventory) table.getChild(58)).addSpot(gun1);
+        ((ActorShopInventory) table.getChild(59)).addSpot(gun2);
+        ((ActorShopInventory) table.getChild(60)).addSpot(gun3);
+        ((ActorShopInventory) table.getChild(61)).addSpot(sword1);
+        ((ActorShopInventory) table.getChild(62)).addSpot(sword2);
+        ((ActorShopInventory) table.getChild(63)).addSpot(sword3);
+        ((ActorShopInventory) table.getChild(64)).addSpot(bomb1);
+        ((ActorShopInventory) table.getChild(65)).addSpot(bomb2);
+        ((ActorShopInventory) table.getChild(66)).addSpot(bomb3);
 
 
         this.buyButton = new ActorShopModify(this, null);
@@ -464,4 +482,3 @@ public class ShopScreenStage extends Stage {
     }
 
 }
-

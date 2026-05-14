@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class ScreenLevelInn extends ScreenLevel implements Screen, ScreenType {
 
-    boolean reset = true;
-
     boolean drawSign;
 
     public static String levelName = "Level 0 - Inn";
@@ -60,20 +58,20 @@ public class ScreenLevelInn extends ScreenLevel implements Screen, ScreenType {
 
         }
 
-        if (firstBarrier && signList.size() >= 2) {
+        //BARRIER DRAW
+        if (firstBarrier && signList.size() > 1) {
+            signList.get(1).changeBits();
 
-            //BARRIER DRAW
-
-            for (int i = 1; i < signList.size(); i++) {
-
-                signList.get(i).changeBits();
-
-                signList.get(i).updateEnemySprite();
-                signList.get(i).getEnemySprite().draw(GameHandler.batch);
-
-            }
-
+            signList.get(1).updateEnemySprite();
+            signList.get(1).getEnemySprite().draw(GameHandler.batch);
         }
+        if (secondBarrier && signList.size() > 2) {
+            signList.get(2).changeBits();
+
+            signList.get(2).updateEnemySprite();
+            signList.get(2).getEnemySprite().draw(GameHandler.batch);
+        }
+
 
         GameHandler.batch.end();
 
@@ -102,18 +100,10 @@ public class ScreenLevelInn extends ScreenLevel implements Screen, ScreenType {
 
         GameHandler.makeSign(GameHandler.screenLevel1);
 
-        GameHandler.makeSign(GameHandler.screenLevel2,28,32); // WHERE FIRST WARP SIGN SHOULD GO
-        GameHandler.makeSign(GameHandler.screenLevel3,36,32); // WHERE SECOND WARP SIGN SHOULD GO
-        GameHandler.makeSign(GameHandler.screenLevel4,45,32); // WHERE THIRD WARP SIGN SHOULD GO
-        GameHandler.makeSign(GameHandler.screenLevel5,54,32); // WHERE FOURTH WARP SIGN SHOULD GO
+        GameHandler.makeSign(GameHandler.screenLevel5,20,10); // WHERE FIRST WARP SIGN SHOULD GO
+        GameHandler.makeSign(GameHandler.screenLevel10,25,10); // WHERE SECOND WARP SIGN SHOULD GO
 
-        firstBarrier = true;
         secondBarrier = true;
-        thirdBarrier = true;
-        fourthBarrier = true;
-
-        drawSign = false;
-
     }
 
     public void dispose() {

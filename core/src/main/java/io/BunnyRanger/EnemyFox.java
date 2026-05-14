@@ -14,6 +14,7 @@ public class EnemyFox extends EnemyMoving{
         enemySprite = new Sprite(enemyTexture,0,0,16,16);
         enemySprite.setScale(1f);
         flip(true);
+        setRewards(4, 2);
     }
 
     public void move(boolean facingRight) {
@@ -22,22 +23,10 @@ public class EnemyFox extends EnemyMoving{
 
     public void moveAttack(boolean facingRight) {
 
-        if (moveCount > 50) {
-
-            if(facingRight) {
-
-                this.getBody().setLinearVelocity(2f,0);
-
-            } else {
-
-                this.getBody().setLinearVelocity(-2f,0);
-
-            }
-
-            moveCount = 0;
-
+        paceTowardTarget(facingRight, 2.1f, 35);
+        if (moveCount % 100 == 0) {
+            getBody().setLinearVelocity(facingRight ? 3.2f : -3.2f, 2f);
         }
-
         moveCount++;
 
     }

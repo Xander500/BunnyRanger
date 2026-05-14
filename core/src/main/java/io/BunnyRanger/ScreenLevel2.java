@@ -37,7 +37,7 @@ public class ScreenLevel2 extends ScreenLevel {
 
         wallList.add(floor1);
 
-        GameHandler.makeSign(GameHandler.screenLevel2);
+        GameHandler.makeSign(GameHandler.screenLevel3);
 
         drawSign = false;
 
