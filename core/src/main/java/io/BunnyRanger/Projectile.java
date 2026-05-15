@@ -149,7 +149,7 @@ public abstract class Projectile implements Entity {
         this.body.setGravityScale(1);
         this.body.setUserData(this);
 
-        parent = 1;
+        this.parent = parent;
     }
 
     public String getNameID() {

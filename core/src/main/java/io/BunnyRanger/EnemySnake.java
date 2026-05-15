@@ -23,10 +23,8 @@ public class EnemySnake extends EnemyMoving {
     public void moveAttack(boolean facingRight) {
 
         hopTowardTarget(facingRight, 1.7f, 8f, 115);
-        if (moveCount % 45 == 0) {
-            paceTowardTarget(facingRight, .7f, 1);
-        }
-        moveCount++;
+        paceTowardTarget(facingRight, .7f, 45);
+        advanceMovement();
 
     }
 

@@ -135,6 +135,8 @@ public class ShopScreenStage extends Stage {
         WeaponBow bomb1 = new WeaponBomb(true);
         WeaponBow bomb2 = new WeaponBomb2(true);
         WeaponBow bomb3 = new WeaponBomb3(true);
+        WeaponBow clusterBomb = new WeaponClusterBomb(true);
+        WeaponBow fireWand = new WeaponWandRollerFire(true);
 
         ((ActorShopInventory) table.getChild(55)).addSpot(bow1);
         ((ActorShopInventory) table.getChild(56)).addSpot(bow2);
@@ -148,6 +150,8 @@ public class ShopScreenStage extends Stage {
         ((ActorShopInventory) table.getChild(64)).addSpot(bomb1);
         ((ActorShopInventory) table.getChild(65)).addSpot(bomb2);
         ((ActorShopInventory) table.getChild(66)).addSpot(bomb3);
+        ((ActorShopInventory) table.getChild(67)).addSpot(clusterBomb);
+        ((ActorShopInventory) table.getChild(68)).addSpot(fireWand);
 
 
         this.buyButton = new ActorShopModify(this, null);

@@ -43,6 +43,7 @@ public class WorldHandler {
     public static ArrayList<Particle> particleList = new ArrayList<Particle>();
     // projectiles
     static public ArrayList<Projectile> projectileList = new ArrayList<Projectile>();
+    static public ArrayList<Projectile> projectileListAdd = new ArrayList<Projectile>();
     static public ArrayList<Projectile> projectileListRemove = new ArrayList<Projectile>();
     //level name
 

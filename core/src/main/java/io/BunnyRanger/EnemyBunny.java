@@ -23,7 +23,7 @@ public class EnemyBunny extends EnemyMoving{
     public void moveAttack(boolean facingRight) {
 
         hopTowardTarget(facingRight, .8f, 3.5f, 70);
-        moveCount++;
+        advanceMovement();
 
     }
 

@@ -24,10 +24,8 @@ public class EnemyFox extends EnemyMoving{
     public void moveAttack(boolean facingRight) {
 
         paceTowardTarget(facingRight, 2.1f, 35);
-        if (moveCount % 100 == 0) {
-            getBody().setLinearVelocity(facingRight ? 3.2f : -3.2f, 2f);
-        }
-        moveCount++;
+        burstTowardTarget(facingRight, 3.2f, 2f, 100);
+        advanceMovement();
 
     }
 

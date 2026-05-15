@@ -84,17 +84,7 @@ public class ScreenLevelInn extends ScreenLevel implements Screen, ScreenType {
 
     public void makeEnemies() {
 
-        Wall floor1 = new Wall(worldHandler, 0, 0f, 40, 1, "grass.png");
-        Wall floor2 = new Wall(worldHandler, 0, 22.5f, 40, 1, "dirt.png");
-        Wall wall1 = new Wall(worldHandler, -1, 0, 1, 21.5f, "dirt.png");
-        Wall wall2 = new Wall(worldHandler, 40, 0, 1, 21.5f, "dirt.png");
-
-        wallList.add(floor1);
-        wallList.add(floor2);
-        wallList.add(wall1);
-        wallList.add(wall2);
-
-        wallList.add(floor1);
+        addArena();
 
         drawSign = false;
 

@@ -199,6 +199,9 @@ public class ScreenLevel implements Screen {
 
         }
 
+        WorldHandler.projectileList.addAll(WorldHandler.projectileListAdd);
+        WorldHandler.projectileListAdd.clear();
+
         GameHandler.batch.end();
 
         ////
@@ -268,8 +271,14 @@ public class ScreenLevel implements Screen {
         vallyBackground.setCenterY(WorldHandler.battleSizeHeight/2f);
         vallyBackground.setScale(1/2f);
     }
-}
 
+    public void addArena() {
+        wallList.add(new Wall(worldHandler, 0, 0f, 40, 1, "grass.png"));
+        wallList.add(new Wall(worldHandler, 0, 22.5f, 40, 1, "dirt.png"));
+        wallList.add(new Wall(worldHandler, -1, 0, 1, 21.5f, "dirt.png"));
+        wallList.add(new Wall(worldHandler, 40, 0, 1, 21.5f, "dirt.png"));
+    }
+}
 
 
 

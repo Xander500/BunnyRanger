@@ -75,12 +75,16 @@ public class InventoryScreenStage extends Stage {
         WeaponPistol gun1 = new WeaponPistol(true);
         WeaponSword sword1 = new WeaponSword(true);
         WeaponBomb bomb1 = new WeaponBomb(true);
+        WeaponClusterBomb clusterBomb = new WeaponClusterBomb(true);
+        WeaponWandRollerFire fireWand = new WeaponWandRollerFire(true);
 
         this.addToOpenSlot(bow8);
         this.addToOpenSlot(gun1);
         this.addToOpenSlot(bow21);
         this.addToOpenSlot(sword1);
         this.addToOpenSlot(bomb1);
+        this.addToOpenSlot(clusterBomb);
+        this.addToOpenSlot(fireWand);
 
         CardHealth1 cardHealth1 = new CardHealth1();
         CardHealth1 cardHealth2 = new CardHealth1();

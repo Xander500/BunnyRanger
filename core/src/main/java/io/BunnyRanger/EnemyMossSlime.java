@@ -4,27 +4,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class EnemySlime extends EnemyMoving {
+public class EnemyMossSlime extends EnemySlime {
 
-    public EnemySlime(WorldHandler world, float x, float y) {
+    public EnemyMossSlime(WorldHandler world, float x, float y) {
         super(world, x, y);
-        maxHealth = 10;
-        health = 10;
+        health = 28;
+        maxHealth = 28;
         enemyTexture = new Texture(Gdx.files.internal("slime.png"));
         enemySprite = new Sprite(enemyTexture, 0, 0, 16, 16);
-        enemySprite.setScale(1);
-        setRewards(2, 1);
-    }
-
-    public void move(boolean facingRight) {
-
-
+        enemySprite.setScale(1.2f);
+        setRewards(7, 3);
     }
 
     public void moveAttack(boolean facingRight) {
-
-        zigZag(1.3f, 65);
+        zigZag(2f, 40);
+        hopTowardTarget(facingRight, 1.5f, 4.5f, 130);
         advanceMovement();
     }
-
 }
