@@ -12,7 +12,7 @@ public class CardProjectile1 extends Card{
 
         super();
 
-        this.inventoryTexture = new Texture(Gdx.files.internal("ProjectileCard.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("sprites/cards/card_projectile.png"));
 
         this.description = "Doubles Projectiles.";
 

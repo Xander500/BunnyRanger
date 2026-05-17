@@ -10,7 +10,7 @@ public class EnemyBanditFox extends EnemyFox {
         super(world, x, y);
         health = 32;
         maxHealth = 32;
-        enemyTexture = new Texture(Gdx.files.internal("fox.png"));
+        enemyTexture = new Texture(Gdx.files.internal("sprites/characters/enemy_bandit_fox.png"));
         enemySprite = new Sprite(enemyTexture, 0, 0, 16, 16);
         enemySprite.setScale(1.15f);
         setRewards(9, 5);

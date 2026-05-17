@@ -11,10 +11,10 @@ public class WeaponPistol3 extends WeaponPistol {
 
         this.name = "Starcap Revolver";
 
-        this.bowTexture = new Texture(Gdx.files.internal("gun1.png"));
+        this.bowTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_pistol_01.png"));
         this.bowSprite = new Sprite(bowTexture, 0, 0, 16, 16);
         this.bowSprite.setScale(1f);
-        this.inventoryTexture = new Texture(Gdx.files.internal("gun1.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_pistol_01.png"));
 
         this.count = 8;
         this.baseCount = 8;

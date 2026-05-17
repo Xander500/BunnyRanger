@@ -84,11 +84,11 @@ public abstract class Enemy implements Entity, Damageable {
 
         circle.dispose();
 
-        texture = new Texture(Gdx.files.internal("GreenHealthBar.png"));
+        texture = new Texture(Gdx.files.internal("sprites/ui/hud/hud_health_bar_fill_green.png"));
         healthBarSprite = new Sprite(texture,0,0,22,4);
         healthBarSprite.setScale(.5f);
 
-        texture = new Texture(Gdx.files.internal("healthBar.png"));
+        texture = new Texture(Gdx.files.internal("sprites/ui/hud/hud_health_bar_back.png"));
         healthBarSpriteBack = new Sprite(texture,0,0,24,6);
         healthBarSpriteBack.setScale(.5f);
 
@@ -96,7 +96,7 @@ public abstract class Enemy implements Entity, Damageable {
 
         // actual hitbox
 
-        enemyTexture = new Texture(Gdx.files.internal("bun.png"));
+        enemyTexture = new Texture(Gdx.files.internal("sprites/characters/enemy_bunny.png"));
         enemySprite = new Sprite(enemyTexture,0,0,32,32);
 
         enemySprite.setScale(1f);
@@ -151,7 +151,7 @@ public abstract class Enemy implements Entity, Damageable {
 
             Projectile removeProjectile = (Projectile) secondEntity;
 
-            System.out.println("hit by projectile for " + this.takeDamage(removeProjectile.getDamage()));
+            System.out.println("hit by projectile for " + this.takeDamage(removeProjectile.getDamageResult(this)));
 
         }
 
@@ -189,7 +189,9 @@ public abstract class Enemy implements Entity, Damageable {
         return this.damage;
     }
 
-    public float takeDamage(float damage) {
+    public float takeDamage(DamageCalculator.Result damageResult) {
+
+        float damage = damageResult.getAmount();
 
         if (this.bodyB == null) {
             System.out.println("you got a null that will crash");
@@ -197,7 +199,7 @@ public abstract class Enemy implements Entity, Damageable {
         }
 
         //MAKING PARTICLES
-        WorldHandler.particleList.add(new Particle(this.body,damage, WorldHandler.getParty().font, new Color(Color.GREEN)));
+        WorldHandler.particleList.add(new Particle(this.body,damage, WorldHandler.getParty().font, damageResult.getColor()));
 
         if (health - damage <= 0 && this.hasNotDied) {
             System.out.println("died and time to try to drop item: ");

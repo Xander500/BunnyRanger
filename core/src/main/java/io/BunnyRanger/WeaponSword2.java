@@ -11,11 +11,11 @@ public class WeaponSword2 extends WeaponSword {
 
         this.name = "Briar Blade";
 
-        this.bowTexture = new Texture(Gdx.files.internal("sword1.png"));
+        this.bowTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_sword_01.png"));
         this.bowSprite = new Sprite(bowTexture, 0, 0, 16, 16);
         this.bowSprite.setRotation(16f);
         this.bowSprite.setScale(1f);
-        this.inventoryTexture = new Texture(Gdx.files.internal("sword1.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_sword_01.png"));
 
         this.count = 2;
         this.baseCount = 2;

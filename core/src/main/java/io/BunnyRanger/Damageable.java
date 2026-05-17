@@ -5,7 +5,11 @@ abstract public interface Damageable {
     //Body bodyB;
     //float health;
 
-    abstract public float takeDamage(float damage);
+    default public float takeDamage(float damage) {
+        return takeDamage(DamageCalculator.calculate(null, this, damage, DamageCalculator.DamageType.REGULAR, DamageCalculator.defaultPalette()));
+    }
+
+    abstract public float takeDamage(DamageCalculator.Result damage);
 
     //abstract public void getHealth();
 

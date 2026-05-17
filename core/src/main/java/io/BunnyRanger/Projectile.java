@@ -51,6 +51,10 @@ public abstract class Projectile implements Entity {
 
     int parent;
 
+    Entity damageSource;
+    DamageCalculator.DamageType damageType = DamageCalculator.DamageType.REGULAR;
+    DamageCalculator.Palette damagePalette = DamageCalculator.defaultPalette();
+
     //pellet
     public Projectile(WorldHandler world, float x, float y) {
 
@@ -86,7 +90,7 @@ public abstract class Projectile implements Entity {
 
     public Projectile(WorldHandler world, float x, float y, float xSize, float ySize, float angle, Vector2 magnitude, float damage, float density, boolean friendly, boolean facingRight, int parent) {
 
-        texture = new Texture(Gdx.files.internal("ArrowProjectile.png"));
+        texture = new Texture(Gdx.files.internal("sprites/projectiles/projectile_arrow.png"));
         projectileSprite = new Sprite(texture);
         projectileSprite.setScale(1f);
 
@@ -224,6 +228,32 @@ public abstract class Projectile implements Entity {
 
     public float getDamage() {
         return this.damage;
+    }
+
+    public DamageCalculator.Result getDamageResult(Damageable target) {
+        return getDamageResult(this.damage, target);
+    }
+
+    public DamageCalculator.Result getDamageResult(float baseDamage, Damageable target) {
+        return DamageCalculator.calculate(damageSource, target, baseDamage, damageType, damagePalette);
+    }
+
+    public void setDamageSource(Entity damageSource) {
+        this.damageSource = damageSource;
+    }
+
+    public void setDamageType(DamageCalculator.DamageType damageType) {
+        this.damageType = damageType;
+    }
+
+    public void setDamagePalette(DamageCalculator.Palette damagePalette) {
+        this.damagePalette = damagePalette;
+    }
+
+    public void copyDamageSettingsTo(Projectile projectile) {
+        projectile.setDamageSource(this.damageSource);
+        projectile.setDamageType(this.damageType);
+        projectile.setDamagePalette(this.damagePalette);
     }
 
     public Body getBody() {

@@ -11,10 +11,10 @@ public class WeaponBomb3 extends WeaponBomb {
 
         name = "Warren Breaker";
 
-        this.bowTexture = new Texture(Gdx.files.internal("bomb1.png"));
+        this.bowTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_bomb_01.png"));
         this.bowSprite = new Sprite(bowTexture, 0, 0, 16, 16);
         this.bowSprite.setScale(1f);
-        this.inventoryTexture = new Texture(Gdx.files.internal("bomb1.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_bomb_01.png"));
 
         this.count = 2;
         this.baseCount = 2;

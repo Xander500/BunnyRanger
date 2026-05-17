@@ -10,7 +10,7 @@ public class EnemyViper extends EnemySnake {
         super(world, x, y);
         health = 42;
         maxHealth = 42;
-        enemyTexture = new Texture(Gdx.files.internal("snek.png"));
+        enemyTexture = new Texture(Gdx.files.internal("sprites/characters/enemy_viper.png"));
         enemySprite = new Sprite(enemyTexture, 0, 0, 16, 16);
         enemySprite.setScale(1.15f);
         setRewards(10, 5);

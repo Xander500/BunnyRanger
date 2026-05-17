@@ -10,7 +10,7 @@ public class EnemySnake extends EnemyMoving {
         super(world, x, y);
         health = 30;
         maxHealth = 30;
-        enemyTexture = new Texture(Gdx.files.internal("snek.png"));
+        enemyTexture = new Texture(Gdx.files.internal("sprites/characters/enemy_snake.png"));
         enemySprite = new Sprite(enemyTexture,0,0,16,16);
         enemySprite.setScale(1);
         setRewards(6, 3);

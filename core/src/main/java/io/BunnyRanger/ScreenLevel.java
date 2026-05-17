@@ -24,6 +24,11 @@ public class ScreenLevel implements Screen {
 
     Texture backgroundTexture;
     Sprite vallyBackground;
+    Texture levelButtonTexture;
+
+    private static final float LEVEL_BUTTON_MARGIN = 16f;
+    private static final float LEVEL_BUTTON_WIDTH = 170f;
+    private static final float LEVEL_BUTTON_HEIGHT = 48f;
 
     //tmp
     boolean reset = true;
@@ -48,11 +53,12 @@ public class ScreenLevel implements Screen {
 
     public void create() {
 
-        backgroundTexture = new Texture(Gdx.files.internal("black.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("sprites/backgrounds/bg_black.png"));
         vallyBackground = new Sprite(backgroundTexture, 0, 0, WorldHandler.SCREENWIDTH, WorldHandler.SCREENHEIGHT);
         vallyBackground.setCenterX(battleSizeWidth/2f);
         vallyBackground.setCenterY(battleSizeHeight/2f);
         vallyBackground.setScale(1/2f);
+        levelButtonTexture = new Texture(Gdx.files.internal("sprites/ui/buttons/button_buy_enabled.png"));
 
         party = WorldHandler.getParty();
         enemies = WorldHandler.getEnemies();
@@ -61,7 +67,7 @@ public class ScreenLevel implements Screen {
         particleList = WorldHandler.particleList;
         projectileList = WorldHandler.projectileList;
         projectileListRemove = WorldHandler.projectileListRemove;
-        worldHandler = new WorldHandler();
+        worldHandler = WorldHandler.getWorldHandler();
 
         viewport = new FitViewport(battleSizeWidth, battleSizeHeight, WorldHandler.camera);
         viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
@@ -228,6 +234,8 @@ public class ScreenLevel implements Screen {
 
         particleList.removeAll(tempParticles);
 
+        drawLevelButtons();
+
         GameHandler.batch.setProjectionMatrix(WorldHandler.camera.combined);
 
         GameHandler.batch.end();
@@ -236,7 +244,9 @@ public class ScreenLevel implements Screen {
         if (!drawSign && enemies.checkAllIfDead()) {
 
             drawSign = true;
-            WorldHandler.signList.get(0).changeBits();
+            if (!WorldHandler.signList.isEmpty()) {
+                WorldHandler.signList.get(0).changeBits();
+            }
 
         }
 
@@ -262,6 +272,63 @@ public class ScreenLevel implements Screen {
             }
         }
 
+        handleLevelButtonClick();
+
+    }
+
+    private void drawLevelButtons() {
+        drawLevelButton("Inn");
+    }
+
+    private void drawLevelButton(String text) {
+        float x = getLevelButtonX();
+        float y = getLevelButtonY();
+        BitmapFont font = GameHandler.getFont();
+        float tmpX = font.getScaleX();
+        float tmpY = font.getScaleY();
+
+        GameHandler.batch.draw(levelButtonTexture, x, y, LEVEL_BUTTON_WIDTH, LEVEL_BUTTON_HEIGHT);
+
+        font.getData().setScale(2f);
+        GameHandler.batch.setShader(fontShader);
+        font.draw(GameHandler.batch, text, x + 14f, y + 32f);
+        GameHandler.batch.setShader(null);
+        font.getData().setScale(tmpX, tmpY);
+    }
+
+    private void handleLevelButtonClick() {
+        if (!Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            return;
+        }
+
+        float textX = Gdx.input.getX() * WorldHandler.textCamera.viewportWidth / Gdx.graphics.getWidth();
+        float textY = (Gdx.graphics.getHeight() - Gdx.input.getY()) * WorldHandler.textCamera.viewportHeight / Gdx.graphics.getHeight();
+
+        if (isLevelButtonHit(textX, textY)) {
+            swapWithTemporarySign(GameHandler.levelScreenInn);
+        }
+    }
+
+    private void swapWithTemporarySign(Screen target) {
+        Sign sign = Sign.makeSwapRequest(0, target);
+        WorldHandler.signList.add(sign);
+        sign.startSwap();
+    }
+
+    private boolean isLevelButtonHit(float x, float y) {
+        float buttonX = getLevelButtonX();
+        float buttonY = getLevelButtonY();
+
+        return x >= buttonX && x <= buttonX + LEVEL_BUTTON_WIDTH
+            && y >= buttonY && y <= buttonY + LEVEL_BUTTON_HEIGHT;
+    }
+
+    private float getLevelButtonX() {
+        return LEVEL_BUTTON_MARGIN;
+    }
+
+    private float getLevelButtonY() {
+        return WorldHandler.textCamera.viewportHeight - LEVEL_BUTTON_MARGIN - LEVEL_BUTTON_HEIGHT;
     }
 
     public void changeBackground(String path) {
@@ -273,14 +340,9 @@ public class ScreenLevel implements Screen {
     }
 
     public void addArena() {
-        wallList.add(new Wall(worldHandler, 0, 0f, 40, 1, "grass.png"));
-        wallList.add(new Wall(worldHandler, 0, 22.5f, 40, 1, "dirt.png"));
-        wallList.add(new Wall(worldHandler, -1, 0, 1, 21.5f, "dirt.png"));
-        wallList.add(new Wall(worldHandler, 40, 0, 1, 21.5f, "dirt.png"));
+        wallList.add(new Wall(worldHandler, 0, 0f, 40, 1, "sprites/tiles/tile_grass.png"));
+        wallList.add(new Wall(worldHandler, 0, 22.5f, 40, 1, "sprites/tiles/tile_dirt.png"));
+        wallList.add(new Wall(worldHandler, -1, 0, 1, 21.5f, "sprites/tiles/tile_dirt.png"));
+        wallList.add(new Wall(worldHandler, 40, 0, 1, 21.5f, "sprites/tiles/tile_dirt.png"));
     }
 }
-
-
-
-
-

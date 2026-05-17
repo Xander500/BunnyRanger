@@ -10,7 +10,7 @@ public class EnemyBombardierSlime extends EnemyMossSlime {
         super(world, x, y);
         health = 60;
         maxHealth = 60;
-        enemyTexture = new Texture(Gdx.files.internal("slime.png"));
+        enemyTexture = new Texture(Gdx.files.internal("sprites/characters/enemy_bombardier_slime.png"));
         enemySprite = new Sprite(enemyTexture, 0, 0, 16, 16);
         enemySprite.setScale(1.35f);
         setRewards(16, 8);

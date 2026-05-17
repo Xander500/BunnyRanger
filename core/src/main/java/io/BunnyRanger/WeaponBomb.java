@@ -10,7 +10,7 @@ public class WeaponBomb extends WeaponBow{
 
         name = "bomb1";
 
-        this.bowTexture = new Texture(Gdx.files.internal("bomb1.png"));
+        this.bowTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_bomb_01.png"));
         this.bowSprite = new Sprite(bowTexture,0,0,16,16);
         this.bowSprite.setScale(1f);
         this.bowAngle = 15;
@@ -40,7 +40,7 @@ public class WeaponBomb extends WeaponBow{
         this.baseWeaponDelay = 200;
 
         // shop
-        this.inventoryTexture = new Texture(Gdx.files.internal("bomb1.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_bomb_01.png"));
         this.buyPrice = 45;
         this.sellPrice = 22;
     }
@@ -68,7 +68,7 @@ public class WeaponBomb extends WeaponBow{
 
             this.damageCurrentArrow = (float) Math.round((Math.random() * (damageMaxArrow - damageMinArrow)) + damageMinArrow);
 
-            Projectile projectile = new ProjectileBomb(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight,1);
+            Projectile projectile = configureProjectile(new ProjectileBomb(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight,1));
 
             this.projectileList.add(projectile);
 

@@ -11,7 +11,7 @@ public class WeaponEmpty extends WeaponBow{
         baseWeaponDelay = 9999999;
         weaponDelay = 9999999;
 
-        this.bowTexture = new Texture(Gdx.files.internal("Empty.png"));
+        this.bowTexture = new Texture(Gdx.files.internal("sprites/ui/ui_empty.png"));
         this.bowSprite = new Sprite(bowTexture,0,0,16,32);
         this.bowSprite.setScale(1f);
 

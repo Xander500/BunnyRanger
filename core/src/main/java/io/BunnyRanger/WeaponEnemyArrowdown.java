@@ -16,10 +16,10 @@ public class WeaponEnemyArrowdown extends WeaponBow {
         this.spawnSpread = 42f;
         this.spawnHeight = 120f;
 
-        this.bowTexture = new Texture(Gdx.files.internal("empty.png"));
+        this.bowTexture = new Texture(Gdx.files.internal("sprites/ui/ui_empty.png"));
         this.bowSprite = new Sprite(bowTexture, 0, 0, 16, 16);
         this.bowSprite.setScale(.7f);
-        this.inventoryTexture = new Texture(Gdx.files.internal("empty.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("sprites/ui/ui_empty.png"));
 
         this.damageMinArrow = 4;
         this.baseDamageMinArrow = 4;
@@ -46,7 +46,7 @@ public class WeaponEnemyArrowdown extends WeaponBow {
 
         this.damageCurrentArrow = (float) Math.round((Math.random() * (damageMaxArrow - damageMinArrow)) + damageMinArrow);
 
-        Projectile projectile = new ProjectileEnemyArrowdown(world, eggX, eggY, damageCurrentArrow);
+        Projectile projectile = configureProjectile(new ProjectileEnemyArrowdown(world, eggX, eggY, damageCurrentArrow));
         this.projectileList.add(projectile);
     }
 }

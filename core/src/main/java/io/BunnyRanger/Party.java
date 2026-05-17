@@ -189,7 +189,7 @@ public class Party extends InputAdapter {
                     counterList[i] = 0;
                 }
 
-                if (counterList[i] > playerList[i].getCurrentWeapon().getDelay(5)) {
+                if (counterList[i] > playerList[i].getWeaponDelay(5)) {
 
                     ((Weapon) playerList[i].getCurrentWeapon()).getClosestTarget();
                     playerList[i].useWeapon();

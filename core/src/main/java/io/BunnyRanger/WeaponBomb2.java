@@ -11,10 +11,10 @@ public class WeaponBomb2 extends WeaponBomb {
 
         name = "Burrow Bomb";
 
-        this.bowTexture = new Texture(Gdx.files.internal("bomb1.png"));
+        this.bowTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_bomb_01.png"));
         this.bowSprite = new Sprite(bowTexture, 0, 0, 16, 16);
         this.bowSprite.setScale(1f);
-        this.inventoryTexture = new Texture(Gdx.files.internal("bomb1.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_bomb_01.png"));
 
         this.count = 1;
         this.baseCount = 1;

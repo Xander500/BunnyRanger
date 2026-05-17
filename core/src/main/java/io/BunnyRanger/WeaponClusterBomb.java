@@ -11,10 +11,10 @@ public class WeaponClusterBomb extends WeaponBomb {
 
         name = "Burrow Cluster";
 
-        this.bowTexture = new Texture(Gdx.files.internal("bomb1.png"));
+        this.bowTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_bomb_01.png"));
         this.bowSprite = new Sprite(bowTexture, 0, 0, 16, 16);
         this.bowSprite.setScale(1f);
-        this.inventoryTexture = new Texture(Gdx.files.internal("bomb1.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_bomb_01.png"));
 
         this.damageMinArrow = 8;
         this.baseDamageMinArrow = 8;
@@ -46,7 +46,7 @@ public class WeaponClusterBomb extends WeaponBomb {
         this.magnitudeArrow = getArrowMagnitude(enemyPositionX, enemyPositionY, this.xArrow, this.yArrow, enemyPositionXVel, enemyPositionYVel);
         this.damageCurrentArrow = (float) Math.round((Math.random() * (damageMaxArrow - damageMinArrow)) + damageMinArrow);
 
-        Projectile projectile = new ProjectileClusterBomb(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight, 1);
+        Projectile projectile = configureProjectile(new ProjectileClusterBomb(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight, 1));
         this.projectileList.add(projectile);
     }
 }

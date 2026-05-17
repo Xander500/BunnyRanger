@@ -42,8 +42,8 @@ public class ActorInventoryUpgrade extends InventorySpotActor {
         System.out.println("upgraded " + this.number + " from " + player.number);
 
         Player currentPlayer = WorldHandler.getParty().getPlayer(player.number);
-
-
+        currentPlayer.upgradeStatLevel(this.number);
+        System.out.println(currentPlayer.getStatLevelsDescription());
 
     }
 

@@ -12,7 +12,7 @@ public class CardHealth1 extends Card{
 
         super();
 
-        this.inventoryTexture = new Texture(Gdx.files.internal("HealthCard.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("sprites/cards/card_health.png"));
 
         this.description = "Doubles maximum health.";
 

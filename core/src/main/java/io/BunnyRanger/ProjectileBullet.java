@@ -14,7 +14,7 @@ public class ProjectileBullet extends Projectile {
         this.texture = null;
         this.projectileSprite = null;
 
-        this.texture = new Texture(Gdx.files.internal("musketBall.png"));
+        this.texture = new Texture(Gdx.files.internal("sprites/projectiles/projectile_bullet_musket.png"));
         this.projectileSprite = new Sprite(texture);
 
         this.projectileSprite.setScale(.5f);

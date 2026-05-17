@@ -10,7 +10,7 @@ public class EnemyBunny extends EnemyMoving{
         super(world, x, y);
         health = 10;
         maxHealth = 10;
-        enemyTexture = new Texture(Gdx.files.internal("bun.png"));
+        enemyTexture = new Texture(Gdx.files.internal("sprites/characters/enemy_bunny.png"));
         enemySprite = new Sprite(enemyTexture,0,0,16,16);
         enemySprite.setScale(1f);
         setRewards(3, 1);

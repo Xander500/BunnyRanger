@@ -32,7 +32,7 @@ public class InventorySpotActor extends Image {
 
         this.sellPrice = -9;
 
-        //this.setDrawable(new TextureRegionDrawable(new Texture(Gdx.files.internal("ArrowProjectile.png"))));
+        //this.setDrawable(new TextureRegionDrawable(new Texture(Gdx.files.internal("sprites/projectiles/projectile_arrow.png"))));
 
         //TextureRegionDrawable test = new TextureRegionDrawable(texture);
 

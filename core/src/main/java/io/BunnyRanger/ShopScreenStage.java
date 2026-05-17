@@ -18,15 +18,15 @@ public class ShopScreenStage extends Stage {
 
     ArrayList<InventorySpotActor> actorArrayList = new ArrayList<InventorySpotActor>();
 
-    Image image = new Image(new Texture(Gdx.files.internal("menuShop.png")));
+    Image image = new Image(new Texture(Gdx.files.internal("sprites/ui/screens/screen_shop_menu.png")));
 
-    TextureRegionDrawable buyGreen = new TextureRegionDrawable(new Texture((Gdx.files.internal("buyButton.png"))));
-    TextureRegionDrawable buyRed = new TextureRegionDrawable(new Texture((Gdx.files.internal("buyButtonRed.png"))));
-    TextureRegionDrawable buyRedGrey = new TextureRegionDrawable(new Texture((Gdx.files.internal("buyButtonGrey.png"))));
+    TextureRegionDrawable buyGreen = new TextureRegionDrawable(new Texture((Gdx.files.internal("sprites/ui/buttons/button_buy_enabled.png"))));
+    TextureRegionDrawable buyRed = new TextureRegionDrawable(new Texture((Gdx.files.internal("sprites/ui/buttons/button_buy_unavailable.png"))));
+    TextureRegionDrawable buyRedGrey = new TextureRegionDrawable(new Texture((Gdx.files.internal("sprites/ui/buttons/button_buy_disabled.png"))));
 
-    TextureRegionDrawable sellGreen = new TextureRegionDrawable(new Texture((Gdx.files.internal("sellButton.png"))));
-    TextureRegionDrawable sellRed = new TextureRegionDrawable(new Texture((Gdx.files.internal("sellButtonRed.png"))));
-    TextureRegionDrawable sellRedGrey = new TextureRegionDrawable(new Texture((Gdx.files.internal("sellButtonGrey.png"))));
+    TextureRegionDrawable sellGreen = new TextureRegionDrawable(new Texture((Gdx.files.internal("sprites/ui/buttons/button_sell_enabled.png"))));
+    TextureRegionDrawable sellRed = new TextureRegionDrawable(new Texture((Gdx.files.internal("sprites/ui/buttons/button_sell_unavailable.png"))));
+    TextureRegionDrawable sellRedGrey = new TextureRegionDrawable(new Texture((Gdx.files.internal("sprites/ui/buttons/button_sell_disabled.png"))));
 
 
     Actor selected = null;
@@ -239,7 +239,7 @@ public class ShopScreenStage extends Stage {
 
             if (selected == null) {
 
-                ((InventorySpotActor) hit).setDrawable(new TextureRegionDrawable(new Texture((Gdx.files.internal("sleected.png")))));
+                ((InventorySpotActor) hit).setDrawable(new TextureRegionDrawable(new Texture((Gdx.files.internal("sprites/ui/selection/selection_slot_active_alt.png")))));
 
                 selected = (InventorySpotActor) hit;
 
@@ -265,7 +265,7 @@ public class ShopScreenStage extends Stage {
                 ((InventorySpotActor) selected).setDrawable(null);
                 selected = null;
 
-                ((InventorySpotActor) hit).setDrawable(new TextureRegionDrawable(new Texture((Gdx.files.internal("sleected.png")))));
+                ((InventorySpotActor) hit).setDrawable(new TextureRegionDrawable(new Texture((Gdx.files.internal("sprites/ui/selection/selection_slot_active_alt.png")))));
                 selected = (InventorySpotActor) hit;
 
                 if (((InventorySpotActor) selected).getSpot() != null) {
@@ -314,7 +314,7 @@ public class ShopScreenStage extends Stage {
 
             ((InventorySpotActor) selected).setDrawable(null);
 
-            ((InventorySpotActor) hit).setDrawable(new TextureRegionDrawable(new Texture((Gdx.files.internal("sleected.png")))));
+            ((InventorySpotActor) hit).setDrawable(new TextureRegionDrawable(new Texture((Gdx.files.internal("sprites/ui/selection/selection_slot_active_alt.png")))));
 
             selected = ((ActorShopInventory) hit);
 
@@ -346,7 +346,7 @@ public class ShopScreenStage extends Stage {
 
         if (selected == null) {
 
-            ((InventorySpotActor) hit).setDrawable(new TextureRegionDrawable(new Texture((Gdx.files.internal("sleected.png")))));
+            ((InventorySpotActor) hit).setDrawable(new TextureRegionDrawable(new Texture((Gdx.files.internal("sprites/ui/selection/selection_slot_active_alt.png")))));
 
             selected = (InventorySpotActor) hit;
 

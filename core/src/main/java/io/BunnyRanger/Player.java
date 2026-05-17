@@ -57,6 +57,7 @@ public class Player implements Entity, Damageable {
     int healthLevel;
     int defenseLevel;
     int dodgeLevel;
+    int luckLevel;
     int movementSpeedLevel;
 
     public Player(WorldHandler world, float x, float y, Wall wall, int number) {
@@ -109,21 +110,21 @@ public class Player implements Entity, Damageable {
         this.jointDef.collideConnected = true;
         this.jointDef.maxForce = 150;
 
-        texture = new Texture(Gdx.files.internal("GreenHealthBar.png"));
+        texture = new Texture(Gdx.files.internal("sprites/ui/hud/hud_health_bar_fill_green.png"));
         healthBarSprite = new Sprite(texture);
         healthBarSprite.setScale(1f);
 
-        texture = new Texture(Gdx.files.internal("healthBar.png"));
+        texture = new Texture(Gdx.files.internal("sprites/ui/hud/hud_health_bar_back.png"));
         healthBarSpriteBack = new Sprite(texture);
         healthBarSpriteBack.setScale(1f);
 
         this.createHealthBar(world);
 
         //actual sprite
-        playerTexture = new Texture(Gdx.files.internal("player.png"));
+        playerTexture = new Texture(Gdx.files.internal("sprites/characters/player_bunny_ground.png"));
         playerSprite = new Sprite(playerTexture,0,0,16,16);
 
-        playerTextureAir = new Texture(Gdx.files.internal("playerAir.png"));
+        playerTextureAir = new Texture(Gdx.files.internal("sprites/characters/player_bunny_air.png"));
         playerSpriteAir = new Sprite(playerTextureAir,0,0,16,16);
 
         playerSprite.setScale(1f);
@@ -138,6 +139,7 @@ public class Player implements Entity, Damageable {
         attackLevel = 0;
         attackSpeedLevel = 0;
         specialLevel = 0;
+        luckLevel = 0;
 
     }
 
@@ -151,14 +153,15 @@ public class Player implements Entity, Damageable {
 
             Enemy collidedEnemy = (Enemy) secondEntity;
 
-            System.out.println("hit by Enemy for " + this.takeDamage(collidedEnemy.getDamage()));
+            DamageCalculator.Result result = DamageCalculator.calculate(collidedEnemy, this, collidedEnemy.getDamage(), DamageCalculator.DamageType.REGULAR, DamageCalculator.defaultPalette());
+            System.out.println("hit by Enemy for " + this.takeDamage(result));
         }
 
         if (secondEntity.getNameID().equals("Projectile")) {
 
             Projectile removeProjectile = (Projectile) secondEntity;
 
-            System.out.println("hit by projectile for " + this.takeDamage(removeProjectile.getDamage()));
+            System.out.println("hit by projectile for " + this.takeDamage(removeProjectile.getDamageResult(this)));
         }
 
         if (secondEntity.getNameID().equals("Floor")) {
@@ -218,14 +221,16 @@ public class Player implements Entity, Damageable {
 
     }
 
-    public float takeDamage(float damage) {
+    public float takeDamage(DamageCalculator.Result damageResult) {
+
+        float damage = damageResult.getAmount();
 
         if (this.checkIfDead()) {
             //MainApplication.getParty().damageAll(damage);
             return damage;
         }
 
-        WorldHandler.particleList.add(new Particle(this.body,damage, WorldHandler.getParty().font, new Color(Color.RED)));
+        WorldHandler.particleList.add(new Particle(this.body,damage, WorldHandler.getParty().font, damageResult.getColor()));
 
         health -= damage;
 
@@ -332,6 +337,10 @@ public class Player implements Entity, Damageable {
             return;
         }
 
+        if (grounded) {
+            this.body.setLinearVelocity(this.body.getLinearVelocity().x / 1.11f, this.body.getLinearVelocity().y / 1.11f);
+            this.body.setAngularVelocity(this.body.getAngularVelocity() / 1.11f);
+        }
         getPlayerSprite().setPosition(body.getPosition().x-playerSprite.getWidth()/2,body.getPosition().y-playerSprite.getHeight()/4);
     }
 
@@ -396,6 +405,96 @@ public class Player implements Entity, Damageable {
 
     public void setGround(Boolean value) {
         grounded = value;
+    }
+
+    public void upgradeStatLevel(int statNumber) {
+        switch (statNumber) {
+            case 0:
+                attackLevel++;
+                break;
+            case 1:
+                attackSpeedLevel++;
+                break;
+            case 2:
+                specialLevel++;
+                break;
+            case 4:
+                healthLevel++;
+                maxHealth += 5f;
+                setHealth(Math.min(maxHealth, health + 5f));
+                break;
+            case 5:
+                defenseLevel++;
+                break;
+            case 6:
+                dodgeLevel++;
+                break;
+            case 7:
+                luckLevel++;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public int getStatLevel(int statNumber) {
+        switch (statNumber) {
+            case 0:
+                return attackLevel;
+            case 1:
+                return attackSpeedLevel;
+            case 2:
+                return specialLevel;
+            case 4:
+                return healthLevel;
+            case 5:
+                return defenseLevel;
+            case 6:
+                return dodgeLevel;
+            case 7:
+                return luckLevel;
+            default:
+                return 0;
+        }
+    }
+
+    public String getStatLevelsDescription() {
+        return "Player " + (number + 1) + " Levels\n"
+            + "Attack - " + attackLevel + "\n"
+            + "Attack Speed - " + attackSpeedLevel + "\n"
+            + "Special Attack - " + specialLevel + "\n"
+            + "Health - " + healthLevel + "\n"
+            + "Defense - " + defenseLevel + "\n"
+            + "Dodge Chance - " + dodgeLevel + "\n"
+            + "Luck - " + luckLevel;
+    }
+
+    public int getAttackLevel() {
+        return attackLevel;
+    }
+
+    public int getSpecialLevel() {
+        return specialLevel;
+    }
+
+    public int getDefenseReduction() {
+        return defenseLevel;
+    }
+
+    public float getDodgeChance() {
+        return dodgeLevel * .02f;
+    }
+
+    public float getCritChance() {
+        return luckLevel * .02f;
+    }
+
+    public float getAttackSpeedMultiplier() {
+        return 1f + attackSpeedLevel * .02f;
+    }
+
+    public float getWeaponDelay(int ratio) {
+        return Math.max(1f, currentWeapon.getDelay(ratio) / getAttackSpeedMultiplier());
     }
 
     //sprite

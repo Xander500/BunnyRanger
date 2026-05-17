@@ -7,7 +7,7 @@ public class ScreenLevel8 extends ScreenLevel {
     @Override
     public void create() {
         super.create();
-        changeBackground("vally.png");
+        changeBackground("sprites/backgrounds/bg_valley.png");
     }
 
     public void makeEnemies() {

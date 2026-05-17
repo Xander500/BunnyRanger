@@ -21,7 +21,7 @@ public class ScreenInventory extends InputAdapter implements Screen {
 
     InventoryScreenStage inventoryScreenStage;
 
-    Texture background = new Texture(Gdx.files.internal("menuInventory.png"));
+    Texture background = new Texture(Gdx.files.internal("sprites/ui/screens/screen_inventory_menu.png"));
     Sprite sprite;
 
     BitmapFont font;
@@ -82,6 +82,13 @@ public class ScreenInventory extends InputAdapter implements Screen {
             }
 
         }
+
+        if (inventoryScreenStage.getSelectedPlayer() != null) {
+            ActorInventoryPlayer selectedPlayer = (ActorInventoryPlayer) inventoryScreenStage.getSelectedPlayer();
+            Player currentPlayer = WorldHandler.getParty().getPlayer(selectedPlayer.number);
+            font.getData().setScale(2f);
+            this.font.draw(GameHandler.batch, currentPlayer.getStatLevelsDescription(), 950, 675);
+        }
         GameHandler.batch.setShader(null);
         font.getData().setScale(tmpX,tmpY);
 
@@ -129,7 +136,7 @@ public class ScreenInventory extends InputAdapter implements Screen {
         inAirs[2] = WorldHandler.getParty().getPlayer(2).grounded;
         inAirs[3] = WorldHandler.getParty().getPlayer(3).grounded;
         positions = WorldHandler.getParty().inventoryShow();
-        floor = new Wall(WorldHandler.getWorldHandler(), 0, 12*2f, 40, 2, "dirt.png");
+        floor = new Wall(WorldHandler.getWorldHandler(), 0, 12*2f, 40, 2, "sprites/tiles/tile_dirt.png");
 
     }
     public void resize(int width, int height) {
@@ -142,8 +149,10 @@ public class ScreenInventory extends InputAdapter implements Screen {
         GameHandler.screenShop.shopScreenStage.hydrate();
         WorldHandler.getParty().restorePositions(positions, inAirs);
         WorldHandler.getWorld().destroyBody(floor.body);
+        for (Enemy enemy : WorldHandler.getEnemies().enemyList) {
+            enemy.body.setActive(true);
+        }
     }
     public void dispose() {
     }
 }
-

@@ -16,7 +16,7 @@ public class ProjectileFireSeed extends Projectile {
         super(world, x, y, .45f, .45f, 0, magnitude, 0, .7f, friendly, facingRight, 0);
 
         this.friendlyFire = friendly;
-        this.texture = new Texture(Gdx.files.internal("fireball1.png"));
+        this.texture = new Texture(Gdx.files.internal("sprites/projectiles/projectile_fire_patch.png"));
         this.projectileSprite = new Sprite(texture);
         this.projectileSprite.setScale(.65f);
         this.spriteDestroyLifeSpan = 150;
@@ -40,7 +40,10 @@ public class ProjectileFireSeed extends Projectile {
     @Override
     public Sprite getProjectileSprite() {
         if (!remove && spawnCounter % 12 == 0) {
-            WorldHandler.projectileListAdd.add(new ProjectileFirePatch(world, body.getPosition().x, body.getPosition().y, 2f, friendlyFire));
+            ProjectileFirePatch firePatch = new ProjectileFirePatch(world, body.getPosition().x, body.getPosition().y, 2f, friendlyFire);
+            copyDamageSettingsTo(firePatch);
+            firePatch.setDamageType(DamageCalculator.DamageType.MAGIC);
+            WorldHandler.projectileListAdd.add(firePatch);
         }
         spawnCounter++;
 

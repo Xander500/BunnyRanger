@@ -17,9 +17,9 @@ public class EnemyEagle extends EnemyMoving {
         super(world, x, y);
         health = 28;
         maxHealth = 28;
-        enemyTexture = new Texture(Gdx.files.internal("eagle.png"));
+        enemyTexture = new Texture(Gdx.files.internal("sprites/characters/enemy_storm_eagle.png"));
         enemySprite = new Sprite(enemyTexture, 0, 0, 16, 16);
-        enemySprite.setScale(1.2f);
+        enemySprite.setScale(1f);
         body.setGravityScale(.18f);
         body.setLinearDamping(1.6f);
         setRewards(12, 6);

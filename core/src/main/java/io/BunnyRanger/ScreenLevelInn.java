@@ -21,7 +21,7 @@ public class ScreenLevelInn extends ScreenLevel implements Screen, ScreenType {
     public void create() {
         super.create();
 
-        backgroundTexture = new Texture(Gdx.files.internal("innShop.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("sprites/backgrounds/bg_inn_shop.png"));
         vallyBackground = new Sprite(backgroundTexture, 0, 0, WorldHandler.SCREENWIDTH, WorldHandler.SCREENHEIGHT);
         vallyBackground.setCenterX(WorldHandler.battleSizeWidth/2f);
         vallyBackground.setCenterY(WorldHandler.battleSizeHeight/2f);

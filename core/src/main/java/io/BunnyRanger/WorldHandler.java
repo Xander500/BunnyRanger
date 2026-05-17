@@ -73,13 +73,13 @@ public class WorldHandler {
         textCamera.setToOrtho(false, SCREENWIDTH, SCREENWIDTH);
 
         // cursor
-        regular = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("pointerA.png")), 0, 0);
-        open = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("pointerC.png")), 0, 0);
-        grab = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("pointerB.png")), 0, 0);
+        regular = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("sprites/ui/cursors/cursor_pointer.png")), 0, 0);
+        open = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("sprites/ui/cursors/cursor_open.png")), 0, 0);
+        grab = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("sprites/ui/cursors/cursor_grab.png")), 0, 0);
 
         Gdx.graphics.setCursor(open);
 
-        party = new Party(worldHandler, 10, 5, camera, new Wall(worldHandler,9999,9999,1,1,"dirt.png"), projectileList);
+        party = new Party(worldHandler, 10, 5, camera, new Wall(worldHandler,9999,9999,1,1,"sprites/tiles/tile_dirt.png"), projectileList);
 
         enemies = new Enemies(worldHandler, projectileList);
 

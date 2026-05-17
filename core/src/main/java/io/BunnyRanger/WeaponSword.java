@@ -15,12 +15,12 @@ public class WeaponSword extends WeaponBow {
         this.angleArrow = (float) 0;
         this.disBetweenShotsY = 1000000;
 
-        this.bowTexture = new Texture(Gdx.files.internal("sword1.png"));
+        this.bowTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_sword_01.png"));
         this.bowSprite = new Sprite(bowTexture, 0, 0, 16, 16);
         this.bowSprite.setRotation(16f);
         this.bowSprite.setScale(1f);
 
-        this.inventoryTexture = new Texture(Gdx.files.internal("sword1.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_sword_01.png"));
 
         this.buyPrice = 30;
         this.sellPrice = 15;
@@ -77,7 +77,7 @@ public class WeaponSword extends WeaponBow {
             Random random = new Random();
             this.damageCurrentArrow = (float) (Math.random() * (damageMaxArrow - damageMinArrow)) + damageMinArrow;
 
-            ProjectileSlash projectile = new ProjectileSlash(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight, 1);
+            ProjectileSlash projectile = (ProjectileSlash) configureProjectile(new ProjectileSlash(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight, 1));
 
             this.projectileList.add(projectile);
 

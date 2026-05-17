@@ -12,10 +12,10 @@ public class WeaponWandRollerFire extends WeaponBow {
 
         name = "Fire Wand";
 
-        this.bowTexture = new Texture(Gdx.files.internal("firewand1.png"));
+        this.bowTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_fire_wand_01.png"));
         this.bowSprite = new Sprite(bowTexture, 0, 0, 16, 16);
         this.bowSprite.setScale(1f);
-        this.inventoryTexture = new Texture(Gdx.files.internal("firewand1.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_fire_wand_01.png"));
 
         this.damageMinArrow = 0;
         this.baseDamageMinArrow = 0;
@@ -47,7 +47,7 @@ public class WeaponWandRollerFire extends WeaponBow {
         this.yArrow = this.bowY;
 
         Vector2 velocity = new Vector2(facingRight ? 65f : -65f, 18f);
-        Projectile projectile = new ProjectileFireSeed(world, xArrow, yArrow, velocity, friendly, facingRight);
+        Projectile projectile = configureProjectile(new ProjectileFireSeed(world, xArrow, yArrow, velocity, friendly, facingRight), DamageCalculator.DamageType.MAGIC);
         this.projectileList.add(projectile);
     }
 }

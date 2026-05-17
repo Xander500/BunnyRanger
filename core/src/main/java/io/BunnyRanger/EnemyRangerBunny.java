@@ -10,7 +10,7 @@ public class EnemyRangerBunny extends EnemyHare {
         super(world, x, y);
         health = 55;
         maxHealth = 55;
-        enemyTexture = new Texture(Gdx.files.internal("bun.png"));
+        enemyTexture = new Texture(Gdx.files.internal("sprites/characters/enemy_ranger_bunny.png"));
         enemySprite = new Sprite(enemyTexture, 0, 0, 16, 16);
         enemySprite.setScale(1.3f);
         setRewards(15, 8);

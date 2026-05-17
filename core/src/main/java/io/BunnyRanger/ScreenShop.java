@@ -18,7 +18,7 @@ public class ScreenShop extends InputAdapter implements Screen {
 
     ShopScreenStage shopScreenStage;
 
-    Texture background = new Texture(Gdx.files.internal("menuShop.png"));
+    Texture background = new Texture(Gdx.files.internal("sprites/ui/screens/screen_shop_menu.png"));
     Sprite sprite;
 
     BitmapFont font;

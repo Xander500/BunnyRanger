@@ -18,7 +18,7 @@ public class ScreenMainMenu implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1280, 720);
 
-        Texture backgroundTexture = new Texture(Gdx.files.internal("titleScreen.png"));
+        Texture backgroundTexture = new Texture(Gdx.files.internal("sprites/backgrounds/bg_title_screen.png"));
         vallyBackground = new Sprite(backgroundTexture, 0, 0, WorldHandler.SCREENWIDTH, WorldHandler.SCREENHEIGHT);
         vallyBackground.setScale(1f);
         vallyBackground.setCenterX(640);
@@ -41,7 +41,7 @@ public class ScreenMainMenu implements Screen {
         vallyBackground.draw(GameHandler.batch);
         GameHandler.batch.end();
 
-        if (Gdx.input.isTouched()) {
+        if (Gdx.input.justTouched()) {
             //game.setScreen(MainMenu.innShopScreen);
             GameHandler.instance.setScreen(GameHandler.levelScreenInn);
         }

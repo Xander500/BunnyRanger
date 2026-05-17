@@ -11,7 +11,7 @@ public class Card implements Item{
 
     public Card() {
 
-        this.inventoryTexture = new Texture(Gdx.files.internal("BlankCard.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("sprites/cards/card_blank.png"));
         this.description = "Draw two cards.";
         this.name = "BLANK CARD";
 

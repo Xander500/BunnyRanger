@@ -22,7 +22,7 @@ public class ProjectileFirePatch extends Projectile {
         this.burnInterval = 15;
         this.touchingTargets = new HashMap<>();
 
-        this.texture = new Texture(Gdx.files.internal("fireball1.png"));
+        this.texture = new Texture(Gdx.files.internal("sprites/projectiles/projectile_fire_patch.png"));
         this.projectileSprite = new Sprite(texture);
         this.projectileSprite.setScale(.7f);
         this.body.setGravityScale(0f);
@@ -86,7 +86,7 @@ public class ProjectileFirePatch extends Projectile {
             }
 
             if (cooldown <= 0) {
-                target.takeDamage(burnDamage);
+                target.takeDamage(getDamageResult(burnDamage, target));
                 targetEntry.setValue(burnInterval);
             } else {
                 targetEntry.setValue(cooldown - 1);

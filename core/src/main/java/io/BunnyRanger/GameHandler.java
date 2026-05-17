@@ -51,19 +51,21 @@ public class GameHandler extends Game {
 
         instance = this;
 
-        Texture texture = new Texture(Gdx.files.internal("pixelFirst.png"), true); // true enables mipmaps
+        Texture texture = new Texture(Gdx.files.internal("fonts/font_pixel_first.png"), true); // true enables mipmaps
 
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
 
-        font = new BitmapFont(Gdx.files.internal("pixelFirst.fnt"), new TextureRegion(texture), false);
+        font = new BitmapFont(Gdx.files.internal("fonts/font_pixel_first.fnt"), new TextureRegion(texture), false);
 
-        fontShader = new ShaderProgram(Gdx.files.internal("font.vert"), Gdx.files.internal("font.frag"));
+        fontShader = new ShaderProgram(Gdx.files.internal("shaders/font.vert"), Gdx.files.internal("shaders/font.frag"));
 
         if (!fontShader.isCompiled()) {
             Gdx.app.error("fontShader", "compilation failed:\n" + fontShader.getLog());
         }
 
         batch = new SpriteBatch();
+
+        worldHandler = new WorldHandler();
 
         screenMainMenu = new ScreenMainMenu();
         screenInventory = new ScreenInventory();
@@ -96,8 +98,6 @@ public class GameHandler extends Game {
         screenLevel10 = new ScreenLevel10();
         screenLevel10.create();
 
-        worldHandler = new WorldHandler();
-
         this.setScreen(screenMainMenu); // poggers
 
     }
@@ -118,11 +118,9 @@ public class GameHandler extends Game {
 
         //physics stuff
 
-
         if (swappingScreen) {
             try {
                 for (Enemy enemy : WorldHandler.getEnemies().enemyList) {
-
                     if (enemy != null && enemy.getBody() != null && enemy.getBody().getUserData() != null) {
                         WorldHandler.getWorld().destroyBody(enemy.getBody());
                     }
@@ -174,7 +172,9 @@ public class GameHandler extends Game {
                 // did it :)
 
                 for (Sign sign : WorldHandler.signList) {
-                    WorldHandler.getWorld().destroyBody(sign.getBody());
+                    if (sign != null && sign.getBody() != null) {
+                        WorldHandler.getWorld().destroyBody(sign.getBody());
+                    }
                 }
 
                 WorldHandler.signList.clear();

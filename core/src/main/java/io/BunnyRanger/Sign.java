@@ -29,6 +29,13 @@ public class Sign implements Entity {
     Sprite enemySprite;
     Texture playerTexture;
 
+    private Sign(int currentLevel, Screen target) {
+        this.currentLevel = currentLevel;
+        this.target = target;
+        this.nameID = "Sign";
+        this.world = WorldHandler.getWorldHandler();
+    }
+
     public Sign(WorldHandler world, float x, float y, int currentLevel, Screen target) {
 
         this.world = world;
@@ -75,7 +82,7 @@ public class Sign implements Entity {
 
         //this.health = 0;
 
-        playerTexture = new Texture(Gdx.files.internal("Sign.png"));
+        playerTexture = new Texture(Gdx.files.internal("sprites/ui/world/world_sign.png"));
         enemySprite = new Sprite(playerTexture,0,0,16,16);
         enemySprite.setScale(1.5f);
 
@@ -84,6 +91,22 @@ public class Sign implements Entity {
 
         this.body.setUserData(this);
 
+    }
+
+    public static Sign makeSwapRequest(int currentLevel, Screen target) {
+        return new Sign(currentLevel, target);
+    }
+
+    public void startSwap() {
+        GameHandler.currentScreen = GameHandler.instance.getScreen();
+
+        if (target instanceof ScreenLevel) {
+            ((ScreenLevel) target).setReset(true);
+        }
+
+        illDoIt = true;
+
+        GameHandler.swappingScreen = true;
     }
 
     public void updateEnemySprite() {

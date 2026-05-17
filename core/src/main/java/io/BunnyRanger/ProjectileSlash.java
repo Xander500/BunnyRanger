@@ -17,7 +17,7 @@ public class ProjectileSlash extends Projectile {
         this.texture = null;
         this.projectileSprite = null;
 
-        this.texture = new Texture(Gdx.files.internal("SlashProjectile.png"));
+        this.texture = new Texture(Gdx.files.internal("sprites/projectiles/projectile_slash.png"));
         this.projectileSprite = new Sprite(texture, 0, 0, 8, 16);
 
         this.projectileSprite.setScale(1f);

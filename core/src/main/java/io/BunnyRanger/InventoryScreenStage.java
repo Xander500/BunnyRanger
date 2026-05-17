@@ -18,7 +18,7 @@ public class InventoryScreenStage extends Stage {
 
     ArrayList<InventorySpotActor> actorArrayList = new ArrayList<InventorySpotActor>();
 
-    Image image = new Image(new Texture(Gdx.files.internal("menuInventory.png")));
+    Image image = new Image(new Texture(Gdx.files.internal("sprites/ui/screens/screen_inventory_menu.png")));
 
     Actor selected = null;
     Actor selectedPlayer = null;
@@ -41,7 +41,7 @@ public class InventoryScreenStage extends Stage {
     ActorInventoryCard cardSlot7;
     ActorInventoryCard cardSlot8;
 
-    TextureRegionDrawable selectedIcon = new TextureRegionDrawable(new Texture((Gdx.files.internal("selected.png"))));
+    TextureRegionDrawable selectedIcon = new TextureRegionDrawable(new Texture((Gdx.files.internal("sprites/ui/selection/selection_slot_active.png"))));
 
     InventoryScreenStage(ScreenInventory parentScreen) {
 

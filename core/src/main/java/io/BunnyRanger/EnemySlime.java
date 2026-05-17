@@ -10,7 +10,7 @@ public class EnemySlime extends EnemyMoving {
         super(world, x, y);
         maxHealth = 10;
         health = 10;
-        enemyTexture = new Texture(Gdx.files.internal("slime.png"));
+        enemyTexture = new Texture(Gdx.files.internal("sprites/characters/enemy_slime.png"));
         enemySprite = new Sprite(enemyTexture, 0, 0, 16, 16);
         enemySprite.setScale(1);
         setRewards(2, 1);

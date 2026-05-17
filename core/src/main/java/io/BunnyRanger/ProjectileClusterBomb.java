@@ -50,6 +50,7 @@ public class ProjectileClusterBomb extends ProjectileBomb {
                 0
             );
             child.spriteDestroyLifeSpan = 140;
+            copyDamageSettingsTo(child);
             WorldHandler.projectileListAdd.add(child);
         }
     }

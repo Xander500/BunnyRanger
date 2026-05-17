@@ -5,7 +5,7 @@ public class ScreenLevel4 extends ScreenLevel {
     @Override
     public void create() {
         super.create();
-        changeBackground("vally.png");
+        changeBackground("sprites/backgrounds/bg_valley.png");
     }
     @Override
     public void show() {
@@ -34,10 +34,10 @@ public class ScreenLevel4 extends ScreenLevel {
         enemy3.addWeapon(bow3);
         enemy4.addWeapon(bow4);
 
-        Wall floor1 = new Wall(worldHandler, 0, 0f, 40, 1, "grass.png");
-        Wall floor2 = new Wall(worldHandler, 0, 22.5f, 40, 1, "dirt.png");
-        Wall wall1 = new Wall(worldHandler, -1, 0, 1, 21.5f, "dirt.png");
-        Wall wall2 = new Wall(worldHandler, 40, 0, 1, 21.5f, "dirt.png");
+        Wall floor1 = new Wall(worldHandler, 0, 0f, 40, 1, "sprites/tiles/tile_grass.png");
+        Wall floor2 = new Wall(worldHandler, 0, 22.5f, 40, 1, "sprites/tiles/tile_dirt.png");
+        Wall wall1 = new Wall(worldHandler, -1, 0, 1, 21.5f, "sprites/tiles/tile_dirt.png");
+        Wall wall2 = new Wall(worldHandler, 40, 0, 1, 21.5f, "sprites/tiles/tile_dirt.png");
 
         wallList.add(floor1);
         wallList.add(floor2);

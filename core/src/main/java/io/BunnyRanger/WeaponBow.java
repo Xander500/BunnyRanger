@@ -1,6 +1,7 @@
 package io.BunnyRanger;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -71,6 +72,7 @@ public class WeaponBow implements Weapon, Item {
     float baseDamageMaxArrow;
     float baseRangeArrow;
 
+    DamageCalculator.Palette damagePalette;
 
     float distanceToClostestTarget;
 
@@ -78,7 +80,7 @@ public class WeaponBow implements Weapon, Item {
 
         name = "WoodBow";
 
-        this.bowTexture = new Texture(Gdx.files.internal("bow1right.png"));
+        this.bowTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_bow_01_right.png"));
         this.bowSprite = new Sprite(bowTexture,0,0,16,16);
         this.bowSprite.setScale(1f);
         this.bowAngle = 0;
@@ -110,6 +112,7 @@ public class WeaponBow implements Weapon, Item {
 
         this.weaponDelay = 100;
         this.baseWeaponDelay = 100;
+        this.damagePalette = DamageCalculator.defaultPalette();
 
         if (friendly) {
             this.facingRight = true;
@@ -121,7 +124,7 @@ public class WeaponBow implements Weapon, Item {
 
         // shop
 
-        this.inventoryTexture = new Texture(Gdx.files.internal("bow1.png"));
+        this.inventoryTexture = new Texture(Gdx.files.internal("sprites/weapons/weapon_bow_01.png"));
 
     }
 
@@ -194,7 +197,7 @@ public class WeaponBow implements Weapon, Item {
 
             this.damageCurrentArrow = (float) Math.round((Math.random() * (damageMaxArrow - damageMinArrow)) + damageMinArrow);
 
-            Projectile projectile = new ProjectileArrow(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight, 1);
+            Projectile projectile = configureProjectile(new ProjectileArrow(world, xArrow, yArrow, xSizeArrow, ySizeArrow, angleArrow, magnitudeArrow, damageCurrentArrow, densityArrow, friendly, facingRight, 1));
 
             this.projectileList.add(projectile);
 
@@ -216,6 +219,17 @@ public class WeaponBow implements Weapon, Item {
 
         projectileList.removeIf(projectile -> projectile.spriteDestroyDelay <= 0);
 
+    }
+
+    protected Projectile configureProjectile(Projectile projectile) {
+        return configureProjectile(projectile, DamageCalculator.DamageType.REGULAR);
+    }
+
+    protected Projectile configureProjectile(Projectile projectile, DamageCalculator.DamageType damageType) {
+        projectile.setDamageSource(entity);
+        projectile.setDamageType(damageType);
+        projectile.setDamagePalette(damagePalette);
+        return projectile;
     }
 
     //calc stuffy wuffy
@@ -407,5 +421,25 @@ public class WeaponBow implements Weapon, Item {
 
     public void setProjectileCount(int num) {
         this.count = num;
+    }
+
+    public void setDamageColors(Color regularColor, Color critColor, Color magicColor, Color magicCritColor) {
+        this.damagePalette = new DamageCalculator.Palette(regularColor, critColor, magicColor, magicCritColor);
+    }
+
+    public Color getRegularDamageColor() {
+        return damagePalette.getRegularColor();
+    }
+
+    public Color getCritDamageColor() {
+        return damagePalette.getCritColor();
+    }
+
+    public Color getMagicDamageColor() {
+        return damagePalette.getMagicColor();
+    }
+
+    public Color getMagicCritDamageColor() {
+        return damagePalette.getMagicCritColor();
     }
 }

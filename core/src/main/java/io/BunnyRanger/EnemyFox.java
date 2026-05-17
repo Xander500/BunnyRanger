@@ -10,7 +10,7 @@ public class EnemyFox extends EnemyMoving{
         super(world, x, y);
         health = 10;
         maxHealth = 10;
-        enemyTexture = new Texture(Gdx.files.internal("fox.png"));
+        enemyTexture = new Texture(Gdx.files.internal("sprites/characters/enemy_fox.png"));
         enemySprite = new Sprite(enemyTexture,0,0,16,16);
         enemySprite.setScale(1f);
         flip(true);

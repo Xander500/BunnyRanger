@@ -1,6 +1,7 @@
 package io.BunnyRanger;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.Color;
 
 import java.util.ArrayList;
 
@@ -53,5 +54,14 @@ public interface Weapon {
 
     abstract boolean getDirection();
 
-}
+    abstract void setDamageColors(Color regularColor, Color critColor, Color magicColor, Color magicCritColor);
 
+    abstract Color getRegularDamageColor();
+
+    abstract Color getCritDamageColor();
+
+    abstract Color getMagicDamageColor();
+
+    abstract Color getMagicCritDamageColor();
+
+}

@@ -55,8 +55,8 @@ public class Enemies {
                 if (enemyList.get(i).checkIfDead()) {
 
                     // REMOVED BROKE HTML
-                    //world.addDestroyBody(enemyList.get(i).getBody());
-                    //world.addDestroyBody(enemyList.get(i).bodyB);
+                    world.addDestroyBody(enemyList.get(i).getBody());
+                    world.addDestroyBody(enemyList.get(i).bodyB);
 
                     Filter filter = new Filter();
                     filter.maskBits = 0x0000;
@@ -96,6 +96,7 @@ public class Enemies {
 
             }
             enemyList.removeAll(enemyListRemove);
+            enemyListRemove.clear();
         } catch (Exception e) {
             System.out.println("size at error in draw" + enemyList.size());
             enemyList.size();
