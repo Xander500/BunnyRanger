@@ -14,7 +14,7 @@ public class WeaponEnemyArrowdown extends WeaponBow {
 
         this.name = "Egg Drop";
         this.spawnSpread = 42f;
-        this.spawnHeight = 120f;
+        this.spawnHeight = 10f;
 
         this.bowTexture = new Texture(Gdx.files.internal("sprites/ui/ui_empty.png"));
         this.bowSprite = new Sprite(bowTexture, 0, 0, 16, 16);
@@ -25,7 +25,7 @@ public class WeaponEnemyArrowdown extends WeaponBow {
         this.baseDamageMinArrow = 4;
         this.damageMaxArrow = 8;
         this.baseDamageMaxArrow = 8;
-        this.rangeArrow = 20;
+        this.rangeArrow = 50;
         this.baseRangeArrow = 20;
         this.weaponDelay = 95;
         this.baseWeaponDelay = 95;
@@ -42,7 +42,7 @@ public class WeaponEnemyArrowdown extends WeaponBow {
 
         float randomOffset = (float) ((Math.random() * spawnSpread * 2f) - spawnSpread);
         float eggX = enemyPositionX + randomOffset;
-        float eggY = Math.max(bowY, enemyPositionY + spawnHeight);
+        float eggY = Math.max(bowY, enemyPositionY);
 
         this.damageCurrentArrow = (float) Math.round((Math.random() * (damageMaxArrow - damageMinArrow)) + damageMinArrow);
 

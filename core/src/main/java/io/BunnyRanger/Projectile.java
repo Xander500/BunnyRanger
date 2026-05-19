@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -153,6 +154,8 @@ public abstract class Projectile implements Entity {
         this.body.setGravityScale(1);
         this.body.setUserData(this);
 
+        this.projectileSprite.setRotation(getSpriteRotation(this.body.getAngle()));
+
         this.parent = parent;
     }
 
@@ -295,14 +298,14 @@ public abstract class Projectile implements Entity {
 
         if (!remove) {
 
-            body.setTransform(body.getPosition().x,body.getPosition().y,Math.max(body.getAngle()-.005f, (float) -(Math.PI/2)));
+            if (rotatesInAir()) {
+                body.setTransform(body.getPosition().x,body.getPosition().y,Math.max(body.getAngle()-.005f, (float) -(Math.PI/2)));
+            }
 
             this.projectileSprite.setPosition(this.body.getPosition().x - this.projectileSprite.getWidth() / 2, this.body.getPosition().y - this.projectileSprite.getHeight() / 2);
 
-            if (facingRight) {
-                this.projectileSprite.setRotation(body.getAngle() * 57.3f);
-            } else {
-                this.projectileSprite.setRotation(-(body.getAngle() * 57.3f));
+            if (rotatesInAir()) {
+                this.projectileSprite.setRotation(getSpriteRotation(body.getAngle()));
             }
 
             //System.out.println("time to draw");
@@ -334,6 +337,16 @@ public abstract class Projectile implements Entity {
 
         return this.projectileSprite;
     }
+
+    protected boolean rotatesInAir() {
+        return false;
+    }
+
+    protected float getSpriteRotation(float angleRadians) {
+        float rotation = angleRadians * MathUtils.radiansToDegrees;
+        return facingRight ? rotation : -rotation;
+    }
+
     public void drawProjectile(Batch batch) {
         //
     }

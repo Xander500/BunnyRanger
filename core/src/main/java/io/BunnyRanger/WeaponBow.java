@@ -332,7 +332,7 @@ public class WeaponBow implements Weapon, Item {
 
         far = 2048;
 
-        this.world.getWorld().QueryAABB(queryCallback,this.bowX-this.rangeArrow,this.bowY-this.rangeArrow,this.bowX+this.rangeArrow,this.bowY+this.rangeArrow);
+        this.world.getWorld().QueryAABB(queryCallback,this.bowX-this.rangeArrow,this.bowY-400,this.bowX+this.rangeArrow,this.bowY+400);
     }
 
     public String getName() {
