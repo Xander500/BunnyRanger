@@ -36,7 +36,7 @@ public class Enemies {
         enemyList.get(i).getHealthBarSpriteBack().draw(batch);
         enemyList.get(i).getHealthBarSprite().draw(batch);
 
-        enemyList.get(i).getWeaponSprite().draw(batch);
+        enemyList.get(i).drawWeaponSprites(batch);
 
         enemyList.get(i).updateEnemySprite();
 
@@ -77,20 +77,7 @@ public class Enemies {
 
                     this.drawAll(i, batch);
 
-                    int value = counterList.get(i); // get value
-                    value = value + 1; // increment value
-                    counterList.set(i, value); // replace value
-
-                    if (counterList.get(i) > enemyList.get(i).getCurrentWeapon().getDelay(100)) {
-
-                        ((Weapon) enemyList.get(i).getCurrentWeapon()).getClosestTarget();
-                        enemyList.get(i).useWeapon();
-                        //1234
-                        //projectileList.addAll(enemyList.get(i).getCurrentWeapon().getProjectiles());
-
-                        counterList.set(i, 0); // replace value
-
-                    }
+                    enemyList.get(i).updateWeapons(100);
 
                 }
 

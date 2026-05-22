@@ -3,10 +3,12 @@ package io.BunnyRanger;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class Enemy implements Entity, Damageable {
@@ -36,6 +38,8 @@ public abstract class Enemy implements Entity, Damageable {
 
     //weapon
     Weapon currentWeapon;
+    ArrayList<Weapon> weaponList = new ArrayList<Weapon>();
+    ArrayList<Integer> weaponCounterList = new ArrayList<Integer>();
 
     //actual sprite
     Sprite enemySprite;
@@ -296,7 +300,12 @@ public abstract class Enemy implements Entity, Damageable {
     }
 
     public void addWeapon(Weapon weapon) {
-        this.currentWeapon = weapon;
+        if (this.currentWeapon == null) {
+            this.currentWeapon = weapon;
+        }
+
+        this.weaponList.add(weapon);
+        this.weaponCounterList.add(0);
         weapon.setEntity(this);
 
     }
@@ -306,7 +315,15 @@ public abstract class Enemy implements Entity, Damageable {
     }
 
     public void drawWeapon() {
-        this.currentWeapon.drawWeapon();
+        for (Weapon weapon : this.weaponList) {
+            weapon.drawWeapon();
+        }
+    }
+
+    public void drawWeaponSprites(Batch batch) {
+        for (Weapon weapon : this.weaponList) {
+            weapon.getSprite().draw(batch);
+        }
     }
 
     public Weapon getCurrentWeapon() {
@@ -315,6 +332,22 @@ public abstract class Enemy implements Entity, Damageable {
 
     public void useWeapon() {
         this.currentWeapon.weaponProjectileFactory();
+    }
+
+    public void updateWeapons(int delayRatio) {
+        for (int i = 0; i < this.weaponList.size(); i++) {
+            Weapon weapon = this.weaponList.get(i);
+
+            int value = this.weaponCounterList.get(i) + 1;
+            this.weaponCounterList.set(i, value);
+
+            if (value > weapon.getDelay(delayRatio)) {
+                this.currentWeapon = weapon;
+                weapon.getClosestTarget();
+                weapon.weaponProjectileFactory();
+                this.weaponCounterList.set(i, 0);
+            }
+        }
     }
 
     public void updateEnemySprite() {
