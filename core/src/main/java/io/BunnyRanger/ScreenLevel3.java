@@ -16,13 +16,13 @@ public class ScreenLevel3 extends ScreenLevel {
         for (int i = 0; i < 3; i++) {
             Enemy enemy = new EnemySnake(worldHandler, 26 + 2.5f * i, 5);
             enemies.addEnemy(enemy);
-            enemy.addWeapon(new WeaponSword(false));
+            enemy.addWeapon(new WeaponEnemyArrowJab());
         }
 
         for (int i = 0; i < 2; i++) {
             Enemy enemy = new EnemyFox(worldHandler, 32 + 2.5f * i, 5);
             enemies.addEnemy(enemy);
-            enemy.addWeapon(new WeaponBow(false));
+            enemy.addWeapon(new WeaponEnemyArrowLob());
         }
 
         Wall floor1 = new Wall(worldHandler, 0, 0f, 40, 1, "sprites/tiles/tile_grass.png");

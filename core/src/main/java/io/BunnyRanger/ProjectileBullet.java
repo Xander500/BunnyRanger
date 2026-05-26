@@ -24,7 +24,7 @@ public class ProjectileBullet extends Projectile {
     @Override
     public int death() {
         if (!onDeath) {
-            WorldHandler.particleList.add(new Particle(this.body, 50000, WorldHandler.getParty().font, new Color(Color.RED)));
+            //WorldHandler.particleList.add(new Particle(this.body, 50000, WorldHandler.getParty().font, Color.LIGHT_GRAY));
         }
         onDeath = true;
         return super.death();

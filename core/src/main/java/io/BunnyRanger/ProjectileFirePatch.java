@@ -24,7 +24,7 @@ public class ProjectileFirePatch extends Projectile {
 
         this.texture = new Texture(Gdx.files.internal("sprites/projectiles/projectile_fire_patch.png"));
         this.projectileSprite = new Sprite(texture);
-        this.projectileSprite.setScale(.7f);
+        this.projectileSprite.setScale(1f);
         this.body.setGravityScale(0f);
         this.body.setLinearVelocity(0, 0);
         this.fixture.setSensor(true);

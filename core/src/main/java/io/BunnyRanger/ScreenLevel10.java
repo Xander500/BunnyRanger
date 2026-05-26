@@ -11,20 +11,18 @@ public class ScreenLevel10 extends ScreenLevel {
     }
 
     public void makeEnemies() {
-        EnemyBossBunny boss = new EnemyBossBunny(worldHandler, 29, 5);
         EnemyRangerBunny enemy1 = new EnemyRangerBunny(worldHandler, 20, 5);
         EnemyBombardierSlime enemy2 = new EnemyBombardierSlime(worldHandler, 38, 5);
         EnemyEagle enemy3 = new EnemyEagle(worldHandler, 24, 14);
         EnemyEagle enemy4 = new EnemyEagle(worldHandler, 34, 14);
 
-        enemies.addEnemy(boss);
         enemies.addEnemy(enemy1);
         enemies.addEnemy(enemy2);
         enemies.addEnemy(enemy3);
         enemies.addEnemy(enemy4);
 
-        enemy1.addWeapon(new WeaponSword3(false));
-        enemy2.addWeapon(new WeaponBomb3(false));
+        enemy1.addWeapon(new WeaponEnemyArrowJab());
+        enemy2.addWeapon(new WeaponEnemyBigArrowDown());
 
         addArena();
         GameHandler.makeSign(GameHandler.levelScreenInn);

@@ -230,7 +230,7 @@ public class Player implements Entity, Damageable {
             return damage;
         }
 
-        WorldHandler.particleList.add(new Particle(this.body,damage, WorldHandler.getParty().font, damageResult.getColor()));
+        WorldHandler.particleList.add(new Particle(this.body, damage, WorldHandler.getParty().font, new Color(Color.RED)));
 
         health -= damage;
 

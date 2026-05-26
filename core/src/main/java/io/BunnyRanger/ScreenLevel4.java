@@ -24,10 +24,10 @@ public class ScreenLevel4 extends ScreenLevel {
         enemies.addEnemy(enemy3);
         enemies.addEnemy(enemy4);
 
-        WeaponSword bow1 = new WeaponSword(false);
-        WeaponBow2 bow2 = new WeaponBow2(false);
-        WeaponBow2 bow3 = new WeaponBow2(false);
-        WeaponPistol bow4 = new WeaponPistol(false);
+        WeaponEnemyArrowJab bow1 = new WeaponEnemyArrowJab();
+        WeaponEnemyArrowLob bow2 = new WeaponEnemyArrowLob();
+        WeaponEnemyArrowLob bow3 = new WeaponEnemyArrowLob();
+        WeaponEnemyPelletShot bow4 = new WeaponEnemyPelletShot();
 
         enemy1.addWeapon(bow1);
         enemy2.addWeapon(bow2);

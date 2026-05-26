@@ -21,8 +21,7 @@ public class ScreenLevel2 extends ScreenLevel {
         for (int i = 0; i < 5; i++) {
             Enemy enemy1 = new EnemyFox(worldHandler, 30 + 2f*i, 5);
             enemies.addEnemy(enemy1);
-            WeaponEmpty bow1 = new WeaponEmpty(false);
-            enemy1.addWeapon(bow1);
+            enemy1.addWeapon(new WeaponEnemyPelletShot());
         }
 
         Wall floor1 = new Wall(worldHandler, 0, 0f, 40, 1, "sprites/tiles/tile_grass.png");

@@ -18,9 +18,9 @@ public class EnemyBossBunny extends EnemyMoving {
         enemySprite = new Sprite(enemyTexture, 0, 0, 16, 16);
         enemySprite.setScale(2.1f);
 
-        addWeapon(new WeaponBow3(false));
-        addWeapon(new WeaponClusterBomb(false));
-        addWeapon(new WeaponWandRollerFire(false));
+        addWeapon(new WeaponEnemyBigArrowDown());
+        addWeapon(new WeaponEnemyPelletShot());
+        addWeapon(new WeaponEnemyArrowJab());
 
         setRewards(60, 30);
     }

@@ -42,7 +42,7 @@ public class WeaponEnemyArrowdown extends WeaponBow {
 
         float randomOffset = (float) ((Math.random() * spawnSpread * 2f) - spawnSpread);
         float eggX = enemyPositionX + randomOffset;
-        float eggY = Math.max(bowY, enemyPositionY);
+        float eggY = Math.max(bowY, enemyPositionY + spawnHeight);
 
         this.damageCurrentArrow = (float) Math.round((Math.random() * (damageMaxArrow - damageMinArrow)) + damageMinArrow);
 

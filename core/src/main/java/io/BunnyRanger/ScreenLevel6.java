@@ -21,10 +21,10 @@ public class ScreenLevel6 extends ScreenLevel {
         enemies.addEnemy(enemy3);
         enemies.addEnemy(enemy4);
 
-        enemy1.addWeapon(new WeaponPistol2(false));
-        enemy2.addWeapon(new WeaponBow2(false));
-        enemy3.addWeapon(new WeaponSword2(false));
-        enemy4.addWeapon(new WeaponSword2(false));
+        enemy1.addWeapon(new WeaponEnemyPelletShot());
+        enemy2.addWeapon(new WeaponEnemyArrowLob());
+        enemy3.addWeapon(new WeaponEnemyArrowJab());
+        enemy4.addWeapon(new WeaponEnemyArrowJab());
 
         addArena();
         GameHandler.makeSign(GameHandler.screenLevel7);
