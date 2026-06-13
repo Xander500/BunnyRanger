@@ -13,6 +13,8 @@ import java.util.HashMap;
 
 public abstract class Enemy implements Entity, Damageable {
 
+    private static final float GROUND_SPAWN_Y = 26f;
+
     BodyDef bodyDef;
     FixtureDef fixtureDef;
     CircleShape circle;
@@ -64,7 +66,7 @@ public abstract class Enemy implements Entity, Damageable {
 
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
-        bodyDef.position.set(x*16, y*16);
+        bodyDef.position.set(x*16, GROUND_SPAWN_Y);
 
         this.body = world.getWorld().createBody(bodyDef);
         this.body.setUserData("enemy body");
@@ -79,7 +81,7 @@ public abstract class Enemy implements Entity, Damageable {
         fixtureDef.restitution = 0.0f; // Make it bounce a little bit
 
         fixtureDef.filter.categoryBits = 0x0004;
-        fixtureDef.filter.maskBits = 0x0001 | 0x0002 | 0x0010;
+        fixtureDef.filter.maskBits = 0x0001 | 0x0010;
 
         Fixture fixture = body.createFixture(fixtureDef);
         fixture.setUserData(this);

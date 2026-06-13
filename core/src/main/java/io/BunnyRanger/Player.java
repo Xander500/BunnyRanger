@@ -92,7 +92,7 @@ public class Player implements Entity, Damageable {
         fixtureDef.restitution = 0.0f; // Make it bounce a little bit
 
         fixtureDef.filter.categoryBits = 0x0002;
-        fixtureDef.filter.maskBits = 0x0004 | 0x0001 | 0x0020;
+        fixtureDef.filter.maskBits = 0x0001 | 0x0020;
 
         Fixture fixture = body.createFixture(fixtureDef);
         fixture.setUserData(this);

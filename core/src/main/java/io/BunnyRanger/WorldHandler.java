@@ -70,7 +70,7 @@ public class WorldHandler {
         camera.setToOrtho(false, battleSizeWidth, battleSizeHeight);
 
         textCamera = new OrthographicCamera();
-        textCamera.setToOrtho(false, SCREENWIDTH, SCREENWIDTH);
+        textCamera.setToOrtho(false, SCREENWIDTH, SCREENHEIGHT);
 
         // cursor
         regular = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("sprites/ui/cursors/cursor_pointer.png")), 0, 0);

@@ -17,14 +17,14 @@ public class ProjectileBullet extends Projectile {
         this.texture = new Texture(Gdx.files.internal("sprites/projectiles/projectile_bullet_musket.png"));
         this.projectileSprite = new Sprite(texture);
 
-        this.projectileSprite.setScale(.5f);
+        this.projectileSprite.setScale(1f);
 
     }
 
     @Override
     public int death() {
         if (!onDeath) {
-            //WorldHandler.particleList.add(new Particle(this.body, 50000, WorldHandler.getParty().font, Color.LIGHT_GRAY));
+            WorldHandler.particleList.add(new Particle(this.body, 50000, WorldHandler.getParty().font, Color.LIGHT_GRAY));
         }
         onDeath = true;
         return super.death();

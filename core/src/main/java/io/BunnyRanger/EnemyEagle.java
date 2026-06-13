@@ -7,10 +7,10 @@ import com.badlogic.gdx.math.Vector2;
 
 public class EnemyEagle extends EnemyMoving {
 
-    private static final float HOVER_HEIGHT = 115f;
-    private static final float HORIZONTAL_SPEED = 2.5f;
-    private static final float FLAP_UP = 3.2f;
-    private static final float GLIDE_DOWN = -1.2f;
+    private static final float HOVER_HEIGHT = 92f;
+    private static final float HORIZONTAL_SPEED = 5.2f;
+    private static final float FLAP_UP = 4.4f;
+    private static final float GLIDE_DOWN = -1.8f;
     private static final float HEIGHT_DEAD_ZONE = 16f;
 
     public EnemyEagle(WorldHandler world, float x, float y) {
@@ -20,6 +20,8 @@ public class EnemyEagle extends EnemyMoving {
         enemyTexture = new Texture(Gdx.files.internal("sprites/characters/enemy_storm_eagle.png"));
         enemySprite = new Sprite(enemyTexture, 0, 0, 16, 16);
         enemySprite.setScale(1f);
+        body.setTransform(x * 16f, y * 16f, body.getAngle());
+        bodyB.setTransform(x * 16f, y * 16f + distance, bodyB.getAngle());
         body.setGravityScale(.18f);
         body.setLinearDamping(1.6f);
         setRewards(12, 6);

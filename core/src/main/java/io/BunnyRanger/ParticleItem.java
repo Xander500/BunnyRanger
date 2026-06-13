@@ -7,9 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.Shape;
-
 import java.util.HashMap;
 
 public class ParticleItem extends Particle {
@@ -56,27 +53,18 @@ public class ParticleItem extends Particle {
             return false;
         }
 
-        float tmpOffSet = 1;
         offsetCounter+= 1.5f;
         offsetCounterY = 80 * (float) Math.sin(offsetCounter/40f);
 
         float tmpX = font.getScaleX();
         float tmpY = font.getScaleY();
 
-        font.getData().setScale(2f);
-        font.setColor(this.color);
-
-        for (Fixture fixture : this.body.getFixtureList()) {
-
-            if (fixture.getType() == Shape.Type.Circle) {
-                //tmpOffSet = fixture.getShape().getRadius();
-            }
-
-        }
-
         if (selectedItem == null || selectedItem.getName() == null) {
             return false;
         }
+
+        font.getData().setScale(2f);
+        font.setColor(this.color);
 
         font.draw(batch, selectedItem.getName(), ((xPos* WorldHandler.SCREENWIDTH/battleSizeWidth) + offsetCounter) + offsetX, ((yPos* WorldHandler.SCREENHEIGHT/battleSizeHeight) + offsetCounterY) + offsetY);
 

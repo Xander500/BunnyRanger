@@ -37,13 +37,16 @@ public class WeaponEnemyBigArrowDown extends WeaponEnemyAttack {
             arrowX,
             arrowY,
             rollDamage(),
-            .95f,
-            1.8f,
-            new Vector2(0, -11f),
+            16f,
+            8f,
+            new Vector2(0, -12f),
             .18f,
-            1.75f,
+            1f,
             420,
-            24
+            24,
+            "sprites/projectiles/enemy_down_wave_big.png",
+            32,
+            16
         ));
         this.projectileList.add(projectile);
     }
